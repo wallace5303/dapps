@@ -1,0 +1,19 @@
+{
+  "extends": "eslint-config-egg",
+  "plugins": ["prettier"],
+  "rules": {
+    "prettier/prettier": ["error"],
+    "space-before-function-paren": "off",
+    "array-bracket-spacing": "off",
+    "no-unused-vars": "off",
+    "semi": "off",
+    "comma-dangle": "off",
+    "arrow-parens": "off",
+    "generator-star-spacing": "off",
+    "babel/generator-star-spacing": "off"
+  },
+  "globals": {
+    "use": true,
+    "Controller": true
+  }
+}
