@@ -21,4 +21,5 @@ module.exports = app => {
   require('./user')(app);
   require('./test')(app);
   require('./sms')(app);
+  require('./store')(app);
 };

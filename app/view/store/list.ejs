@@ -1,68 +1,91 @@
-<div class="content-wrapper">
-  <!-- Content Header (页眉) -->
-  <section class="content-header">
-    <h1>
-      应用管理
-      <small></small>
-    </h1>
-  </section>
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>全部应用</h1>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
 
   <!-- Main content -->
   <section class="content">
     <div class="row">
-      <div class="col-xs-12">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">列表<%= console.log(ctx.locals) %></h3>
+          </div>
+          <!-- /.card-header -->
+          <div class="card-body">
+            <div id="example2_wrapper" class="dataTables_wrapper dt-bootstrap4">
+              <div class="row">
+               <div class="col-sm-12 col-md-6"></div>
+                <table id="example2" class="table table-bordered table-hover dataTable" role="grid" aria-describedby="example2_info"> 
+                 <thead> 
+                  <tr role="row">
+                      <th>应用名称</th>
+                      <th>介绍</th>
+                      <th>作者</th>
+                      <th>下载</th>
+                      <th>版本</th>
+                      <th>操作</th>
+                  </tr> 
+                 </thead> 
+                 <tbody> 
 
-        <div class="box">
-          <div class="box-header">
-            <h3 class="box-title">全部</h3>
-          </div>
-          <!-- /.box-header -->
-          <div class="box-body">
-            <table id="example1" class="table table-bordered table-striped">
-              <thead>
-              <tr>
-                <th>应用名称</th>
-                <th>介绍</th>
-                <th>作者</th>
-                <th>下载</th>
-                <th>版本</th>
-                <th>状态</th>
-                <th>操作</th>
-              </tr>
-              </thead>
-              <tbody>
- 
-                <tr>
-                  <td>All others</td>
-                  <td>-</td>
-                  <td>U</td>
-                  <td>All others</td>
-                  <td>-</td>
-                  <td>-</td>
-                  <td>安装-升级-配置-卸载-演示</td>
-                </tr>
-              </tbody>
-              <tfoot>
+                    <% for (let i = 0; i < app_list.length; i++) {
+                      let one = app_list[i];
+                      %>
+                      <tr role="row" class="odd">
+                          <td><%= one.appid %></td>
+                          <td><%= one.introduction %></td>
+                          <td><%= one.username %></td>
+                          <td><%= one.download %></td>
+                          <td><%= one.version %></td>
+                          <!-- 安装-升级-配置-卸载-演示 -->
+                          <td>安装</td>
+                        </tr>
+                        <% } %>
 
-              </tfoot>
-            </table>
+                 </tbody>
+                </table>
+               </div>
+              </div>
+              <div class="row">
+               <div class="col-sm-12 col-md-5">
+                <div class="dataTables_info" id="example2_info" role="status" aria-live="polite">
+                 共 <%= all_data.total %> 条数据
+                </div>
+               </div>
+               <div class="col-sm-12 col-md-7">
+                <div class="dataTables_paginate paging_simple_numbers" id="example2_paginate">
+                 <ul class="pagination">
+                  <li class="paginate_button page-item previous disabled" id="example2_previous"><a href="/html/v1/store/list" aria-controls="example2" data-dt-idx="0" tabindex="0" class="page-link">上一页</a></li>
+                  <li class="paginate_button page-item active"><a href="#" aria-controls="example2" data-dt-idx="1" tabindex="0" class="page-link"><%= all_data.current_page %></a></li>
+                  <li class="paginate_button page-item next" id="example2_next"><a href="/html/v1/store/list" aria-controls="example2" data-dt-idx="7" tabindex="0" class="page-link">下一页</a></li>
+                 </ul>
+                </div>
+               </div>
+              </div>
+             </div>
+            
           </div>
-          <!-- /.box-body -->
-          <div class="box-footer clearfix">
-            <ul class="pagination pagination-sm no-margin pull-right">
-              <li><a href="#">&laquo;</a></li>
-              <li><a href="#">1</a></li>
-              <li><a href="#">2</a></li>
-              <li><a href="#">3</a></li>
-              <li><a href="#">&raquo;</a></li>
-            </ul>
-          </div>
+          <!-- /.card-body -->
+          
         </div>
-        <!-- /.box -->
+        <!-- /.card -->
+
+        <!-- /.card -->
       </div>
       <!-- /.col -->
+      
     </div>
     <!-- /.row -->
+
   </section>
   <!-- /.content -->
 </div>

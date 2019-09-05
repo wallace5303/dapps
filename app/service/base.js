@@ -12,7 +12,7 @@ class BaseService extends Service {
    */
   mysqlClient(db) {
     if (!db) {
-      db = 'lottery1';
+      db = 'user';
     }
 
     return this.app.mysql.get(db);
@@ -25,7 +25,7 @@ class BaseService extends Service {
    */
   redisClient(db) {
     if (!db) {
-      db = 'lottery1';
+      db = 'user';
     }
 
     return this.app.redis.get(db);

@@ -8,5 +8,4 @@ module.exports = {
     emailAndPassword: '1',
     phoneAndCode: '2',
   },
-
 };
