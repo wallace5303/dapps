@@ -47,7 +47,7 @@
                       <tr role="row" class="odd">
                           <td><%= one.appid %></td>
                           <td><%= one.introduction %></td>
-                          <td><%= one.username %></td>
+                          <td><%= one.author %></td>
                           <td><%= one.download %></td>
                           <td><%= one.version %></td>
                           <!-- 安装-升级-配置-卸载-演示 -->
@@ -68,9 +68,11 @@
                <div class="col-sm-12 col-md-7">
                 <div class="dataTables_paginate paging_simple_numbers" id="example2_paginate">
                  <ul class="pagination">
+                  <li class="paginate_button page-item previous" id="example2_previous"><a href="#" onclick="change_page(1)" aria-controls="example2" data-dt-idx="0" tabindex="0" class="page-link">首页</a></li>
                   <li class="paginate_button page-item previous" id="example2_previous"><a href="#" onclick="change_page('<%= (all_data.current_page - 1) %>')" aria-controls="example2" data-dt-idx="0" tabindex="0" class="page-link">上一页</a></li>
                   <li class="paginate_button page-item active"><a href="#" aria-controls="example2" data-dt-idx="1" tabindex="0" class="page-link"><%= all_data.current_page %></a></li>
                   <li class="paginate_button page-item next" id="example2_next"><a href="#" onclick="change_page('<%= (all_data.current_page + 1) %>')" aria-controls="example2" data-dt-idx="7" tabindex="0" class="page-link">下一页</a></li>
+                  <li class="paginate_button page-item previous" id="example2_previous"><a href="#" onclick="change_page('<%= all_data.last_page %>')" aria-controls="example2" data-dt-idx="0" tabindex="0" class="page-link">尾页</a></li>
                  </ul>
                 </div>
                </div>
