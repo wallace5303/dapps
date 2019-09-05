@@ -23,7 +23,11 @@
           <div class="card-body">
             <div id="example2_wrapper" class="dataTables_wrapper dt-bootstrap4">
               <div class="row">
-               <div class="col-sm-12 col-md-6"></div>
+               <div class="col-sm-12 col-md-6">
+                 <% if (all_data.data == false) {%>
+                  没有数据了！
+                 <% } %> 
+               </div>
                 <table id="example2" class="table table-bordered table-hover dataTable" role="grid" aria-describedby="example2_info"> 
                  <thead> 
                   <tr role="row">
@@ -64,9 +68,9 @@
                <div class="col-sm-12 col-md-7">
                 <div class="dataTables_paginate paging_simple_numbers" id="example2_paginate">
                  <ul class="pagination">
-                  <li class="paginate_button page-item previous disabled" id="example2_previous"><a href="/html/v1/store/list" aria-controls="example2" data-dt-idx="0" tabindex="0" class="page-link">上一页</a></li>
+                  <li class="paginate_button page-item previous" id="example2_previous"><a href="#" onclick="change_page('<%= (all_data.current_page - 1) %>')" aria-controls="example2" data-dt-idx="0" tabindex="0" class="page-link">上一页</a></li>
                   <li class="paginate_button page-item active"><a href="#" aria-controls="example2" data-dt-idx="1" tabindex="0" class="page-link"><%= all_data.current_page %></a></li>
-                  <li class="paginate_button page-item next" id="example2_next"><a href="/html/v1/store/list" aria-controls="example2" data-dt-idx="7" tabindex="0" class="page-link">下一页</a></li>
+                  <li class="paginate_button page-item next" id="example2_next"><a href="#" onclick="change_page('<%= (all_data.current_page + 1) %>')" aria-controls="example2" data-dt-idx="7" tabindex="0" class="page-link">下一页</a></li>
                  </ul>
                 </div>
                </div>
@@ -89,3 +93,20 @@
   </section>
   <!-- /.content -->
 </div>
+
+<script>
+
+    function change_page(page)
+    {
+        var url = "/html/v1/store/list?page=";
+        if (Number(page) < 1) {
+          page = 1;
+        }
+        url += page;
+        //console.log("url:%j", url);
+        $.get(url,{},function(result){
+          //console.log("result:%j", result);
+          location.href = url;
+        });
+    }
+</script>
