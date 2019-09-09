@@ -1,0 +1,79 @@
+<%- include('header'); %>
+
+<body class="hold-transition register-page">
+<div class="register-box">
+    <div class="register-logo">
+    <a href="/"><b>Dapps</b>万能应用</a>
+    </div>
+
+    <div class="card">
+    <div class="card-body register-card-body">
+        <p class="login-box-msg">注册</p>
+
+        <form action="../../index.html" method="post">
+        <div class="input-group mb-3">
+            <input type="text" name="username" class="form-control" placeholder="用户名">
+            <div class="input-group-append">
+            <div class="input-group-text">
+                <span class="fas fa-user"></span>
+            </div>
+            </div>
+        </div>
+        <div class="input-group mb-3">
+            <input type="email" name="email" class="form-control" placeholder="邮箱">
+            <div class="input-group-append">
+            <div class="input-group-text">
+                <span class="fas fa-envelope"></span>
+            </div>
+            </div>
+        </div>
+        <div class="input-group mb-3">
+            <input type="password" name="pwd1" class="form-control" placeholder="密码">
+            <div class="input-group-append">
+            <div class="input-group-text">
+                <span class="fas fa-lock"></span>
+            </div>
+            </div>
+        </div>
+        <div class="input-group mb-3">
+            <input type="password" name="pwd2" class="form-control" placeholder="确认密码">
+            <div class="input-group-append">
+            <div class="input-group-text">
+                <span class="fas fa-lock"></span>
+            </div>
+            </div>
+        </div>
+        <div class="row">
+            <a href="/api/v1/register" class="btn btn-block btn-primary">
+                    注册
+            </a>
+        </div>
+        </form>
+
+        <!-- <div class="social-auth-links text-center">
+        <p>- OR -</p>
+        <a href="#" class="btn btn-block btn-primary">
+            <i class="fab fa-facebook mr-2"></i>
+            Sign up using Facebook
+        </a>
+        <a href="#" class="btn btn-block btn-danger">
+            <i class="fab fa-google-plus mr-2"></i>
+            Sign up using Google+
+        </a>
+        </div> -->
+        <div class="social-auth-links text-center">
+            <a href="/html/v1/login" class="text-center">我已经有账号</a>
+        </div>
+        
+    </div>
+    <!-- /.form-box -->
+    </div><!-- /.card -->
+</div>
+<!-- /.register-box -->
+
+<!-- jQuery -->
+<script src="/public/plugins/jquery/jquery.min.js"></script>
+<!-- Bootstrap 4 -->
+<script src="/public/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

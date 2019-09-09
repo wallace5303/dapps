@@ -1,3 +1,4 @@
+<body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
 
   <!-- Navbar -->
@@ -52,12 +53,22 @@
     <div class="sidebar">
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-        <div class="image">
-          <img src="/public/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
-        </div>
-        <div class="info">
-          <a href="#" class="d-block">530353222@qq.com</a>
-        </div>
+          <% if (!user_info) {%>
+            <div class="image">
+              <img src="/public/dist/img/avatar-default.jpg" class="img-circle elevation-2" alt="User Image">
+            </div>
+            <div class="info">
+              <a href="/html/v1/login">登录</a> <a href="#">/</a> <a href="/html/v1/register">注册</a>
+            </div>
+          <% } else { %> 
+            <div class="image">
+              <img src="/public/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+            </div>
+            <div class="info">
+              <a href="#" class="d-block">530353222@qq.com</a>
+            </div>
+          <% } %> 
+
       </div>
 
       <!-- Sidebar Menu -->

@@ -9,24 +9,33 @@ const msgConfig = require('../../config/msgConfig');
 
 class LoginController extends BaseController {
   /*
+   * 注册html
+   */
+  async registerHtml() {
+    const { ctx } = this;
+
+    const data = {};
+    await ctx.render('store/register.ejs', data);
+  }
+
+  /*
+   * 登录html
+   */
+  async loginHtml() {
+    const { ctx } = this;
+
+    const data = {};
+    await ctx.render('store/login.ejs', data);
+  }
+
+  /*
    * 注册
    */
   async register() {
     const self = this;
     const { app, ctx, service } = this;
 
-    let {
-      type,
-      email,
-      password,
-      phone,
-      country,
-      code,
-      agent_uid,
-    } = ctx.request.body;
-    agent_uid = Number(agent_uid);
-
-
+    const { username, email, pwd1, pwd2 } = ctx.request.body;
 
     const data = {
       // uid,
@@ -59,8 +68,6 @@ class LoginController extends BaseController {
     };
     self.sendSuccess(data, msgConfig.LOGIN_SUCCESS[this.lang]);
   }
-
- 
 }
 
 module.exports = LoginController;

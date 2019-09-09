@@ -24,6 +24,7 @@ class StoreController extends BaseController {
     const data = {
       app_list: null,
       all_data: null,
+      user_info: null,
     };
     const list = null;
     const resList = await service.store.appList(

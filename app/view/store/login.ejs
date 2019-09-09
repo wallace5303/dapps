@@ -1,0 +1,65 @@
+<%- include('header'); %>
+
+<body class="hold-transition login-page">
+        <div class="login-box">
+          <div class="login-logo">
+            <a href="/"><b>Dapps</b>万能应用</a>
+          </div>
+          <!-- /.login-logo -->
+          <div class="card">
+            <div class="card-body login-card-body">
+              <p class="login-box-msg">登录</p>
+        
+              <form action="../../index3.html" method="post">
+                <div class="input-group mb-3">
+                  <input type="email" class="form-control" placeholder="邮箱">
+                  <div class="input-group-append">
+                    <div class="input-group-text">
+                      <span class="fas fa-envelope"></span>
+                    </div>
+                  </div>
+                </div>
+                <div class="input-group mb-3">
+                  <input type="password" class="form-control" placeholder="密码">
+                  <div class="input-group-append">
+                    <div class="input-group-text">
+                      <span class="fas fa-lock"></span>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                    <a href="/api/v1/login" class="btn btn-block btn-primary">                           
+                            登录
+                    </a>
+                </div>
+              </form>
+        
+              <!-- <div class="social-auth-links text-center mb-3">
+                <p>- OR -</p>
+                <a href="#" class="btn btn-block btn-primary">
+                  <i class="fab fa-facebook mr-2"></i> Sign in using Facebook
+                </a>
+                <a href="#" class="btn btn-block btn-danger">
+                  <i class="fab fa-google-plus mr-2"></i> Sign in using Google+
+                </a>
+              </div> -->
+              <!-- /.social-auth-links -->
+        
+              <!-- <p class="mb-1">
+                <a href="#">I forgot my password</a>
+              </p> -->
+              <div class="social-auth-links text-center">
+                    <a href="/html/v1/register" class="text-center">注册一个账号</a>
+              </div>
+            </div>
+            <!-- /.login-card-body -->
+          </div>
+        </div>
+  
+<!-- jQuery -->
+<script src="/public/plugins/jquery/jquery.min.js"></script>
+<!-- Bootstrap 4 -->
+<script src="/public/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
