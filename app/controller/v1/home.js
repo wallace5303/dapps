@@ -11,19 +11,16 @@ class HomeController extends BaseController {
   }
 
   /*
-   * 登录页数据
+   * out api
    */
-  async stat() {
+  async outApi() {
     const self = this;
     const { app, ctx, service } = this;
-    const query = ctx.request.query;
-    const uid = query.uid ? Number(query.uid) : 0;
+    const body = ctx.request.body;
+    console.log('body:%j', body);
+    const data = await service.outapi.api(body);
 
-    const data = {
-      date: moment().format('X'),
-    };
-
-    self.sendSuccess(data, 'ok');
+    self.sendData(data);
   }
 
   /*

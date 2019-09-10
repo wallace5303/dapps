@@ -44,6 +44,18 @@ class BaseController extends Controller {
     };
     ctx.status = 200;
   }
+
+  /*
+   * return sendData
+   * @params: object data
+   * @params: string msg
+   * @return: object { success, code, msg, data }
+   */
+  sendData(data) {
+    const { ctx } = this;
+    ctx.body = data;
+    ctx.status = 200;
+  }
 }
 
 module.exports = BaseController;

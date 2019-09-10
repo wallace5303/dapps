@@ -5,9 +5,7 @@
  */
 module.exports = app => {
   const { router, controller } = app;
-  const auth = app.middleware.auth();
 
   // 个人信息
-  router.get('/api/v1/user/info', auth, controller.v1.user.info);
-
+  router.get('/api/v1/user/info', controller.v1.user.info);
 };

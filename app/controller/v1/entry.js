@@ -36,38 +36,15 @@ class LoginController extends BaseController {
     const { app, ctx, service } = this;
 
     const { username, email, pwd1, pwd2 } = ctx.request.body;
+    const data = await service.user.register(username, email, pwd1, pwd2);
 
-    const data = {
-      // uid,
-      // access_token,
-    };
-    self.sendSuccess(data, msgConfig.REGISTER_SUCCESS[this.lang]);
+    self.sendData(data);
   }
 
   /*
    * 登录 todo
    */
-  async login() {
-    const self = this;
-    const { app, ctx, service } = this;
-    let { type, country, phone, code, email, password } = ctx.request.body;
-    country = country ? country : '86';
-
-    if (_.isEmpty(type)) {
-      self.sendFail(
-        {},
-        msgConfig.SYS_PARAMS_ERROR[this.lang],
-        CODE.SYS_PARAMS_ERROR
-      );
-      return;
-    }
-
-    const data = {
-      uid: apiData.mid,
-      access_token: apiData.access_token,
-    };
-    self.sendSuccess(data, msgConfig.LOGIN_SUCCESS[this.lang]);
-  }
+  async login() {}
 }
 
 module.exports = LoginController;

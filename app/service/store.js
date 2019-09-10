@@ -32,7 +32,7 @@ class StoreService extends BaseService {
         timeout: 15000,
       });
       const result = response.data;
-      this.app.logger.info('[StoreService] [appList]: result:%j', result);
+      // this.app.logger.info('[StoreService] [appList]: result:%j', result);
       if (result.code !== CODE.SUCCESS) {
         this.app.logger.error(
           '[StoreService] [appList]: error result:%j',

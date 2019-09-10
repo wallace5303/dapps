@@ -13,23 +13,29 @@
 
   <!-- Main content -->
   <section class="content">
-    <div class="row">
-      <div class="col-12">
-        <div class="card">
-          <div class="card-header">
-            <h3 class="card-title">列表<%= console.log(ctx.locals) %></h3>
-          </div>
-          <!-- /.card-header -->
-          <div class="card-body">
-            <div id="example2_wrapper" class="dataTables_wrapper dt-bootstrap4">
-              <div class="row">
-               <div class="col-sm-12 col-md-6">
-                 <% if (all_data.data == false) {%>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">列表<%= console.log(ctx.locals) %></h3>
+              <div class="card-tools">
+                <div class="input-group input-group-sm" style="width: 150px;">
+                  <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+
+                  <div class="input-group-append">
+                    <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
+                  </div>
+                </div>
+              </div>
+            </div>  
+            <!-- /.card-header -->
+            <div class="card-body table-responsive p-0">           
+                <% if (all_data.data == false) {%>
                   没有数据了！
-                 <% } %> 
-               </div>
+                <% } %>
                 <table id="example2" class="table table-bordered table-hover dataTable" role="grid" aria-describedby="example2_info"> 
-                 <thead> 
+                  <thead> 
                   <tr role="row">
                       <th>应用名称</th>
                       <th>介绍</th>
@@ -38,8 +44,8 @@
                       <th>版本</th>
                       <th>操作</th>
                   </tr> 
-                 </thead> 
-                 <tbody> 
+                  </thead> 
+                  <tbody> 
 
                     <% for (let i = 0; i < app_list.length; i++) {
                       let one = app_list[i];
@@ -55,43 +61,36 @@
                         </tr>
                         <% } %>
 
-                 </tbody>
+                  </tbody>
                 </table>
-               </div>
-              </div>
-              <div class="row">
-               <div class="col-sm-12 col-md-5">
-                <div class="dataTables_info" id="example2_info" role="status" aria-live="polite">
-                 共 <%= all_data.total %> 条数据
-                </div>
-               </div>
-               <div class="col-sm-12 col-md-7">
-                <div class="dataTables_paginate paging_simple_numbers" id="example2_paginate">
-                 <ul class="pagination">
-                  <li class="paginate_button page-item previous" id="example2_previous"><a href="#" onclick="change_page(1)" aria-controls="example2" data-dt-idx="0" tabindex="0" class="page-link">首页</a></li>
-                  <li class="paginate_button page-item previous" id="example2_previous"><a href="#" onclick="change_page('<%= (all_data.current_page - 1) %>')" aria-controls="example2" data-dt-idx="0" tabindex="0" class="page-link">上一页</a></li>
-                  <li class="paginate_button page-item active"><a href="#" aria-controls="example2" data-dt-idx="1" tabindex="0" class="page-link"><%= all_data.current_page %></a></li>
-                  <li class="paginate_button page-item next" id="example2_next"><a href="#" onclick="change_page('<%= (all_data.current_page + 1) %>')" aria-controls="example2" data-dt-idx="7" tabindex="0" class="page-link">下一页</a></li>
-                  <li class="paginate_button page-item previous" id="example2_previous"><a href="#" onclick="change_page('<%= all_data.last_page %>')" aria-controls="example2" data-dt-idx="0" tabindex="0" class="page-link">尾页</a></li>
-                 </ul>
-                </div>
-               </div>
-              </div>
-             </div>
-            
+            </div>
+            <!-- /.card-body -->
           </div>
-          <!-- /.card-body -->
-          
+          <!-- /.card -->
         </div>
-        <!-- /.card -->
-
-        <!-- /.card -->
+        <!-- /.col -->
       </div>
-      <!-- /.col -->
-      
-    </div>
-    <!-- /.row -->
+      <!-- /.row -->
+      <div class="row">
+        <div class="col-sm-12 col-md-4">
+          <div class="dataTables_info" id="example2_info" role="status" aria-live="polite">
+            共 <%= all_data.total %> 条数据
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-7">
+          <div class="dataTables_paginate paging_simple_numbers" id="example2_paginate">
+            <ul class="pagination">
+            <li class="paginate_button page-item previous" id="example2_previous"><a href="#" onclick="change_page(1)" aria-controls="example2" data-dt-idx="0" tabindex="0" class="page-link">首页</a></li>
+            <li class="paginate_button page-item previous" id="example2_previous"><a href="#" onclick="change_page('<%= (all_data.current_page - 1) %>')" aria-controls="example2" data-dt-idx="0" tabindex="0" class="page-link">上一页</a></li>
+            <li class="paginate_button page-item active"><a href="#" aria-controls="example2" data-dt-idx="1" tabindex="0" class="page-link"><%= all_data.current_page %></a></li>
+            <li class="paginate_button page-item next" id="example2_next"><a href="#" onclick="change_page('<%= (all_data.current_page + 1) %>')" aria-controls="example2" data-dt-idx="7" tabindex="0" class="page-link">下一页</a></li>
+            <li class="paginate_button page-item previous" id="example2_previous"><a href="#" onclick="change_page('<%= all_data.last_page %>')" aria-controls="example2" data-dt-idx="0" tabindex="0" class="page-link">尾页</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
 
+    </div>
   </section>
   <!-- /.content -->
 </div>
@@ -110,5 +109,22 @@
           //console.log("result:%j", result);
           location.href = url;
         });
+        // var params = {
+        //     out_url: "appList",
+        //     method: 'GET',
+        //     data: {
+        //       page
+        //     }
+        // };
+        // $.post('/api/v1/home/outapi',params,function(result){         
+        //     if (result.code !== 0) {
+        //         alert(result.message);
+        //     } else {
+        //         localStorage.setItem('token', result.data.token);   
+        //         localStorage.setItem('uid', result.data.user_info.uid);
+        //         var url = "/html/v1/store/list";
+        //         window.location.href= url;
+        //     }
+        // });
     }
 </script>
