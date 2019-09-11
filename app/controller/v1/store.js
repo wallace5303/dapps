@@ -4,9 +4,6 @@ const BaseController = require('../base');
 const updateAddons = require('../../../script/commands/update-addons');
 const _ = require('lodash');
 const utils = require('../../utils/utils');
-const fs = require('fs');
-const path = require('path');
-const shell = require('shelljs');
 
 class StoreController extends BaseController {
   /*
@@ -18,7 +15,7 @@ class StoreController extends BaseController {
     const self = this;
     const { app, ctx, service } = this;
     const query = ctx.query;
-    const root = process.cwd();
+
     const data = {
       app_list: null,
       all_data: null,
@@ -41,25 +38,29 @@ class StoreController extends BaseController {
         for (let i = 0; i < tmpAppList.length; i++) {
           const one = tmpAppList[i];
           one.is_install = false;
-          one.is_running = false;
+          // one.is_running = false;
+          // one.is_new_version = false;
 
           // 检查是否安装
-          const dirpath = path.resolve(root, 'docker/addons/' + one.appid);
-          const isDir = fs.existsSync(dirpath);
-          if (isDir) {
+          const installRes = service.store.appIsInstall(one.appid);
+          if (installRes) {
             one.is_install = true;
           }
 
           // 是否启动
-          const runningInfo = shell.exec(
-            'docker inspect dapps_' + one.appid + '_1',
-            {
-              silent: true,
-            }
-          );
-          if (runningInfo.stdout !== '[]\n') {
-            one.is_running = true;
-          }
+          // const runRes = service.store.appIsRunning(one.appid);
+          // if (runRes) {
+          //   one.is_running = true;
+          // }
+
+          // 是否有更新
+          // const newVersionRes = service.store.appHasNewVersion(
+          //   one.appid,
+          //   one.version
+          // );
+          // if (newVersionRes) {
+          //   one.is_new_version = true;
+          // }
 
           // break;
         }

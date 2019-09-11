@@ -4,6 +4,7 @@ const crypto = require('crypto');
 const fs = require('fs');
 const path = require('path');
 const _ = require('lodash');
+const readline = require('readline');
 
 exports = module.exports;
 
@@ -321,5 +322,27 @@ exports.sleep = function(time = 0) {
     setTimeout(() => {
       resolve();
     }, time);
+  });
+};
+
+/*
+ * 按行读取文件内容
+ * 返回：字符串数组
+ * 参数：fReadName:文件名路径
+ */
+exports.readFileToArr = async function(fReadName) {
+  const fRead = fs.createReadStream(fReadName);
+  const objReadline = readline.createInterface({
+    input: fRead,
+  });
+
+  return new Promise((resolve, reject) => {
+    const arr = [];
+    objReadline.on('line', function(line) {
+      arr.push(line);
+    });
+    objReadline.on('close', function() {
+      resolve(arr);
+    });
   });
 };

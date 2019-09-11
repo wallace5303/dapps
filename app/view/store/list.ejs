@@ -42,6 +42,7 @@
                       <th>作者</th>
                       <th>下载</th>
                       <th>版本</th>
+                      <th>状态</th>
                       <th>操作</th>
                   </tr> 
                   </thead> 
@@ -55,9 +56,14 @@
                           <td><%= one.introduction %></td>
                           <td><%= one.author %></td>
                           <td><%= one.download %></td>
-                          <td><%= one.version %></td>
-                          <!-- 安装-升级-配置-卸载-演示 -->
-                          <td>安装</td>
+                          <td><%= one.version %></td>                         
+                          <td><%= one.is_install %></td>
+                          <td>
+                              <% if (one.show) { %>
+                                <a href="<%= one.show %>" >演示</a>
+                              <% } %> 
+                              
+                          </td>
                         </tr>
                         <% } %>
 
