@@ -48,8 +48,8 @@
                 out_url: "login",
                 method: 'POST',
                 data: {
-                    email,
-                    pwd
+                  email: email,
+                  pwd: pwd
                 }
             };
             $.post('/api/v1/home/outapi',params,function(result){         

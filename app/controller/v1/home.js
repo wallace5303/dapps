@@ -24,27 +24,6 @@ class HomeController extends BaseController {
   }
 
   /*
-   * 错误上报
-   */
-  async errorReport() {
-    const { app, ctx, service } = this;
-    const body = ctx.request.body;
-    const uid = body.uid;
-    let environment = body.environment;
-    let content = body.content;
-    if (_.isObject(environment)) {
-      environment = JSON.stringify(environment);
-    }
-    if (_.isObject(content)) {
-      content = JSON.stringify(content);
-    }
-
-    service.report.errorCollect(uid, environment, content);
-
-    this.sendSuccess({}, 'ok');
-  }
-
-  /*
    * 系统信息
    */
   async sysInfo() {

@@ -6,12 +6,12 @@ const moment = require('moment');
 
 class OutapiService extends BaseService {
   /*
-   * 商店应用列表
+   * api
    */
   async api(body) {
     const res = {
       code: 1000,
-      msg: 'unknown error',
+      message: 'unknown error',
     };
 
     try {

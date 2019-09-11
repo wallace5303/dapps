@@ -13,4 +13,5 @@ exports.outApi = {
     'http://192.168.10.233:8081/api/dapps/store/developer_app_update',
   developerAppList:
     'http://192.168.10.233:8081/api/dapps/store/developer_app_list',
+  userinfo: 'http://192.168.10.233:8081/api/dapps/user/info',
 };

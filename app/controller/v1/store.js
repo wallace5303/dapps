@@ -13,34 +13,19 @@ class StoreController extends BaseController {
     const self = this;
     const { app, ctx, service } = this;
     const query = ctx.query;
-    const page = query.page ? Number(query.page) : 1;
-    const appid = query.appid ? query.appid : null;
-    const author = query.author ? query.author : null;
-    const sortField = query.sort_field ? query.sort_field : 'aid';
-    const sortType = query.sort_type ? query.sort_type : 'desc';
-    const all = false;
-    const uid = query.uid ? query.uid : null;
-    // const dockerAddonsDir = app.baseDir + '/docker/addons';
-    const data = {
-      app_list: null,
-      all_data: null,
-      user_info: null,
+    const params = {
+      out_url: 'appList',
+      method: 'GET',
+      data: query,
     };
-    const list = null;
-    const resList = await service.store.appList(
-      all,
-      page,
-      appid,
-      author,
-      sortField,
-      sortType,
-      uid
-    );
-    if (resList.code === CODE.SUCCESS) {
+    console.log('params:%j', params);
+    const data = await service.outapi.api(params);
+
+    if (data.code === CODE.SUCCESS) {
       // 列表数据
-      data.app_list = resList.data.list.data;
+      data.app_list = data.data.list.data;
       // 所有数据
-      data.all_data = resList.data.list;
+      data.all_data = data.data.list;
     }
 
     await ctx.render('store/index.ejs', data);

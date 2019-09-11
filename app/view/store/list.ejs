@@ -28,12 +28,12 @@
                   </div>
                 </div>
               </div>
-            </div>  
+            </div>
+            <% if (all_data.data == false) {%>
+              <span style="margin: auto">没有数据了！</span>
+            <% } else { %>  
             <!-- /.card-header -->
             <div class="card-body table-responsive p-0">           
-                <% if (all_data.data == false) {%>
-                  没有数据了！
-                <% } %>
                 <table id="example2" class="table table-bordered table-hover dataTable" role="grid" aria-describedby="example2_info"> 
                   <thead> 
                   <tr role="row">
@@ -64,6 +64,7 @@
                   </tbody>
                 </table>
             </div>
+            <% } %>
             <!-- /.card-body -->
           </div>
           <!-- /.card -->
@@ -96,7 +97,6 @@
 </div>
 
 <script>
-
     function change_page(page)
     {
         var url = "/html/v1/store/list?page=";
@@ -104,27 +104,6 @@
           page = 1;
         }
         url += page;
-        //console.log("url:%j", url);
-        $.get(url,{},function(result){
-          //console.log("result:%j", result);
-          location.href = url;
-        });
-        // var params = {
-        //     out_url: "appList",
-        //     method: 'GET',
-        //     data: {
-        //       page
-        //     }
-        // };
-        // $.post('/api/v1/home/outapi',params,function(result){         
-        //     if (result.code !== 0) {
-        //         alert(result.message);
-        //     } else {
-        //         localStorage.setItem('token', result.data.token);   
-        //         localStorage.setItem('uid', result.data.user_info.uid);
-        //         var url = "/html/v1/store/list";
-        //         window.location.href= url;
-        //     }
-        // });
+        window.location.href = url;
     }
 </script>

@@ -27,24 +27,6 @@ class LoginController extends BaseController {
     const data = {};
     await ctx.render('store/login.ejs', data);
   }
-
-  /*
-   * 注册
-   */
-  async register() {
-    const self = this;
-    const { app, ctx, service } = this;
-
-    const { username, email, pwd1, pwd2 } = ctx.request.body;
-    const data = await service.user.register(username, email, pwd1, pwd2);
-
-    self.sendData(data);
-  }
-
-  /*
-   * 登录 todo
-   */
-  async login() {}
 }
 
 module.exports = LoginController;

@@ -70,10 +70,10 @@
                 out_url: "register",
                 method: 'POST',
                 data: {
-                    username,
-                    email,
-                    pwd1,
-                    pwd2
+                    username: username,
+                    email: email,
+                    pwd1: pwd1,
+                    pwd2: pwd2
                 }
             };
             $.post('/api/v1/home/outapi',params,function(result){         
