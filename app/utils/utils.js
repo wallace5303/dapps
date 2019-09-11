@@ -173,7 +173,7 @@ exports.mkdir = function(dirpath, dirname) {
   console.log('==> dir end', dirpath);
 };
 
-/**
+/*
  * 获取目录下指定后缀的所有文件
  * @param dir
  * @param ext
@@ -216,7 +216,7 @@ exports.isSameDay = function(d1, d2) {
   );
 };
 
-/**
+/*
  * 判断是否在有效期
  */
 exports.isInDate = function(createDate, days) {
@@ -224,7 +224,7 @@ exports.isInDate = function(createDate, days) {
   return diffDays <= days;
 };
 
-/**
+/*
  * differ days
  * 返回两个日期相隔的天数
  * 按0点算
@@ -237,7 +237,7 @@ exports.diffDays = function(createDate) {
   return (tmp - createDate) / 24 / 3600000;
 };
 
-/**
+/*
  * differ weeks
  * 判断两个日期是否在同一周
  * add by mumu
