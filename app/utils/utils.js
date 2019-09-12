@@ -203,6 +203,34 @@ exports.getAllFiles = function(dir, ext) {
   return extFiles;
 };
 
+/*
+ * 获取目录下所有文件夹
+ */
+exports.getDirs = function(dir) {
+  if (!dir) {
+    return [];
+  }
+
+  const components = [];
+  const files = fs.readdirSync(dir);
+  files.forEach(function(item, index) {
+    const stat = fs.lstatSync(dir + '/' + item);
+    if (stat.isDirectory() === true) {
+      components.push(item);
+    }
+  });
+
+  return components;
+};
+
+exports.fileExist = function(filePath) {
+  try {
+    return fs.statSync(filePath).isFile();
+  } catch (err) {
+    return false;
+  }
+};
+
 /**
  * 判断是否是同一天
  * @param d1
@@ -345,4 +373,28 @@ exports.readFileToArr = async function(fReadName) {
       resolve(arr);
     });
   });
+};
+
+exports.compareVersion = function(version, bigVersion) {
+  version = version.split('.');
+  bigVersion = bigVersion.split('.');
+  for (let i = 0; i < version.length; i++) {
+    version[i] = +version[i];
+    bigVersion[i] = +bigVersion[i];
+    if (version[i] > bigVersion[i]) {
+      return false;
+    } else if (version[i] < bigVersion[i]) {
+      return true;
+    }
+  }
+  return false;
+};
+
+exports.handleVersion = function(version) {
+  if (!version) return version;
+  version = version + '';
+  if (version[0] === 'v') {
+    return version.substr(1);
+  }
+  return version;
 };

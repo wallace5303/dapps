@@ -52,6 +52,74 @@ class StoreService extends BaseService {
   }
 
   /*
+   * 我的应用
+   */
+  async myAppList(page) {
+    const appList = [];
+    const root = process.cwd();
+    const addonsDir = path.resolve(root, 'docker/addons');
+    const lsDir = utils.getDirs(addonsDir);
+    const index = lsDir.indexOf('example');
+    if (index > -1) {
+      lsDir.splice(index, 1);
+    }
+    console.log(lsDir);
+    for (let i = 0; i < lsDir.length; i++) {
+      const tmpAppid = lsDir[i];
+      const tmpAppObj = {
+        appid: tmpAppid,
+        uid: '',
+        author: '',
+        app_name: '',
+        introduction: '',
+        version: '',
+      };
+      const envFile = addonsDir + '/' + tmpAppid + '/.env';
+      if (fs.existsSync(envFile)) {
+        const fileArr = await utils.readFileToArr(envFile);
+        for (let i = 0; i < fileArr.length; i++) {
+          const tmpEle = fileArr[i];
+          if (tmpEle.indexOf('AUTHOR_UID') !== -1) {
+            tmpAppObj.uid = tmpEle.substr(11);
+          }
+          if (tmpEle.indexOf('AUTHOR_NAME') !== -1) {
+            tmpAppObj.author = tmpEle.substr(12);
+          }
+          if (tmpEle.indexOf('APP_NAME') !== -1) {
+            tmpAppObj.app_name = tmpEle.substr(9);
+          }
+          if (tmpEle.indexOf('APP_INTRODUCTION') !== -1) {
+            tmpAppObj.introduction = tmpEle.substr(17);
+          }
+          if (tmpEle.indexOf('APP_VERSION') !== -1) {
+            tmpAppObj.version = tmpEle.substr(12);
+          }
+        }
+      }
+      appList.push(tmpAppObj);
+    }
+
+    return appList;
+  }
+
+  /*
+   * 我的应用总数
+   */
+  async myAppTotal() {
+    let total = 0;
+    const root = process.cwd();
+    const addonsDir = path.resolve(root, 'docker/addons');
+    const lsDir = utils.getDirs(addonsDir);
+    const index = lsDir.indexOf('example');
+    if (index > -1) {
+      lsDir.splice(index, 1);
+    }
+    total = lsDir.length;
+
+    return total;
+  }
+
+  /*
    * 应用是否安装
    */
   async appIsInstall(appid) {
@@ -68,10 +136,11 @@ class StoreService extends BaseService {
    * 应用是否启动
    */
   async appIsRunning(appid) {
-    const runningInfo = shell.exec('docker inspect dapps_' + appid, {
+    const runningInfo = shell.exec('docker top dapps_' + appid, {
       silent: true,
     });
-    if (runningInfo.stdout !== '[]\n') {
+    // console.log(runningInfo);
+    if (runningInfo.code === 0) {
       return true;
     }
     return false;
@@ -80,20 +149,123 @@ class StoreService extends BaseService {
   /*
    * 应用是否有更新
    */
-  async appHasNewVersion(appid, preVersion) {
+  async appHasNewVersion(appid) {
     const root = process.cwd();
-    const envFile = path.resolve(root, 'docker/addons/redis/.env');
-    const fileArr = await utils.readFileToArr(envFile);
-    for (let i = 0; i < fileArr.length; i++) {
-      const tmpEle = fileArr[i];
-      if (tmpEle.indexOf('APP_VERSION') !== -1) {
-        console.log(tmpEle.substr(12));
-        const localVersion = tmpEle.substr(12);
-        if (localVersion !== preVersion) {
-          return true;
+    const envFile = path.resolve(root, 'docker/addons/' + appid + '/.env');
+    if (fs.existsSync(envFile)) {
+      const fileArr = await utils.readFileToArr(envFile);
+      for (let i = 0; i < fileArr.length; i++) {
+        const tmpEle = fileArr[i];
+        if (tmpEle.indexOf('APP_VERSION') !== -1) {
+          const localVersion = tmpEle.substr(12);
+
+          // 查询线上版本
+          const params = {
+            out_url: 'appInfo',
+            method: 'GET',
+            data: {
+              appid,
+            },
+          };
+          const appInfoRes = await this.service.outapi.api(params);
+          if (!_.isEmpty(appInfoRes.data)) {
+            const onlineVersion = appInfoRes.data.version;
+            // console.log(
+            //   'appid:%j, localVersion: %j, onlineVersion:%j',
+            //   appid,
+            //   localVersion,
+            //   onlineVersion
+            // );
+            const compareRes = utils.compareVersion(
+              localVersion,
+              onlineVersion
+            );
+            // console.log('appid:%j, compareRes:%j', appid, compareRes);
+            if (compareRes) {
+              return true;
+            }
+          }
         }
       }
     }
+
+    return false;
+  }
+
+  /*
+   * 卸载应用
+   */
+  async uninstallApp(appid) {
+    const res = {
+      code: 1000,
+      msg: 'unknown error',
+    };
+    const killRes = this.service.store.killApp(appid);
+    if (!killRes) {
+      res.msg = '停止容器失败';
+      return res;
+    }
+
+    const delRes = this.service.store.delApp(appid);
+    if (!delRes) {
+      res.msg = '删除容器失败';
+      return res;
+    }
+
+    const delFileRes = this.service.store.delAppFile(appid);
+    if (!delFileRes) {
+      res.msg = '删除应用文件失败';
+      return res;
+    }
+
+    res.code = CODE.SUCCESS;
+    res.msg = '删除成功';
+    return res;
+  }
+
+  /*
+   * kill应用
+   */
+  async killApp(appid) {
+    const killRes = shell.exec('docker kill dapps_' + appid, {
+      silent: true,
+    });
+    console.log('killRes:', killRes);
+    if (killRes.code === 0) {
+      return true;
+    }
+    return false;
+  }
+
+  /*
+   * 删除应用
+   */
+  async delApp(appid) {
+    const delRes = shell.exec('docker rm dapps_' + appid, {
+      silent: true,
+    });
+    console.log('delRes:', delRes);
+    if (delRes.code === 0) {
+      return true;
+    }
+    return false;
+  }
+
+  /*
+   * 删除应用文件
+   */
+  async delAppFile(appid) {
+    const root = process.cwd();
+    const dirpath = path.resolve(root, 'docker/addons/' + appid);
+    const isDir = fs.existsSync(dirpath);
+    if (isDir) {
+      const delRes = shell.rm('-rf', isDir);
+      console.log('delRes:', delRes);
+      if (delRes.code === 0) {
+        return true;
+      }
+    }
+
     return false;
   }
 }

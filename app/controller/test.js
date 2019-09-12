@@ -19,6 +19,8 @@ class TestController extends BaseController {
       env: app.config.env,
     };
 
+    // const compareRes = utils.compareVersion('1.0.0', '1.10.0');
+    // console.log('compareRes:%j', compareRes);
     // const file = path.resolve(root, 'docker/addons/redis/.env');
     // const arr = await utils.readFileToArr(file);
     // console.log(arr);

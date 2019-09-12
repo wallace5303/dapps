@@ -1,0 +1,150 @@
+<%- include('header'); %>
+  <!-- Sidenav -->
+  <%- include('sidebar'); %>
+  <!-- Main content -->
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+      <!-- Content Header (Page header) -->
+      <section class="content-header">
+        <div class="container-fluid">
+          <div class="row mb-2">
+            <div class="col-sm-6">
+              <h1>我的应用</h1>
+            </div>
+          </div>
+        </div><!-- /.container-fluid -->
+      </section>
+  
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">列表</h3>
+                <div class="card-tools">
+                  <div class="input-group input-group-sm" style="width: 150px;">
+                    <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+  
+                    <div class="input-group-append">
+                      <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <% if (app_list.length == 0) {%>
+                <span style="margin: auto">没有数据了！</span>
+              <% } else { %>  
+              <!-- /.card-header -->
+              <div class="card-body table-responsive p-0">           
+                  <table id="example2" class="table table-bordered table-hover dataTable" role="grid" aria-describedby="example2_info"> 
+                    <thead> 
+                    <tr role="row">
+                        <th>应用名称</th>
+                        <th>介绍</th>
+                        <th>版本</th>
+                        <th>状态</th>
+                        <th>操作</th>
+                    </tr> 
+                    </thead> 
+                    <tbody> 
+  
+                      <% for (let i = 0; i < app_list.length; i++) {
+                        let one = app_list[i];
+                        %>
+                        <tr role="row" class="odd">
+                            <td><%= one.appid %></td>
+                            <td><%= one.introduction %></td>
+                            <td><%= one.version %></td>
+                            <td>
+                              <% if (one.is_running) {%>
+                                正在运行
+                              <% } else { %>
+                                已停止
+                              <% } %>
+                            </td>
+                            <td>
+                                <% if (one.is_running) {%>
+                                  <a class="btn btn-primary btn-sm" href="#" onclick="stop('<%= one.appid %>', '<%= (all_data.current_page + 1) %>')">
+                                    停止
+                                  </a>
+                                <% } else { %>
+                                  <a class="btn btn-danger btn-sm" href="#" onclick="start('<%= one.appid %>')">
+                                    启动
+                                  </a>
+                                <% } %>
+                                <!-- 是否需要更新 -->  
+                                <% if (one.is_new_version) {%>
+                                  <a class="btn btn-primary btn-sm" href="#" onclick="update('<%= one.appid %>')">
+                                    更新
+                                  </a>
+                                <% } %>
+                            </td>
+                          </tr>
+                          <% } %>
+  
+                    </tbody>
+                  </table>
+              </div>
+              <% } %>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+        <div class="row">
+          <div class="col-sm-12 col-md-4">
+            <div class="dataTables_info" id="example2_info" role="status" aria-live="polite">
+              共 <%= all_data.total %> 条数据
+            </div>
+          </div>
+          <div class="col-sm-12 col-md-7">
+            <div class="dataTables_paginate paging_simple_numbers" id="example2_paginate">
+              <ul class="pagination">
+              <li class="paginate_button page-item previous" id="example2_previous"><a href="#" onclick="change_page('<%= (all_data.current_page - 1) %>')" aria-controls="example2" data-dt-idx="0" tabindex="0" class="page-link">上一页</a></li>
+              <li class="paginate_button page-item active"><a href="#" aria-controls="example2" data-dt-idx="1" tabindex="0" class="page-link"><%= all_data.current_page %></a></li>
+              <li class="paginate_button page-item next" id="example2_next"><a href="#" onclick="change_page('<%= (all_data.current_page + 1) %>')" aria-controls="example2" data-dt-idx="7" tabindex="0" class="page-link">下一页</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+  
+      </div>
+    </section>
+    <!-- /.content -->
+  </div>
+  
+  <script>
+      function change_page(page)
+      {
+          var url = "/html/v1/store/list?page=";
+          if (Number(page) < 1) {
+            page = 1;
+          }
+          url += page;
+          window.location.href = url;
+      }
+      
+      function install(appid, page)
+      {
+        var url = "/api/v1/store/app_install?appid=" + appid;
+        $.get(url,function(result){
+            if (result.code !== 0) {
+                alert(result.msg);
+            } else {
+              alert(result.msg);
+              var url = "/html/v1/store/list?page=";
+              page = Number(page) > 1 ? Number(page) : 1;
+              url += page;
+              window.location.href = url;
+            }
+        });
+      }
+  
+  </script>
+  
+<%- include('bottom'); %>

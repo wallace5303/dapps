@@ -18,7 +18,7 @@
         <div class="col-12">
           <div class="card">
             <div class="card-header">
-              <h3 class="card-title">列表<%= console.log(ctx.locals) %></h3>
+              <h3 class="card-title">列表</h3>
               <div class="card-tools">
                 <div class="input-group input-group-sm" style="width: 150px;">
                   <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
@@ -29,7 +29,7 @@
                 </div>
               </div>
             </div>
-            <% if (all_data.data == false) {%>
+            <% if (app_list.length == 0) {%>
               <span style="margin: auto">没有数据了！</span>
             <% } else { %>  
             <!-- /.card-header -->
@@ -42,7 +42,6 @@
                       <th>作者</th>
                       <th>下载</th>
                       <th>版本</th>
-                      <th>状态</th>
                       <th>操作</th>
                   </tr> 
                   </thead> 
@@ -56,13 +55,23 @@
                           <td><%= one.introduction %></td>
                           <td><%= one.author %></td>
                           <td><%= one.download %></td>
-                          <td><%= one.version %></td>                         
-                          <td><%= one.is_install %></td>
+                          <td><%= one.version %></td>
                           <td>
                               <% if (one.show) { %>
-                                <a href="<%= one.show %>" >演示</a>
-                              <% } %> 
-                              
+                                <a class="btn btn-info btn-sm" href="<%= one.show %>" target="_blank">
+                                  演示
+                                </a>
+                              <% } %>
+                              <% if (!one.is_install) {%>
+                                <a class="btn btn-primary btn-sm" href="#" onclick="install('<%= one.appid %>', '<%= (all_data.current_page + 1) %>')">
+                                  安装
+                                </a>
+                              <% } else { %>
+                                <!-- <a class="btn btn-danger btn-sm" href="#" onclick="uninstall('<%= one.appid %>')">
+                                  卸载
+                                </a> -->
+                                已安装
+                              <% } %>
                           </td>
                         </tr>
                         <% } %>
@@ -112,4 +121,21 @@
         url += page;
         window.location.href = url;
     }
+    
+    function install(appid, page)
+    {
+      var url = "/api/v1/store/app_install?appid=" + appid;
+      $.get(url,function(result){
+          if (result.code !== 0) {
+              alert(result.msg);
+          } else {
+            alert(result.msg);
+            var url = "/html/v1/store/list?page=";
+            page = Number(page) > 1 ? Number(page) : 1;
+            url += page;
+            window.location.href = url;
+          }
+      });
+    }
+
 </script>
