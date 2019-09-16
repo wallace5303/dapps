@@ -46,7 +46,7 @@
     <a href="#" class="brand-link">
       <img src="/public/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
            style="opacity: .8">
-      <span class="brand-text font-weight-light">Dapps万能应用</span>
+      <span class="brand-text font-weight-light">Dapps应用商店</span>
     </a>
 
     <!-- Sidebar -->
@@ -70,7 +70,7 @@
             <a href="/html/v1/store/list" class="nav-link">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
-                应用商店            
+                应用商店
               </p>
             </a>
           </li>
@@ -78,7 +78,7 @@
             <a href="/html/v1/store/myapp" class="nav-link">
               <i class="nav-icon fas fa-th"></i>
               <p>
-                我的应用               
+                我的应用
               </p>
             </a>
           </li>
@@ -86,7 +86,7 @@
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-comments"></i>
               <p>
-                群聊               
+                群聊
               </p>
             </a>
           </li> -->
@@ -94,7 +94,7 @@
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-th"></i>
               <p>
-                疑难解答               
+                疑难解答
               </p>
             </a>
           </li> -->
@@ -102,7 +102,7 @@
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-th"></i>
               <p>
-                开发者               
+                开发者
               </p>
             </a>
           </li>
@@ -117,6 +117,10 @@
     $(document).ready(function(){
       var token=localStorage.getItem("token");
       var uid=localStorage.getItem("uid");
+      if (!token || !uid) {
+        return;
+      }
+
       var params = {
           out_url: "userinfo",
           method: 'GET',

@@ -17,4 +17,8 @@ module.exports = app => {
   router.get('/api/v1/store/app_install', controller.v1.store.appInstall);
   // 应用卸载
   router.get('/api/v1/store/app_uninstall', controller.v1.store.appUninstall);
+  // 应用启动
+  router.get('/api/v1/store/app_start', controller.v1.store.appStart);
+  // 应用停止
+  router.get('/api/v1/store/app_stop', controller.v1.store.appStop);
 };

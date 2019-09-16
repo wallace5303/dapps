@@ -71,7 +71,7 @@
                                     停止
                                   </a>
                                 <% } else { %>
-                                  <a class="btn btn-danger btn-sm" href="#" onclick="start('<%= one.appid %>')">
+                                  <a class="btn btn-danger btn-sm" href="#" onclick="start('<%= one.appid %>', '<%= (all_data.current_page + 1) %>')">
                                     启动
                                   </a>
                                 <% } %>
@@ -121,7 +121,7 @@
   <script>
       function change_page(page)
       {
-          var url = "/html/v1/store/list?page=";
+          var url = "/html/v1/store/myapp?page=";
           if (Number(page) < 1) {
             page = 1;
           }
@@ -129,15 +129,15 @@
           window.location.href = url;
       }
       
-      function install(appid, page)
+      function start(appid, page)
       {
-        var url = "/api/v1/store/app_install?appid=" + appid;
+        var url = "/api/v1/store/app_start?appid=" + appid;
         $.get(url,function(result){
             if (result.code !== 0) {
                 alert(result.msg);
             } else {
               alert(result.msg);
-              var url = "/html/v1/store/list?page=";
+              var url = "/html/v1/store/myapp?page=";
               page = Number(page) > 1 ? Number(page) : 1;
               url += page;
               window.location.href = url;
@@ -145,6 +145,21 @@
         });
       }
   
+      function stop(appid, page)
+      {
+        var url = "/api/v1/store/app_stop?appid=" + appid;
+        $.get(url,function(result){
+            if (result.code !== 0) {
+                alert(result.msg);
+            } else {
+              alert(result.msg);
+              var url = "/html/v1/store/myapp?page=";
+              page = Number(page) > 1 ? Number(page) : 1;
+              url += page;
+              window.location.href = url;
+            }
+        });
+      }
   </script>
   
 <%- include('bottom'); %>

@@ -42,7 +42,7 @@ class StoreController extends BaseController {
           // one.is_new_version = false;
 
           // 检查是否安装
-          const installRes = service.store.appIsInstall(one.appid);
+          const installRes = await service.store.appIsInstall(one.appid);
           if (installRes) {
             one.is_install = true;
           }
@@ -142,7 +142,7 @@ class StoreController extends BaseController {
     const query = ctx.query;
     const appid = query.appid;
 
-    const delRes = service.store.uninstallApp(appid);
+    const delRes = await service.store.uninstallApp(appid);
     if (delRes.code !== CODE.SUCCESS) {
       self.sendFail({}, delRes.msg, CODE.SYS_OPERATION_FAILED);
       return;
@@ -150,6 +150,58 @@ class StoreController extends BaseController {
 
     const data = {};
     self.sendSuccess(data, '卸载成功');
+  }
+
+  /*
+   * api - APP启动
+   * @params: string uid
+   * @return: object { token }
+   */
+  async appStart() {
+    const self = this;
+    const { app, ctx, service } = this;
+    const query = ctx.query;
+    const appid = query.appid;
+
+    if (!appid) {
+      self.sendFail({}, '参数错误', CODE.SYS_PARAMS_ERROR);
+      return;
+    }
+
+    const startRes = await service.store.startApp(appid);
+    if (startRes.code !== CODE.SUCCESS) {
+      self.sendFail({}, startRes.msg, startRes.code);
+      return;
+    }
+
+    const data = {};
+    self.sendSuccess(data, '启动成功');
+  }
+
+  /*
+   * api - APP停止
+   * @params: string uid
+   * @return: object { token }
+   */
+  async appStop() {
+    const self = this;
+    const { app, ctx, service } = this;
+    const query = ctx.query;
+    const appid = query.appid;
+
+    if (!appid) {
+      self.sendFail({}, '参数错误', CODE.SYS_PARAMS_ERROR);
+      return;
+    }
+
+    const stopRes = await service.store.stopApp(appid);
+    if (stopRes.code !== CODE.SUCCESS) {
+      self.sendFail({}, stopRes.msg, stopRes.code);
+      return;
+    }
+
+    const data = {};
+    self.sendSuccess(data, '应用已停止');
   }
 }
 

@@ -268,6 +268,77 @@ class StoreService extends BaseService {
 
     return false;
   }
+
+  /*
+   * start应用
+   */
+  async startApp(appid) {
+    const res = {
+      code: 1000,
+      msg: 'unknown error',
+    };
+
+    const appIsExist = this.service.store.appIsInstall(appid);
+    if (!appIsExist) {
+      res.msg = '应用不存在';
+      return res;
+    }
+
+    const isRunning = this.service.store.appIsRunning(appid);
+    if (isRunning) {
+      res.msg = '应用正在运行';
+      return res;
+    }
+
+    const root = process.cwd();
+    const dirpath = path.resolve(root, 'docker/addons/' + appid);
+    shell.cd(dirpath);
+    const startRes = shell.exec('docker-compose up -d ' + appid, {
+      silent: false,
+    });
+    this.app.logger.info('[StoreService] [startApp] start startRes:', startRes);
+
+    if (startRes.code === 0) {
+      res.msg = '启动成功';
+      res.code = CODE.SUCCESS;
+      return res;
+    }
+    return res;
+  }
+
+  /*
+   * stop应用
+   */
+  async stopApp(appid) {
+    const res = {
+      code: 1000,
+      msg: 'unknown error',
+    };
+
+    const appIsExist = this.service.store.appIsInstall(appid);
+    if (!appIsExist) {
+      res.msg = '应用不存在';
+      return res;
+    }
+
+    const isRunning = this.service.store.appIsRunning(appid);
+    if (!isRunning) {
+      res.msg = '应用没有在运行';
+      return res;
+    }
+
+    const startRes = shell.exec('docker-compose up -d ' + appid, {
+      silent: false,
+    });
+    this.app.logger.info('[StoreService] [startApp] start startRes:', startRes);
+
+    if (startRes.code === 0) {
+      res.msg = '启动成功';
+      res.code = CODE.SUCCESS;
+      return res;
+    }
+    return res;
+  }
 }
 
 module.exports = StoreService;
