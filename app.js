@@ -8,6 +8,15 @@ global.CODE = require('./app/const/statusCode');
 class AppBootHook {
   constructor(app) {
     this.app = app;
+
+    global.OS_PLATFORM = process.platform;
+    global.IS_WIN = /^win/.test(process.platform);
+    global.DOCKER_COMPOE_FILE = '';
+    if (global.IS_WIN) {
+      global.DOCKER_COMPOE_FILE = 'docker-compose-win.yml';
+    } else {
+      global.DOCKER_COMPOE_FILE = 'docker-compose.yml';
+    }
   }
 
   configWillLoad() {

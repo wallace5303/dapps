@@ -7,6 +7,7 @@ const utils = require('../utils/utils');
 const fs = require('fs');
 const path = require('path');
 const shell = require('shelljs');
+const updateAddons = require('../../script/commands/update-addons');
 
 class StoreService extends BaseService {
   /*
@@ -63,7 +64,7 @@ class StoreService extends BaseService {
     if (index > -1) {
       lsDir.splice(index, 1);
     }
-    console.log(lsDir);
+    // console.log(lsDir);
     for (let i = 0; i < lsDir.length; i++) {
       const tmpAppid = lsDir[i];
       const tmpAppObj = {
@@ -193,6 +194,14 @@ class StoreService extends BaseService {
   }
 
   /*
+   * 安装应用
+   */
+  async installApp(app, query) {
+    updateAddons.run(app, query);
+    return true;
+  }
+
+  /*
    * 卸载应用
    */
   async uninstallApp(appid) {
@@ -200,19 +209,19 @@ class StoreService extends BaseService {
       code: 1000,
       msg: 'unknown error',
     };
-    const killRes = this.service.store.killApp(appid);
+    const killRes = await this.service.store.killApp(appid);
     if (!killRes) {
       res.msg = '停止容器失败';
       return res;
     }
 
-    const delRes = this.service.store.delApp(appid);
+    const delRes = await this.service.store.delApp(appid);
     if (!delRes) {
       res.msg = '删除容器失败';
       return res;
     }
 
-    const delFileRes = this.service.store.delAppFile(appid);
+    const delFileRes = await this.service.store.delAppFile(appid);
     if (!delFileRes) {
       res.msg = '删除应用文件失败';
       return res;
@@ -278,13 +287,13 @@ class StoreService extends BaseService {
       msg: 'unknown error',
     };
 
-    const appIsExist = this.service.store.appIsInstall(appid);
+    const appIsExist = await this.service.store.appIsInstall(appid);
     if (!appIsExist) {
       res.msg = '应用不存在';
       return res;
     }
 
-    const isRunning = this.service.store.appIsRunning(appid);
+    const isRunning = await this.service.store.appIsRunning(appid);
     if (isRunning) {
       res.msg = '应用正在运行';
       return res;
@@ -293,9 +302,12 @@ class StoreService extends BaseService {
     const root = process.cwd();
     const dirpath = path.resolve(root, 'docker/addons/' + appid);
     shell.cd(dirpath);
-    const startRes = shell.exec('docker-compose up -d ' + appid, {
-      silent: false,
-    });
+    const startRes = shell.exec(
+      'docker-compose -f ' + DOCKER_COMPOE_FILE + ' up -d ' + appid,
+      {
+        silent: false,
+      }
+    );
     this.app.logger.info('[StoreService] [startApp] start startRes:', startRes);
 
     if (startRes.code === 0) {
@@ -315,25 +327,31 @@ class StoreService extends BaseService {
       msg: 'unknown error',
     };
 
-    const appIsExist = this.service.store.appIsInstall(appid);
+    const appIsExist = await this.service.store.appIsInstall(appid);
     if (!appIsExist) {
       res.msg = '应用不存在';
       return res;
     }
 
-    const isRunning = this.service.store.appIsRunning(appid);
+    const isRunning = await this.service.store.appIsRunning(appid);
     if (!isRunning) {
       res.msg = '应用没有在运行';
       return res;
     }
 
-    const startRes = shell.exec('docker-compose up -d ' + appid, {
-      silent: false,
-    });
-    this.app.logger.info('[StoreService] [startApp] start startRes:', startRes);
+    const root = process.cwd();
+    const dirpath = path.resolve(root, 'docker/addons/' + appid);
+    shell.cd(dirpath);
+    const stopRes = shell.exec(
+      'docker-compose -f ' + DOCKER_COMPOE_FILE + ' stop ' + appid,
+      {
+        silent: false,
+      }
+    );
+    this.app.logger.info('[StoreService] [stopApp] start stopRes:', stopRes);
 
-    if (startRes.code === 0) {
-      res.msg = '启动成功';
+    if (stopRes.code === 0) {
+      res.msg = '停止成功';
       res.code = CODE.SUCCESS;
       return res;
     }

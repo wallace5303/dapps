@@ -19,6 +19,11 @@ class TestController extends BaseController {
       env: app.config.env,
     };
 
+    console.log('OS_PLATFORM ', OS_PLATFORM);
+    // const isWin = /^win/.test('win32');
+    console.log('IS_WIN ', IS_WIN);
+    console.log('DOCKER_COMPOE_FILE ', DOCKER_COMPOE_FILE);
+
     // const compareRes = utils.compareVersion('1.0.0', '1.10.0');
     // console.log('compareRes:%j', compareRes);
     // const file = path.resolve(root, 'docker/addons/redis/.env');

@@ -42,6 +42,7 @@
                       <th>作者</th>
                       <th>下载</th>
                       <th>版本</th>
+                      <th>是否安装</th>
                       <th>操作</th>
                   </tr> 
                   </thead> 
@@ -57,20 +58,22 @@
                           <td><%= one.download %></td>
                           <td><%= one.version %></td>
                           <td>
+                            <% if (one.is_install) { %>
+                              已安装
+                            <% } else { %>
+                              未安装
+                            <% } %>
+                          </td>
+                          <td>
                               <% if (one.show) { %>
                                 <a class="btn btn-info btn-sm" href="<%= one.show %>" target="_blank">
                                   演示
                                 </a>
                               <% } %>
                               <% if (!one.is_install) {%>
-                                <a class="btn btn-primary btn-sm" href="#" onclick="install('<%= one.appid %>', '<%= (all_data.current_page + 1) %>')">
+                                <a class="btn btn-primary btn-sm" href="#" onclick="installApp('<%= one.appid %>', '<%= (all_data.current_page) %>')">
                                   安装
                                 </a>
-                              <% } else { %>
-                                <!-- <a class="btn btn-danger btn-sm" href="#" onclick="uninstall('<%= one.appid %>')">
-                                  卸载
-                                </a> -->
-                                已安装
                               <% } %>
                           </td>
                         </tr>
@@ -122,7 +125,7 @@
         window.location.href = url;
     }
     
-    function install(appid, page)
+    function installApp(appid, page)
     {
       var url = "/api/v1/store/app_install?appid=" + appid;
       $.get(url,function(result){
@@ -130,10 +133,12 @@
               alert(result.msg);
           } else {
             alert(result.msg);
-            var url = "/html/v1/store/list?page=";
-            page = Number(page) > 1 ? Number(page) : 1;
-            url += page;
-            window.location.href = url;
+            setTimeout(function(page){
+              var url = "/html/v1/store/list?page=";
+              page = Number(page) > 1 ? Number(page) : 1;
+              url += page;
+              window.location.href = url;
+            }, 5000);
           }
       });
     }

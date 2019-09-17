@@ -46,9 +46,12 @@ async function run(app, argv) {
       '[script] [commands] [update-addons] [run] 需要配置docker-compose 环境'
     );
   }
-  const dockerRes = shell.exec('docker-compose up -d ' + appid, {
-    silent: false,
-  });
+  const dockerRes = shell.exec(
+    'docker-compose  -f ' + DOCKER_COMPOE_FILE + ' up -d ' + appid,
+    {
+      silent: false,
+    }
+  );
   app.logger.info(
     '[script] [commands] [update-addons] [run] dockerRes:',
     dockerRes

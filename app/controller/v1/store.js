@@ -1,7 +1,6 @@
 'use strict';
 
 const BaseController = require('../base');
-const updateAddons = require('../../../script/commands/update-addons');
 const _ = require('lodash');
 const utils = require('../../utils/utils');
 
@@ -38,11 +37,10 @@ class StoreController extends BaseController {
         for (let i = 0; i < tmpAppList.length; i++) {
           const one = tmpAppList[i];
           one.is_install = false;
-          // one.is_running = false;
-          // one.is_new_version = false;
 
           // 检查是否安装
           const installRes = await service.store.appIsInstall(one.appid);
+          // console.log('one.appid:%j, res:%j', one.appid, installRes);
           if (installRes) {
             one.is_install = true;
           }
@@ -123,10 +121,31 @@ class StoreController extends BaseController {
   async appInstall() {
     const self = this;
     const { app, ctx, service } = this;
-    const appid = 'redis';
+    const query = ctx.query;
+    const appid = query.appid;
+
+    if (!appid) {
+      self.sendFail({}, '参数错误', CODE.SYS_PARAMS_ERROR);
+      return;
+    }
+
+    // 仓库中是否用应用
     const params = {
-      appid: 'redis',
+      out_url: 'appInfo',
+      method: 'GET',
+      data: {
+        appid,
+      },
     };
+    const appInfoRes = await this.service.outapi.api(params);
+    // console.log(appInfoRes);
+    if (_.isEmpty(appInfoRes.data)) {
+      self.sendFail({}, '商店中没有该应用', CODE.SYS_PARAMS_ERROR);
+      return;
+    }
+
+    service.store.installApp(app, query);
+
     const data = {};
     self.sendSuccess(data, '正在安装中，请稍后刷新...');
   }
