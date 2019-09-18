@@ -206,16 +206,20 @@ class StoreService extends BaseService {
       code: 1000,
       msg: 'unknown error',
     };
-    const killRes = await this.service.store.killApp(appid);
-    if (!killRes) {
-      res.msg = '停止容器失败';
-      return res;
-    }
 
-    const delRes = await this.service.store.delApp(appid);
-    if (!delRes) {
-      res.msg = '删除容器失败';
-      return res;
+    const isRunning = await this.service.store.appIsRunning(appid);
+    if (isRunning) {
+      const killRes = await this.service.store.killApp(appid);
+      if (!killRes) {
+        res.msg = '停止容器失败';
+        return res;
+      }
+
+      const delRes = await this.service.store.delApp(appid);
+      if (!delRes) {
+        res.msg = '删除容器失败';
+        return res;
+      }
     }
 
     const delFileRes = await this.service.store.delAppFile(appid);
@@ -264,7 +268,7 @@ class StoreService extends BaseService {
     const dirpath = this.app.baseDir + '/docker/addons/' + appid;
     const isDir = fs.existsSync(dirpath);
     if (isDir) {
-      const delRes = shell.rm('-rf', isDir);
+      const delRes = shell.rm('-rf', dirpath);
       console.log('delRes:', delRes);
       if (delRes.code === 0) {
         return true;

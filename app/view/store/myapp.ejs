@@ -43,10 +43,11 @@
                     <thead> 
                     <tr role="row">
                         <th>应用名称</th>
-                        <th>介绍</th>
+                        <th>开始使用</th>
                         <th>版本</th>
                         <th>状态</th>
                         <th>操作</th>
+                        <th>危险</th>
                     </tr> 
                     </thead> 
                     <tbody> 
@@ -55,8 +56,18 @@
                         let one = app_list[i];
                         %>
                         <tr role="row" class="odd">
-                            <td><%= one.appid %></td>
-                            <td><%= one.introduction %></td>
+                            <td>
+                                <strong><%= one.appid %></strong>
+                            </td>
+                            <td>
+                              <% if (one.open_url) {%>
+                                <a href="<%= one.open_url %>" target="_blank">
+                                  使用
+                                </a>
+                              <% } else { %>
+                                后台服务
+                              <% } %>
+                            </td>
                             <td><%= one.version %></td>
                             <td>
                               <% if (one.is_running) {%>
@@ -67,11 +78,11 @@
                             </td>
                             <td>
                                 <% if (one.is_running) {%>
-                                  <a class="btn btn-primary btn-sm" href="#" onclick="stop('<%= one.appid %>', '<%= all_data.current_page %>')">
+                                  <a class="btn btn-danger btn-sm" href="#" onclick="stop('<%= one.appid %>')">
                                     停止
                                   </a>
                                 <% } else { %>
-                                  <a class="btn btn-danger btn-sm" href="#" onclick="start('<%= one.appid %>', '<%= all_data.current_page %>')">
+                                  <a class="btn btn-info btn-sm" href="#" onclick="start('<%= one.appid %>')">
                                     启动
                                   </a>
                                 <% } %>
@@ -81,6 +92,11 @@
                                     更新
                                   </a>
                                 <% } %>
+                            </td>
+                            <td>
+                              <a class="btn btn-danger btn-sm" href="#" onclick="uninstall('<%= one.appid %>')">
+                                卸载
+                              </a>
                             </td>
                           </tr>
                           <% } %>
@@ -129,7 +145,7 @@
           window.location.href = url;
       }
       
-      function start(appid, page)
+      function start(appid)
       {
         var url = "/api/v1/store/app_start?appid=" + appid;
         $.get(url,function(result){
@@ -137,15 +153,16 @@
                 alert(result.msg);
             } else {
               alert(result.msg);
-              var url = "/html/v1/store/myapp?page=";
-              page = Number(page) > 1 ? Number(page) : 1;
-              url += page;
-              window.location.href = url;
+              // var url = "/html/v1/store/myapp?page=";
+              // page = Number(page) > 1 ? Number(page) : 1;
+              // url += page;
+              // window.location.href = url;
+              window.location.reload();
             }
         });
       }
   
-      function stop(appid, page)
+      function stop(appid)
       {
         var url = "/api/v1/store/app_stop?appid=" + appid;
         $.get(url,function(result){
@@ -153,10 +170,24 @@
                 alert(result.msg);
             } else {
               alert(result.msg);
-              var url = "/html/v1/store/myapp?page=";
-              page = Number(page) > 1 ? Number(page) : 1;
-              url += page;
-              window.location.href = url;
+              window.location.reload();
+            }
+        });
+      }
+
+      function uninstall(appid)
+      {
+        if (!confirm("你确定卸载吗？")) {
+             return;
+        }
+
+        var url = "/api/v1/store/app_uninstall?appid=" + appid;
+        $.get(url,function(result){
+            if (result.code !== 0) {
+                alert(result.msg);
+            } else {
+              alert(result.msg);
+              window.location.reload();
             }
         });
       }

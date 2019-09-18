@@ -19,7 +19,13 @@ class TestController extends BaseController {
       env: app.config.env,
     };
 
-    console.log('root:%j', root);
+    // const delFileRes = await this.service.store.delAppFile('redis');
+    // if (!delFileRes) {
+    //   res.msg = '删除应用文件失败';
+    //   return res;
+    // }
+
+    // console.log('this.app.baseDir:%j', this.app.baseDir);
 
     // console.log('OS_PLATFORM ', OS_PLATFORM);
     // // const isWin = /^win/.test('win32');

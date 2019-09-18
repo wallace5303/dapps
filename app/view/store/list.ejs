@@ -66,12 +66,12 @@
                           </td>
                           <td>
                               <% if (one.show) { %>
-                                <a class="btn btn-info btn-sm" href="<%= one.show %>" target="_blank">
+                                <a class="btn btn-primary btn-sm" href="<%= one.show %>" target="_blank">
                                   演示
                                 </a>
                               <% } %>
                               <% if (!one.is_install) {%>
-                                <a class="btn btn-primary btn-sm" href="#" onclick="installApp('<%= one.appid %>', '<%= all_data.current_page %>')">
+                                <a class="btn btn-info btn-sm" href="#" onclick="installApp('<%= one.appid %>')">
                                   安装
                                 </a>
                               <% } %>
@@ -125,7 +125,7 @@
         window.location.href = url;
     }
     
-    function installApp(appid, page)
+    function installApp(appid)
     {
       var url = "/api/v1/store/app_install?appid=" + appid;
       $.get(url,function(result){
@@ -133,11 +133,12 @@
               alert(result.msg);
           } else {
             alert(result.msg);
-            setTimeout(function(page){
-              var url = "/html/v1/store/list?page=";
-              page = Number(page) > 1 ? Number(page) : 1;
-              url += page;
-              window.location.href = url;
+            setTimeout(function(){
+              // var url = "/html/v1/store/list?page=";
+              // page = Number(page) > 1 ? Number(page) : 1;
+              // url += page;
+              // window.location.href = url;
+              window.location.reload();
             }, 5000);
           }
       });

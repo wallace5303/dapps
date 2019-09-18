@@ -16,6 +16,7 @@ class StoreController extends BaseController {
     const query = ctx.query;
 
     const data = {
+      navigation: 'store',
       app_list: [],
       all_data: null,
     };
@@ -67,6 +68,7 @@ class StoreController extends BaseController {
     const page = Number(query.page) > 1 ? Number(query.page) : 1;
 
     const data = {
+      navigation: 'my_app',
       app_list: [],
       all_data: {
         total: 0,
@@ -143,6 +145,8 @@ class StoreController extends BaseController {
       self.sendFail({}, '商店中没有该应用', CODE.SYS_PARAMS_ERROR);
       return;
     }
+
+    // 本地是否安装了应用
 
     service.store.installApp(app, query);
 
