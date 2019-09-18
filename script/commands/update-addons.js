@@ -30,8 +30,7 @@ async function run(app, argv) {
 
   const appid = argv.appid;
   const downloadType = 'github';
-
-  const appPath = path.resolve(root, 'docker/addons/' + appid);
+  const appPath = root + '/docker/addons/' + appid;
   app.logger.info(
     '[script] [commands] [update-addons] [run] 开始下载平台文件压缩包...'
   );

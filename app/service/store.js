@@ -57,8 +57,7 @@ class StoreService extends BaseService {
    */
   async myAppList(page) {
     const appList = [];
-    const root = process.cwd();
-    const addonsDir = path.resolve(root, 'docker/addons');
+    const addonsDir = this.app.baseDir + '/docker/addons';
     const lsDir = utils.getDirs(addonsDir);
     const index = lsDir.indexOf('example');
     if (index > -1) {
@@ -108,8 +107,7 @@ class StoreService extends BaseService {
    */
   async myAppTotal() {
     let total = 0;
-    const root = process.cwd();
-    const addonsDir = path.resolve(root, 'docker/addons');
+    const addonsDir = this.app.baseDir + '/docker/addons';
     const lsDir = utils.getDirs(addonsDir);
     const index = lsDir.indexOf('example');
     if (index > -1) {
@@ -125,7 +123,7 @@ class StoreService extends BaseService {
    */
   async appIsInstall(appid) {
     const root = process.cwd();
-    const dirpath = path.resolve(root, 'docker/addons/' + appid);
+    const dirpath = this.app.baseDir + '/docker/addons/' + appid;
     const isDir = fs.existsSync(dirpath);
     if (isDir) {
       return true;
@@ -151,8 +149,7 @@ class StoreService extends BaseService {
    * 应用是否有更新
    */
   async appHasNewVersion(appid) {
-    const root = process.cwd();
-    const envFile = path.resolve(root, 'docker/addons/' + appid + '/.env');
+    const envFile = this.app.baseDir + '/docker/addons/' + appid + '/.env';
     if (fs.existsSync(envFile)) {
       const fileArr = await utils.readFileToArr(envFile);
       for (let i = 0; i < fileArr.length; i++) {
@@ -264,8 +261,7 @@ class StoreService extends BaseService {
    * 删除应用文件
    */
   async delAppFile(appid) {
-    const root = process.cwd();
-    const dirpath = path.resolve(root, 'docker/addons/' + appid);
+    const dirpath = this.app.baseDir + '/docker/addons/' + appid;
     const isDir = fs.existsSync(dirpath);
     if (isDir) {
       const delRes = shell.rm('-rf', isDir);
@@ -299,8 +295,7 @@ class StoreService extends BaseService {
       return res;
     }
 
-    const root = process.cwd();
-    const dirpath = path.resolve(root, 'docker/addons/' + appid);
+    const dirpath = this.app.baseDir + '/docker/addons/' + appid;
     shell.cd(dirpath);
     const startRes = shell.exec(
       'docker-compose -f ' + DOCKER_COMPOE_FILE + ' up -d ' + appid,
@@ -339,8 +334,7 @@ class StoreService extends BaseService {
       return res;
     }
 
-    const root = process.cwd();
-    const dirpath = path.resolve(root, 'docker/addons/' + appid);
+    const dirpath = this.app.baseDir + '/docker/addons/' + appid;
     shell.cd(dirpath);
     const stopRes = shell.exec(
       'docker-compose -f ' + DOCKER_COMPOE_FILE + ' stop ' + appid,
@@ -348,7 +342,7 @@ class StoreService extends BaseService {
         silent: false,
       }
     );
-    this.app.logger.info('[StoreService] [stopApp] start stopRes:', stopRes);
+    this.app.logger.info('[StoreService] [stopApp] stop stopRes:', stopRes);
 
     if (stopRes.code === 0) {
       res.msg = '停止成功';

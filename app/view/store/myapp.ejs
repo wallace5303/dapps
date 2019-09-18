@@ -67,11 +67,11 @@
                             </td>
                             <td>
                                 <% if (one.is_running) {%>
-                                  <a class="btn btn-primary btn-sm" href="#" onclick="stop('<%= one.appid %>', '<%= (all_data.current_page + 1) %>')">
+                                  <a class="btn btn-primary btn-sm" href="#" onclick="stop('<%= one.appid %>', '<%= all_data.current_page %>')">
                                     停止
                                   </a>
                                 <% } else { %>
-                                  <a class="btn btn-danger btn-sm" href="#" onclick="start('<%= one.appid %>', '<%= (all_data.current_page + 1) %>')">
+                                  <a class="btn btn-danger btn-sm" href="#" onclick="start('<%= one.appid %>', '<%= all_data.current_page %>')">
                                     启动
                                   </a>
                                 <% } %>
