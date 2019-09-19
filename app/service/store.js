@@ -8,6 +8,7 @@ const fs = require('fs');
 const path = require('path');
 const shell = require('shelljs');
 const updateAddons = require('../../script/commands/update-addons');
+const tools = require('../utils/tools');
 
 class StoreService extends BaseService {
   /*
@@ -122,7 +123,6 @@ class StoreService extends BaseService {
    * 应用是否安装
    */
   async appIsInstall(appid) {
-    const root = process.cwd();
     const dirpath = this.app.baseDir + '/docker/addons/' + appid;
     const isDir = fs.existsSync(dirpath);
     if (isDir) {
@@ -138,7 +138,11 @@ class StoreService extends BaseService {
     const runningInfo = shell.exec('docker top dapps_' + appid, {
       silent: true,
     });
-    // console.log(runningInfo);
+    this.app.logger.info(
+      '[StoreService] [appIsRunning] appid:, runningInfo:',
+      appid,
+      runningInfo
+    );
     if (runningInfo.code === 0) {
       return true;
     }
@@ -193,8 +197,45 @@ class StoreService extends BaseService {
   /*
    * 安装应用
    */
-  async installApp(app, query) {
-    updateAddons.run(app, query);
+  async installApp(query) {
+    // updateAddons.run(app, query);
+    const nodeVersion = shell.exec('node -v', { silent: true }).substr(1);
+
+    if (!utils.compareVersion('7.6', nodeVersion)) {
+      this.app.logger.error(
+        '[StoreService] [installApp] node 需要 7.6 或以上版本'
+      );
+      return false;
+    }
+
+    const appid = query.appid;
+    const downloadType = 'github';
+    const appPath = this.app.baseDir + '/docker/addons/' + appid;
+    this.app.logger.info(
+      '[StoreService] [installApp]  开始下载平台文件压缩包...'
+    );
+    await tools.wget(appPath, appid, downloadType);
+    this.app.logger.info('[StoreService] [installApp]  下载完成');
+
+    this.app.logger.info('[StoreService] [installApp] 开始docker安装...');
+    shell.cd(appPath);
+    if (!shell.which('docker-compose')) {
+      this.app.logger.info(
+        '[StoreService] [installApp] 需要配置docker-compose 环境'
+      );
+    }
+    const dockerRes = shell.exec(
+      'docker-compose  -f ' + DOCKER_COMPOE_FILE + ' up -d ' + appid,
+      {
+        silent: false,
+      }
+    );
+    this.app.logger.info('[StoreService] [installApp] dockerRes:', dockerRes);
+    this.app.logger.info(
+      '[StoreService] [installApp]  dockerRes.code:',
+      dockerRes.code
+    );
+
     return true;
   }
 
@@ -240,7 +281,11 @@ class StoreService extends BaseService {
     const killRes = shell.exec('docker kill dapps_' + appid, {
       silent: true,
     });
-    console.log('killRes:', killRes);
+    this.app.logger.info(
+      '[StoreService] [killApp] appid:, killRes:',
+      appid,
+      killRes
+    );
     if (killRes.code === 0) {
       return true;
     }
@@ -254,7 +299,11 @@ class StoreService extends BaseService {
     const delRes = shell.exec('docker rm dapps_' + appid, {
       silent: true,
     });
-    console.log('delRes:', delRes);
+    this.app.logger.info(
+      '[StoreService] [delApp] appid:, delRes:',
+      appid,
+      delRes
+    );
     if (delRes.code === 0) {
       return true;
     }
@@ -269,7 +318,11 @@ class StoreService extends BaseService {
     const isDir = fs.existsSync(dirpath);
     if (isDir) {
       const delRes = shell.rm('-rf', dirpath);
-      console.log('delRes:', delRes);
+      this.app.logger.info(
+        '[StoreService] [delAppFile] appid:, delRes:',
+        appid,
+        delRes
+      );
       if (delRes.code === 0) {
         return true;
       }

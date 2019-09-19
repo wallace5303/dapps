@@ -78,7 +78,7 @@ class StoreController extends BaseController {
     };
 
     const appList = await service.store.myAppList(page);
-    // console.log(appList);
+    console.log(appList);
 
     if (!_.isEmpty(appList)) {
       // 列表数据处理
@@ -148,7 +148,7 @@ class StoreController extends BaseController {
 
     // 本地是否安装了应用
 
-    service.store.installApp(app, query);
+    service.store.installApp(query);
 
     const data = {};
     self.sendSuccess(data, '正在安装中，请稍后刷新...');

@@ -19,6 +19,8 @@ class TestController extends BaseController {
       env: app.config.env,
     };
 
+    // const runRes = await service.store.appIsRunning('mongo');
+
     // const delFileRes = await this.service.store.delAppFile('redis');
     // if (!delFileRes) {
     //   res.msg = '删除应用文件失败';
