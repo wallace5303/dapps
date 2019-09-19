@@ -137,6 +137,7 @@ class StoreService extends BaseService {
   async appIsRunning(appid) {
     const runningInfo = shell.exec('docker top dapps_' + appid, {
       silent: true,
+      maxBuffer: 1024 * 1024,
     });
     this.app.logger.info(
       '[StoreService] [appIsRunning] appid:, runningInfo:',
