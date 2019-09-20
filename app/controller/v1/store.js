@@ -78,7 +78,7 @@ class StoreController extends BaseController {
     };
 
     const appList = await service.store.myAppList(page);
-    console.log(appList);
+    // console.log(appList);
 
     if (!_.isEmpty(appList)) {
       // 列表数据处理
@@ -185,7 +185,6 @@ class StoreController extends BaseController {
     const { app, ctx, service } = this;
     const query = ctx.query;
     const appid = query.appid;
-
     if (!appid) {
       self.sendFail({}, '参数错误', CODE.SYS_PARAMS_ERROR);
       return;
@@ -211,7 +210,6 @@ class StoreController extends BaseController {
     const { app, ctx, service } = this;
     const query = ctx.query;
     const appid = query.appid;
-
     if (!appid) {
       self.sendFail({}, '参数错误', CODE.SYS_PARAMS_ERROR);
       return;

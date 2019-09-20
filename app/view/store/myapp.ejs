@@ -76,7 +76,7 @@
                                 已停止
                               <% } %>
                             </td>
-                            <td>
+                            <td id="operation_<%= one.appid %>">
                                 <% if (one.is_running) {%>
                                   <a class="btn btn-danger btn-sm" href="#" onclick="stop('<%= one.appid %>')">
                                     停止
@@ -93,7 +93,7 @@
                                   </a>
                                 <% } %>
                             </td>
-                            <td>
+                            <td id="delete_<%= one.appid %>">
                               <a class="btn btn-danger btn-sm" href="#" onclick="uninstall('<%= one.appid %>')">
                                 卸载
                               </a>
@@ -147,30 +147,37 @@
       
       function start(appid)
       {
+        var starting_app_content = '正在启动......';
+        $("#operation_" + appid).html(starting_app_content);
         var url = "/api/v1/store/app_start?appid=" + appid;
         $.get(url,function(result){
             if (result.code !== 0) {
                 alert(result.msg);
+                var start_app_content = '<a class="btn btn-info btn-sm" href="#" onclick="start(\'' + appid + '\' )">启动</a>';
+                $("#operation_" + appid).html(start_app_content);
+            $("#operation_" + appid).html(start_app_content);
             } else {
-              alert(result.msg);
-              // var url = "/html/v1/store/myapp?page=";
-              // page = Number(page) > 1 ? Number(page) : 1;
-              // url += page;
-              // window.location.href = url;
-              window.location.reload();
+              var stop_app_content = '<a class="btn btn-danger btn-sm" href="#" onclick="stop(\'' + appid + '\')">停止</a>';
+                $("#operation_" + appid).html(stop_app_content);
+              //window.location.reload();
             }
         });
       }
   
       function stop(appid)
       {
+        var stoping_app_content = '正在停止......';
+        $("#operation_" + appid).html(stoping_app_content);
         var url = "/api/v1/store/app_stop?appid=" + appid;
         $.get(url,function(result){
             if (result.code !== 0) {
                 alert(result.msg);
+                var stop_app_content = '<a class="btn btn-danger btn-sm" href="#" onclick="stop(\'' + appid + '\')">停止</a>';
+                $("#operation_" + appid).html(stop_app_content);
             } else {
-              alert(result.msg);
-              window.location.reload();
+              var start_app_content = '<a class="btn btn-info btn-sm" href="#" onclick="start(\'' + appid + '\')">启动</a>';
+              $("#operation_" + appid).html(start_app_content);
+              //window.location.reload();
             }
         });
       }

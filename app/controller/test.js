@@ -19,6 +19,11 @@ class TestController extends BaseController {
       env: app.config.env,
     };
 
+    // const dirpath = this.app.baseDir + '/docker/addons/redis';
+
+    // const delRes = utils.delDir(dirpath);
+    // console.log('delRes:%j', delRes);
+
     // const runRes = await service.store.appIsRunning('mongo');
 
     // const delFileRes = await this.service.store.delAppFile('redis');

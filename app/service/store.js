@@ -318,15 +318,8 @@ class StoreService extends BaseService {
     const dirpath = this.app.baseDir + '/docker/addons/' + appid;
     const isDir = fs.existsSync(dirpath);
     if (isDir) {
-      const delRes = shell.rm('-rf', dirpath);
-      this.app.logger.info(
-        '[StoreService] [delAppFile] appid:, delRes:',
-        appid,
-        delRes
-      );
-      if (delRes.code === 0) {
-        return true;
-      }
+      utils.delDir(dirpath);
+      return true;
     }
 
     return false;
