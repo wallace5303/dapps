@@ -18,7 +18,15 @@ class TestController extends BaseController {
     const data = {
       env: app.config.env,
     };
+    // const dirpath = this.app.baseDir + '/docker/addons/redis';
+    // const file = dirpath + '/installing.lock';
 
+    // service.store.appIsInstalling('rediss');
+
+    // // fs.writeFileSync(file);
+    // fs.chmodSync(utils.chmodPath, '777');
+
+    // utils.chmodPath(dirpath, '777');
     // const dirpath = this.app.baseDir + '/docker/addons/redis';
 
     // const delRes = utils.delDir(dirpath);

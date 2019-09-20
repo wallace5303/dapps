@@ -132,12 +132,32 @@ class StoreService extends BaseService {
   }
 
   /*
+   * 应用是否正在安装中
+   */
+  async appIsInstalling(appid) {
+    const installingFile =
+      this.app.baseDir + '/docker/addons/' + appid + '/installing.lock';
+
+    const installingInfo = shell.exec('docker inspect dapps_' + appid, {
+      silent: true,
+    });
+    this.app.logger.info(
+      '[StoreService] [appIsInstalling] appid:, installingInfo:',
+      appid,
+      installingInfo.code
+    );
+    if (fs.existsSync(installingFile) && installingInfo.code !== 0) {
+      return true;
+    }
+    return false;
+  }
+
+  /*
    * 应用是否启动
    */
   async appIsRunning(appid) {
     const runningInfo = shell.exec('docker top dapps_' + appid, {
       silent: true,
-      maxBuffer: 1024 * 1024,
     });
     this.app.logger.info(
       '[StoreService] [appIsRunning] appid:, runningInfo:',
@@ -218,6 +238,11 @@ class StoreService extends BaseService {
     await tools.wget(appPath, appid, downloadType);
     this.app.logger.info('[StoreService] [installApp]  下载完成');
 
+    // 创建一个临时文件
+    const file = appPath + '/installing.lock';
+    fs.writeFileSync(file);
+    utils.chmodPath(appPath, '777');
+
     this.app.logger.info('[StoreService] [installApp] 开始docker安装...');
     shell.cd(appPath);
     if (!shell.which('docker-compose')) {
@@ -236,6 +261,9 @@ class StoreService extends BaseService {
       '[StoreService] [installApp]  dockerRes.code:',
       dockerRes.code
     );
+
+    // 删除临时文件
+    fs.unlinkSync(file);
 
     return true;
   }
@@ -264,11 +292,11 @@ class StoreService extends BaseService {
       }
     }
 
-    const delFileRes = await this.service.store.delAppFile(appid);
-    if (!delFileRes) {
-      res.msg = '删除应用文件失败';
-      return res;
-    }
+    // const delFileRes = await this.service.store.delAppFile(appid);
+    // if (!delFileRes) {
+    //   res.msg = '删除应用文件失败';
+    //   return res;
+    // }
 
     res.code = CODE.SUCCESS;
     res.msg = '删除成功';

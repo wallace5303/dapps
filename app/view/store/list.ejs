@@ -31,19 +31,19 @@
             </div>
             <% if (app_list.length == 0) {%>
               <span style="margin: auto">没有数据了！</span>
-            <% } else { %>  
+            <% } else { %>
             <!-- /.card-header -->
             <div class="card-body table-responsive p-0">           
                 <table id="example2" class="table table-bordered table-hover dataTable" role="grid" aria-describedby="example2_info"> 
                   <thead> 
                   <tr role="row">
-                      <th>应用名称</th>
-                      <th>介绍</th>
-                      <th>作者</th>
-                      <th>下载</th>
-                      <th>版本</th>
-                      <th>是否安装</th>
-                      <th>操作</th>
+                      <th width="15%">应用名称</th>
+                      <th width="40%">介绍</th>
+                      <th width="10%">作者</th>
+                      <th width="5%">下载</th>
+                      <th width="5%">版本</th>
+                      <th width="10%">是否安装</th>
+                      <th width="15%">操作</th>
                   </tr> 
                   </thead> 
                   <tbody> 
@@ -57,8 +57,10 @@
                           <td><%= one.author %></td>
                           <td><%= one.download %></td>
                           <td><%= one.version %></td>
-                          <td>
-                            <% if (one.is_install) { %>
+                          <td id="install_status_<%= one.appid %>" >
+                            <% if (one.is_installing) { %>
+                              正在安装...
+                            <% } else if (one.is_install) { %>
                               已安装
                             <% } else { %>
                               未安装
@@ -71,7 +73,7 @@
                                 </a>
                               <% } %>
                               <% if (!one.is_install) {%>
-                                <a class="btn btn-info btn-sm" href="#" onclick="installApp('<%= one.appid %>')">
+                                <a id="install_<%= one.appid %>" class="btn btn-info btn-sm" href="#" onclick="installApp('<%= one.appid %>')">
                                   安装
                                 </a>
                               <% } %>
@@ -114,7 +116,21 @@
   <!-- /.content -->
 </div>
 
+<!-- 是否有正在安装的APP -->
+<p id='is_installing_app' data='<%= now_installing %>'></p>
+
 <script>
+    $(document).ready(function(){
+      
+      // 如果有正在安装的APP，则定时刷新
+      var inData = $("#is_installing_app").attr('data');
+      if (inData === 'yes') {
+        setInterval(function(){
+          window.location.reload();
+        }, 5000);
+      }
+    })
+
     function change_page(page)
     {
         var url = "/html/v1/store/list?page=";
@@ -127,17 +143,16 @@
     
     function installApp(appid)
     {
+      var install_status__app_content = '正在安装...';
+      $("#install_status_" + appid).html(install_status__app_content);
       var url = "/api/v1/store/app_install?appid=" + appid;
       $.get(url,function(result){
           if (result.code !== 0) {
               alert(result.msg);
+              window.location.reload();
           } else {
-            alert(result.msg);
+            $("#install_" + appid).remove();
             setTimeout(function(){
-              // var url = "/html/v1/store/list?page=";
-              // page = Number(page) > 1 ? Number(page) : 1;
-              // url += page;
-              // window.location.href = url;
               window.location.reload();
             }, 5000);
           }

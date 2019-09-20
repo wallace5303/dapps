@@ -19,15 +19,15 @@ class StoreController extends BaseController {
       navigation: 'store',
       app_list: [],
       all_data: null,
+      now_installing: 'no',
     };
 
-    console.log('query:%j', query);
     const params = {
       out_url: 'appList',
       method: 'GET',
       data: query,
     };
-    console.log('params:%j', params);
+    // console.log('params:%j', params);
     const appRes = await service.outapi.api(params);
 
     if (appRes.code === CODE.SUCCESS) {
@@ -38,6 +38,13 @@ class StoreController extends BaseController {
         for (let i = 0; i < tmpAppList.length; i++) {
           const one = tmpAppList[i];
           one.is_install = false;
+
+          // 应用是否正在安装
+          // one.is_installing = true;
+          one.is_installing = await service.store.appIsInstalling(one.appid);
+          if (one.is_installing) {
+            data.now_installing = 'yes';
+          }
 
           // 检查是否安装
           const installRes = await service.store.appIsInstall(one.appid);

@@ -247,6 +247,22 @@ exports.delDir = function(path) {
   }
 };
 
+exports.chmodPath = function(path, mode) {
+  let files = [];
+  if (fs.existsSync(path)) {
+    files = fs.readdirSync(path);
+    files.forEach((file, index) => {
+      const curPath = path + '/' + file;
+      if (fs.statSync(curPath).isDirectory()) {
+        this.chmodPath(curPath, mode); // 递归删除文件夹
+      } else {
+        fs.chmodSync(curPath, mode);
+      }
+    });
+    fs.chmodSync(path, mode);
+  }
+};
+
 /**
  * 判断是否是同一天
  * @param d1

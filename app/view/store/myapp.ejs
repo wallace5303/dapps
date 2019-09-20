@@ -42,12 +42,11 @@
                   <table id="example2" class="table table-bordered table-hover dataTable" role="grid" aria-describedby="example2_info"> 
                     <thead> 
                     <tr role="row">
-                        <th>应用名称</th>
-                        <th>开始使用</th>
-                        <th>版本</th>
-                        <th>状态</th>
-                        <th>操作</th>
-                        <th>危险</th>
+                        <th width="15%" >应用名称</th>
+                        <th width="50%" >开始使用</th>
+                        <th width="15%" >状态</th>
+                        <th width="10%" >操作</th>
+                        <th width="10%" >危险</th>
                     </tr> 
                     </thead> 
                     <tbody> 
@@ -68,7 +67,6 @@
                                 后台服务
                               <% } %>
                             </td>
-                            <td><%= one.version %></td>
                             <td>
                               <% if (one.is_running) {%>
                                 正在运行
@@ -147,7 +145,7 @@
       
       function start(appid)
       {
-        var starting_app_content = '正在启动......';
+        var starting_app_content = '正在启动...';
         $("#operation_" + appid).html(starting_app_content);
         var url = "/api/v1/store/app_start?appid=" + appid;
         $.get(url,function(result){
@@ -166,7 +164,7 @@
   
       function stop(appid)
       {
-        var stoping_app_content = '正在停止......';
+        var stoping_app_content = '正在停止...';
         $("#operation_" + appid).html(stoping_app_content);
         var url = "/api/v1/store/app_stop?appid=" + appid;
         $.get(url,function(result){
@@ -188,12 +186,14 @@
              return;
         }
 
+        var uninstalling_app_content = '正在卸载...';
+        $("#delete_" + appid).html(uninstalling_app_content);
+
         var url = "/api/v1/store/app_uninstall?appid=" + appid;
         $.get(url,function(result){
             if (result.code !== 0) {
                 alert(result.msg);
             } else {
-              alert(result.msg);
               window.location.reload();
             }
         });
