@@ -24,7 +24,7 @@
             <div class="card">
               <div class="card-header">
                 <h3 class="card-title">列表</h3>
-                <div class="card-tools">
+                <!-- <div class="card-tools">
                   <div class="input-group input-group-sm" style="width: 150px;">
                     <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
   
@@ -32,7 +32,7 @@
                       <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
                     </div>
                   </div>
-                </div>
+                </div> -->
               </div>
               <% if (app_list.length == 0) {%>
                 <span style="margin: auto">没有数据了！</span>
@@ -67,7 +67,7 @@
                                 后台服务
                               <% } %>
                             </td>
-                            <td>
+                            <td id="is_running_<%= one.appid %>">
                               <% if (one.is_running) {%>
                                 正在运行
                               <% } else { %>
@@ -156,7 +156,10 @@
             $("#operation_" + appid).html(start_app_content);
             } else {
               var stop_app_content = '<a class="btn btn-danger btn-sm" href="#" onclick="stop(\'' + appid + '\')">停止</a>';
-                $("#operation_" + appid).html(stop_app_content);
+              $("#operation_" + appid).html(stop_app_content);
+
+              var is_running__app_content = '正在运行';
+              $("#is_running_" + appid).html(is_running__app_content);
               //window.location.reload();
             }
         });
@@ -175,6 +178,9 @@
             } else {
               var start_app_content = '<a class="btn btn-info btn-sm" href="#" onclick="start(\'' + appid + '\')">启动</a>';
               $("#operation_" + appid).html(start_app_content);
+              var is_running__app_content = '已停止';
+              $("#is_running_" + appid).html(is_running__app_content);
+
               //window.location.reload();
             }
         });

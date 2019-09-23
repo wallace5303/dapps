@@ -7,6 +7,9 @@ const moment = require('moment');
 const shell = require('shelljs');
 const fs = require('fs');
 const path = require('path');
+const Keyv = require('keyv');
+const low = require('lowdb');
+const FileSync = require('lowdb/adapters/FileSync');
 
 class TestController extends BaseController {
   async index() {
@@ -18,6 +21,67 @@ class TestController extends BaseController {
     const data = {
       env: app.config.env,
     };
+
+    const val1 = await service.lowdb.getMyappByAppid('test3');
+    console.log(val1);
+
+    // const val1 = await service.lowdb.getMyappList(0);
+    // console.log(val1);
+
+    // const val = await service.lowdb.createMyapp('test3');
+    // console.log(val);
+    // const list = await service.lowdb.getMyapp();
+    // const newList = _.map(list, 'appid');
+    // console.log(newList);
+
+    // const num = await service.lowdb.getMyappNum();
+    // console.log(num);
+
+    // const val = await service.store.appContainerExist('mongo');
+    // console.log(val);
+
+    // service.lowdb.setMyInstallingApp('redis');
+
+    // const val = await service.lowdb.getMyInstallingApp('redis');
+    // console.log(val);
+    // if (val) {
+    //   console.log(111);
+    // } else {
+    //   console.log(222);
+    // }
+
+    // const file = this.app.baseDir + '/storage/db.json';
+    // const adapter = new FileSync(file);
+    // const db = low(adapter);
+
+    // const value = db
+    //   .get('posts')
+    //   .find({ id: 1 })
+    //   .value();
+    // console.log(value);
+    // db.defaults({ posts: [], user: {} }).write();
+
+    // // Add a post
+    // db.get('posts')
+    //   .push({ id: 1, title: 'lowdb is awesome' })
+    //   .write();
+
+    // // Set a user using Lodash shorthand syntax
+    // db.set('user.name', 'typicode').write();
+
+    // const keyv = new Keyv();
+    // keyv.on('error', err => console.log('Connection Error', err));
+
+    // await keyv.set('foo', 'expires in 1 second', 30000); // true
+    // const value = await keyv.get('foo');
+    // console.log(value);
+
+    // await keyv.set('foo', 'expires in 1 second', 10000); // true
+    // await keyv.set('foo', 'never expires'); // true
+    // await keyv.get('foo'); // 'never expires'
+    // await keyv.delete('foo'); // true
+    // await keyv.clear(); // undefined
+
     // const dirpath = this.app.baseDir + '/docker/addons/redis';
     // const file = dirpath + '/installing.lock';
 

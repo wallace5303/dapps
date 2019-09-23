@@ -56,10 +56,14 @@ class StoreService extends BaseService {
   /*
    * 我的应用
    */
-  async myAppList(page) {
+  async myAppList(page = 1) {
     const appList = [];
     const addonsDir = this.app.baseDir + '/docker/addons';
-    const lsDir = utils.getDirs(addonsDir);
+    // const lsDir = utils.getDirs(addonsDir);
+
+    // 获取我的APP列表
+    const lsDir = await this.service.lowdb.getMyappList(page);
+
     const index = lsDir.indexOf('example');
     if (index > -1) {
       lsDir.splice(index, 1);
@@ -120,6 +124,22 @@ class StoreService extends BaseService {
   }
 
   /*
+   * 我的应用总数 local
+   */
+  async myAppTotalLocal() {
+    let total = 0;
+    const addonsDir = this.app.baseDir + '/docker/addons';
+    const lsDir = utils.getDirs(addonsDir);
+    const index = lsDir.indexOf('example');
+    if (index > -1) {
+      lsDir.splice(index, 1);
+    }
+    total = lsDir.length;
+
+    return total;
+  }
+
+  /*
    * 应用是否安装
    */
   async appIsInstall(appid) {
@@ -132,21 +152,22 @@ class StoreService extends BaseService {
   }
 
   /*
+   * 应用是否安装 my app
+   */
+  async appIsInstallForMyapp(appid) {
+    const val = await this.service.lowdb.getMyappByAppid(appid);
+    if (val) {
+      return true;
+    }
+    return false;
+  }
+
+  /*
    * 应用是否正在安装中
    */
   async appIsInstalling(appid) {
-    const installingFile =
-      this.app.baseDir + '/docker/addons/' + appid + '/installing.lock';
-
-    const installingInfo = shell.exec('docker inspect dapps_' + appid, {
-      silent: true,
-    });
-    this.app.logger.info(
-      '[StoreService] [appIsInstalling] appid:, installingInfo:',
-      appid,
-      installingInfo.code
-    );
-    if (fs.existsSync(installingFile) && installingInfo.code !== 0) {
+    const val = await this.service.lowdb.getMyInstallingApp(appid);
+    if (val) {
       return true;
     }
     return false;
@@ -165,6 +186,19 @@ class StoreService extends BaseService {
       runningInfo
     );
     if (runningInfo.code === 0) {
+      return true;
+    }
+    return false;
+  }
+
+  /*
+   * 容器是否存在
+   */
+  async appContainerExist(appid) {
+    const containerInfo = shell.exec('docker inspect dapps_' + appid, {
+      silent: true,
+    });
+    if (containerInfo.code === 0) {
       return true;
     }
     return false;
@@ -230,6 +264,10 @@ class StoreService extends BaseService {
     }
 
     const appid = query.appid;
+
+    // 写入正在安装的临时数据
+    await this.service.lowdb.setMyInstallingApp(appid);
+
     const downloadType = 'github';
     const appPath = this.app.baseDir + '/docker/addons/' + appid;
     this.app.logger.info(
@@ -239,9 +277,9 @@ class StoreService extends BaseService {
     this.app.logger.info('[StoreService] [installApp]  下载完成');
 
     // 创建一个临时文件
-    const file = appPath + '/installing.lock';
-    fs.writeFileSync(file);
-    utils.chmodPath(appPath, '777');
+    // const file = appPath + '/installing.lock';
+    // fs.writeFileSync(file);
+    // utils.chmodPath(appPath, '777');
 
     this.app.logger.info('[StoreService] [installApp] 开始docker安装...');
     shell.cd(appPath);
@@ -263,7 +301,10 @@ class StoreService extends BaseService {
     );
 
     // 删除临时文件
-    fs.unlinkSync(file);
+    await this.service.lowdb.delMyInstallingApp(appid);
+
+    // my app
+    await this.service.lowdb.createMyapp(appid);
 
     return true;
   }
@@ -284,7 +325,10 @@ class StoreService extends BaseService {
         res.msg = '停止容器失败';
         return res;
       }
+    }
 
+    const containerIsExist = await this.service.store.appContainerExist(appid);
+    if (containerIsExist) {
       const delRes = await this.service.store.delApp(appid);
       if (!delRes) {
         res.msg = '删除容器失败';

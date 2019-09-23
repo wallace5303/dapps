@@ -47,7 +47,9 @@ class StoreController extends BaseController {
           }
 
           // 检查是否安装
-          const installRes = await service.store.appIsInstall(one.appid);
+          const installRes = await service.store.appIsInstallForMyapp(
+            one.appid
+          );
           // console.log('one.appid:%j, res:%j', one.appid, installRes);
           if (installRes) {
             one.is_install = true;
@@ -116,7 +118,7 @@ class StoreController extends BaseController {
     }
 
     // 总数目
-    const total = await service.store.myAppTotal();
+    const total = await service.lowdb.getMyappNum();
     data.all_data.total = total;
 
     await ctx.render('store/myapp.ejs', data);
@@ -146,7 +148,7 @@ class StoreController extends BaseController {
         appid,
       },
     };
-    const appInfoRes = await this.service.outapi.api(params);
+    const appInfoRes = await service.outapi.api(params);
     // console.log(appInfoRes);
     if (_.isEmpty(appInfoRes.data)) {
       self.sendFail({}, '商店中没有该应用', CODE.SYS_PARAMS_ERROR);
@@ -156,6 +158,16 @@ class StoreController extends BaseController {
     // 本地是否安装了应用
 
     service.store.installApp(query);
+
+    // 增加下载次数
+    const dparams = {
+      out_url: 'incrDownload',
+      method: 'POST',
+      data: {
+        appid,
+      },
+    };
+    service.outapi.api(dparams);
 
     const data = {};
     self.sendSuccess(data, '正在安装中，请稍后刷新...');

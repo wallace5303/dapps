@@ -4,6 +4,9 @@
  */
 'use strict';
 global.CODE = require('./app/const/statusCode');
+const low = require('lowdb');
+const FileSync = require('lowdb/adapters/FileSync');
+const utils = require('./app/utils/utils');
 
 class AppBootHook {
   constructor(app) {
@@ -40,6 +43,18 @@ class AppBootHook {
   async didReady() {
     // Worker is ready, can do some things
     // don't need to block the app boot.
+
+    // 数据库
+    const file = this.app.baseDir + '/storage/db.json';
+    // utils.chmodPath(file);
+    const adapter = new FileSync(file);
+    const db = low(adapter);
+    if (!db.has('kv').value()) {
+      db.set('kv', {}).write();
+    }
+    if (!db.has('my_app').value()) {
+      db.set('my_app', []).write();
+    }
   }
 
   async serverDidReady() {
