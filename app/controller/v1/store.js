@@ -111,6 +111,10 @@ class StoreController extends BaseController {
           if (newVersionRes) {
             one.is_new_version = true;
           }
+
+          // 配置文件地址
+          one.config_dir_url =
+            app.baseDir + '/docker/addons/' + one.appid + '/config';
         }
       }
       // console.log(appList);

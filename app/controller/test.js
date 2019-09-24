@@ -22,8 +22,15 @@ class TestController extends BaseController {
       env: app.config.env,
     };
 
-    const val1 = await service.lowdb.getMyappByAppid('test3');
-    console.log(val1);
+    // const val1 = await service.lowdb.getMyappByAppid('test3');
+    // console.log(val1);
+
+    // const val = await service.lowdb.removeMyapp('mongo');
+    // if (val.length > 0) {
+    //   console.log('ok');
+    // } else {
+    //   console.log('fal');
+    // }
 
     // const val1 = await service.lowdb.getMyappList(0);
     // console.log(val1);

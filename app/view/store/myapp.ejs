@@ -35,7 +35,7 @@
                 </div> -->
               </div>
               <% if (app_list.length == 0) {%>
-                <span style="margin: auto">没有数据了！</span>
+                <span style="margin: auto">无</span>
               <% } else { %>  
               <!-- /.card-header -->
               <div class="card-body table-responsive p-0">           
@@ -43,7 +43,8 @@
                     <thead> 
                     <tr role="row">
                         <th width="15%" >应用名称</th>
-                        <th width="50%" >开始使用</th>
+                        <th width="40%" >开始使用</th>
+                        <th width="10%" >配置</th>
                         <th width="15%" >状态</th>
                         <th width="10%" >操作</th>
                         <th width="10%" >危险</th>
@@ -66,6 +67,11 @@
                               <% } else { %>
                                 后台服务
                               <% } %>
+                            </td>
+                            <td id="app_config_<%= one.appid %>" data="<%= one.config_dir_url %>">
+                              <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-lg" onclick="appConfig('<%= one.appid %>')">
+                                查看
+                              </button>
                             </td>
                             <td id="is_running_<%= one.appid %>">
                               <% if (one.is_running) {%>
@@ -109,6 +115,7 @@
           </div>
           <!-- /.col -->
         </div>
+        
         <!-- /.row -->
         <div class="row">
           <div class="col-sm-12 col-md-4">
@@ -126,7 +133,26 @@
             </div>
           </div>
         </div>
-  
+
+        <div class="modal fade" id="modal-lg">
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title">配置信息</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body" id="modal_app_config_alert">
+                <p>One fine body&hellip;</p>
+              </div>
+            </div>
+            <!-- /.modal-content -->
+          </div>
+          <!-- /.modal-dialog -->
+        </div>
+        <!-- /.modal -->
+
       </div>
     </section>
     <!-- /.content -->
@@ -204,6 +230,14 @@
             }
         });
       }
+
+      function appConfig(appid)
+      {
+        const configDirUrl = $("#app_config_" + appid).attr('data');
+        var app_config_content = '<p>配置文件路径：' + configDirUrl + '</p>';
+        $("#modal_app_config_alert").html(app_config_content);
+      }
+
   </script>
   
 <%- include('bottom'); %>

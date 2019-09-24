@@ -342,6 +342,12 @@ class StoreService extends BaseService {
     //   return res;
     // }
 
+    const removeRes = await this.service.lowdb.removeMyapp(appid);
+    if (removeRes.length == 0) {
+      res.msg = '删除失败';
+      return res;
+    }
+
     res.code = CODE.SUCCESS;
     res.msg = '删除成功';
     return res;

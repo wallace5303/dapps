@@ -76,6 +76,18 @@ class LowdbService extends BaseService {
   }
 
   /*
+   * 移除my app
+   */
+  async removeMyapp(appid) {
+    const res = this.fileSyncInstance()
+      .get('my_app')
+      .remove({ appid })
+      .write();
+
+    return res;
+  }
+
+  /*
    * 获取my app
    */
   async getMyapp() {
