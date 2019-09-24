@@ -7,8 +7,6 @@ const utils = require('../../utils/utils');
 class StoreController extends BaseController {
   /*
    * html - 应用列表
-   * @params: string uid
-   * @return: object { token }
    */
   async index() {
     const self = this;
@@ -67,8 +65,6 @@ class StoreController extends BaseController {
 
   /*
    * html - 我的应用
-   * @params: string uid
-   * @return: object { token }
    */
   async myApp() {
     const self = this;
@@ -129,9 +125,19 @@ class StoreController extends BaseController {
   }
 
   /*
+   * html - 讨论
+   */
+  async chat() {
+    const { app, ctx, service } = this;
+
+    const data = {
+      navigation: 'chat',
+    };
+    await ctx.render('store/chat.ejs', data);
+  }
+
+  /*
    * api - APP安装
-   * @params: string uid
-   * @return: object { token }
    */
   async appInstall() {
     const self = this;
@@ -179,8 +185,6 @@ class StoreController extends BaseController {
 
   /*
    * api - APP卸载
-   * @params: string uid
-   * @return: object { token }
    */
   async appUninstall() {
     const self = this;
@@ -200,8 +204,6 @@ class StoreController extends BaseController {
 
   /*
    * api - APP启动
-   * @params: string uid
-   * @return: object { token }
    */
   async appStart() {
     const self = this;
@@ -225,8 +227,6 @@ class StoreController extends BaseController {
 
   /*
    * api - APP停止
-   * @params: string uid
-   * @return: object { token }
    */
   async appStop() {
     const self = this;

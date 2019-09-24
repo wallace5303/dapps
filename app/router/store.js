@@ -11,6 +11,7 @@ module.exports = app => {
   // 商店列表
   router.get('/html/v1/store/list', controller.v1.store.index);
   router.get('/html/v1/store/myapp', controller.v1.store.myApp);
+  router.get('/html/v1/store/chat', controller.v1.store.chat);
 
   // api
   // 应用安装
