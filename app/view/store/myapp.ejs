@@ -43,11 +43,11 @@
                     <thead> 
                       <tr>
                           <th width="15%" >应用名称</th>
-                          <th width="32%" >开始使用</th>
+                          <th width="27%" >开始使用</th>
                           <th width="8%" >文档</th>
                           <th width="10%" >配置</th>
                           <th width="15%" >状态</th>
-                          <th width="10%" >操作</th>
+                          <th width="15%" >操作</th>
                           <th width="10%" >危险</th>
                       </tr> 
                     </thead> 
@@ -86,22 +86,22 @@
                                 已停止
                               <% } %>
                             </td>
-                            <td id="operation_<%= one.appid %>">
+                            <td>
                                 <% if (one.is_running) {%>
-                                  <a class="btn btn-danger btn-sm" href="#" onclick="stop('<%= one.appid %>')">
+                                  <a id="operation_<%= one.appid %>" class="btn btn-danger btn-sm" href="#" onclick="stop('<%= one.appid %>')">
                                     停止
                                   </a>
                                 <% } else { %>
-                                  <a class="btn btn-info btn-sm" href="#" onclick="start('<%= one.appid %>')">
+                                  <a id="operation_<%= one.appid %>" class="btn btn-info btn-sm" href="#" onclick="start('<%= one.appid %>')">
                                     启动
                                   </a>
                                 <% } %>
                                 <!-- 是否需要更新 -->  
-                                <% if (one.is_new_version) {%>
+                                
                                   <a class="btn btn-primary btn-sm" href="#" onclick="update('<%= one.appid %>')">
                                     更新
                                   </a>
-                                <% } %>
+                                
                             </td>
                             <td id="delete_<%= one.appid %>">
                               <a class="btn btn-danger btn-sm" href="#" onclick="uninstall('<%= one.appid %>')">
@@ -179,16 +179,16 @@
       {
         var starting_app_content = '正在启动...';
         $("#operation_" + appid).html(starting_app_content);
+        $("#operation_" + appid).attr("onclick", "");
         var url = "/api/v1/store/app_start?appid=" + appid;
         $.get(url,function(result){
             if (result.code !== 0) {
                 alert(result.msg);
-                var start_app_content = '<a class="btn btn-info btn-sm" href="#" onclick="start(\'' + appid + '\' )">启动</a>';
-                $("#operation_" + appid).html(start_app_content);
-            $("#operation_" + appid).html(start_app_content);
+                window.location.reload();
             } else {
-              var stop_app_content = '<a class="btn btn-danger btn-sm" href="#" onclick="stop(\'' + appid + '\')">停止</a>';
-              $("#operation_" + appid).html(stop_app_content);
+              $("#operation_" + appid).attr("class", "btn btn-danger btn-sm");
+              $("#operation_" + appid).attr("onclick", "stop( '" + appid + "' )");
+              $("#operation_" + appid).text("停止");
 
               var is_running__app_content = '正在运行';
               $("#is_running_" + appid).html(is_running__app_content);
@@ -201,18 +201,19 @@
       {
         var stoping_app_content = '正在停止...';
         $("#operation_" + appid).html(stoping_app_content);
+        $("#operation_" + appid).attr("onclick", "");
         var url = "/api/v1/store/app_stop?appid=" + appid;
         $.get(url,function(result){
             if (result.code !== 0) {
                 alert(result.msg);
-                var stop_app_content = '<a class="btn btn-danger btn-sm" href="#" onclick="stop(\'' + appid + '\')">停止</a>';
-                $("#operation_" + appid).html(stop_app_content);
+                window.location.reload();
             } else {
-              var start_app_content = '<a class="btn btn-info btn-sm" href="#" onclick="start(\'' + appid + '\')">启动</a>';
-              $("#operation_" + appid).html(start_app_content);
+              $("#operation_" + appid).attr("class", "btn btn-info btn-sm");
+              $("#operation_" + appid).attr("onclick", "start('" + appid + "')");
+              $("#operation_" + appid).text("启动");
+
               var is_running__app_content = '已停止';
               $("#is_running_" + appid).html(is_running__app_content);
-
               //window.location.reload();
             }
         });
