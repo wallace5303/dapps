@@ -3,6 +3,7 @@
 const BaseController = require('../base');
 const _ = require('lodash');
 const utils = require('../../utils/utils');
+const commonConfig = require('../../config/commonConfig');
 
 class StoreController extends BaseController {
   /*
@@ -35,8 +36,6 @@ class StoreController extends BaseController {
       if (!_.isEmpty(tmpAppList)) {
         for (let i = 0; i < tmpAppList.length; i++) {
           const one = tmpAppList[i];
-          one.is_install = false;
-
           // 应用是否正在安装
           // one.is_installing = true;
           one.is_installing = await service.store.appIsInstalling(one.appid);
@@ -45,6 +44,7 @@ class StoreController extends BaseController {
           }
 
           // 检查是否安装
+          one.show = null;
           const installRes = await service.store.appIsInstallForMyapp(
             one.appid
           );
@@ -52,6 +52,9 @@ class StoreController extends BaseController {
           if (installRes) {
             one.is_install = true;
           }
+
+          // 文档地址
+          one.show = commonConfig.docPath.github + one.appid;
         }
       }
 
@@ -111,6 +114,9 @@ class StoreController extends BaseController {
           // 配置文件地址
           one.config_dir_url =
             app.baseDir + '/docker/addons/' + one.appid + '/config';
+
+          // 文档地址
+          one.show = commonConfig.docPath.github + one.appid;
         }
       }
       // console.log(appList);

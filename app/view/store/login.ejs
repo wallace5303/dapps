@@ -58,6 +58,7 @@
                 } else {
                     localStorage.setItem('token', result.data.token);   
                     localStorage.setItem('uid', result.data.user_info.uid);
+                    localStorage.setItem('user_info', JSON.stringify(result.data.user_info));
                     var url = "/html/v1/store/list";
                     window.location.href= url;
                 }

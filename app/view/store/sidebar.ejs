@@ -115,28 +115,15 @@
 
   <script>
     $(document).ready(function(){
-      var token=localStorage.getItem("token");
-      var uid=localStorage.getItem("uid");
-      if (!token || !uid) {
-        return;
+
+      // 用户信息
+      var userInfo=localStorage.getItem("user_info");
+      if (userInfo) {
+        var userInfo = JSON.parse(userInfo);
+        $("#user_avatar").attr("src","/public/dist/img/user2-160x160.jpg");
+        var user_info_content = '<a href="#" class="d-block">' + userInfo.username + '</a>';
+        $("#user_info").html(user_info_content);
       }
 
-      var params = {
-          out_url: "userinfo",
-          method: 'GET',
-          data: {
-              token: token,
-              uid: uid
-          }
-      };
-      $.post('/api/v1/home/outapi',params,function(result){         
-          if (result.code !== 0) {
-            // alert(result.message);
-          } else {          
-            $("#user_avatar").attr("src","/public/dist/img/user2-160x160.jpg");
-            var user_info_content = '<a href="#" class="d-block">' + result.data.username + '</a>';
-            $("#user_info").html(user_info_content);
-          }
-      });
     });
   </script>

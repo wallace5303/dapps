@@ -8,4 +8,10 @@ module.exports = {
     emailAndPassword: '1',
     phoneAndCode: '2',
   },
+
+  // 文档国内路径
+  docPath: {
+    github: 'https://github.com/wallace5303/dapps-addons/tree/master/addons/',
+    gitee: 'https://gitee.com/wallace5303/dapps-addons/tree/master/addons/',
+  },
 };

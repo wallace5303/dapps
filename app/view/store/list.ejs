@@ -34,9 +34,9 @@
             <% } else { %>
             <!-- /.card-header -->
             <div class="card-body table-responsive p-0">           
-                <table id="example2" class="table table-bordered table-hover dataTable" role="grid" aria-describedby="example2_info"> 
+                <table class="table table-hover"> 
                   <thead> 
-                  <tr role="row">
+                  <tr>
                       <th width="15%">应用名称</th>
                       <th width="40%">介绍</th>
                       <th width="10%">作者</th>
@@ -51,7 +51,7 @@
                     <% for (let i = 0; i < app_list.length; i++) {
                       let one = app_list[i];
                       %>
-                      <tr role="row" class="odd">
+                      <tr>
                           <td><%= one.appid %></td>
                           <td><%= one.introduction %></td>
                           <td><%= one.author %></td>
