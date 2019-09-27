@@ -5,6 +5,7 @@
  * 远程调用
  */
 exports.outApi = {
+  dappsInfo: 'http://192.168.10.233:8081/api/dapps/info',
   appInfo: 'http://192.168.10.233:8081/api/dapps/store/app_info',
   appList: 'http://192.168.10.233:8081/api/dapps/store/app_list',
   allAppList: 'http://192.168.10.233:8081/api/dapps/store/all_app_list',

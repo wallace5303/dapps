@@ -96,12 +96,13 @@
                                     启动
                                   </a>
                                 <% } %>
-                                <!-- 是否需要更新 -->  
-                                
-                                  <a class="btn btn-primary btn-sm" href="#" onclick="update('<%= one.appid %>')">
+                                <!-- 是否需要更新 -->
+                                <% if (one.is_new_version) {%>
+                                  <a id="update_<%= one.appid %>" class="btn btn-primary btn-sm" href="#" onclick="update('<%= one.appid %>')">
                                     更新
                                   </a>
-                                
+                                <% } %>
+
                             </td>
                             <td id="delete_<%= one.appid %>">
                               <a class="btn btn-danger btn-sm" href="#" onclick="uninstall('<%= one.appid %>')">
@@ -215,6 +216,22 @@
               var is_running__app_content = '已停止';
               $("#is_running_" + appid).html(is_running__app_content);
               //window.location.reload();
+            }
+        });
+      }
+
+      function update(appid)
+      {
+        var updateing_app_content = '正在更新...';
+        $("#update_" + appid).html(updateing_app_content);
+        $("#update_" + appid).attr("onclick", "");
+        var url = "/api/v1/store/app_update?appid=" + appid;
+        $.get(url,function(result){
+            if (result.code !== 0) {
+                alert(result.msg);
+                window.location.reload();
+            } else {
+              $("#update_" + appid).remove();
             }
         });
       }

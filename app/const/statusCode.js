@@ -92,6 +92,10 @@ let StatusCode;
   // auth
   StatusCode[(StatusCode.API_AUTH_SIGN_ERROR = 60001)] = 'API_AUTH_SIGN_ERROR'; // 签名错误
   StatusCode[(StatusCode.API_AUTH_APP_ERROR = 60002)] = 'API_AUTH_APP_ERROR'; // 无效的APP
+
+  // dapps
+  StatusCode[(StatusCode.DAPPS_NO_NEW_VERSION = 70001)] =
+    'DAPPS_NO_NEW_VERSION'; // dapps没有新版本
 })(StatusCode || (StatusCode = {}));
 
 module.exports = StatusCode;

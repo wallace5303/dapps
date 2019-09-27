@@ -10,6 +10,7 @@ const path = require('path');
 const Keyv = require('keyv');
 const low = require('lowdb');
 const FileSync = require('lowdb/adapters/FileSync');
+const download = require('download');
 
 class TestController extends BaseController {
   async index() {
@@ -21,6 +22,19 @@ class TestController extends BaseController {
     const data = {
       env: app.config.env,
     };
+
+    // const val = await service.lowdb.updateDapps('1.0.0');
+    // console.log(val);
+    // process.send({
+    //   to: 'master',
+    //   action: 'reload-worker',
+    // });
+
+    // const url = 'https://github.com/wallace5303/dapps/archive/master.zip';
+    // const dest = this.app.baseDir + '/test';
+    // const cmd = download(url, dest, { extract: true , strip: 1 });
+    // cmd.stdout = process.stdout;
+    // return cmd;
 
     // const val1 = await service.lowdb.getMyappByAppid('test3');
     // console.log(val1);

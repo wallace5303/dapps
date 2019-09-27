@@ -268,18 +268,19 @@ class StoreService extends BaseService {
     // 写入正在安装的临时数据
     await this.service.lowdb.setMyInstallingApp(appid);
 
-    const downloadType = 'github';
     const appPath = this.app.baseDir + '/docker/addons/' + appid;
     this.app.logger.info(
       '[StoreService] [installApp]  开始下载平台文件压缩包...'
     );
+    let downloadType = 'github';
+    if (this.app.config.env === 'prod') {
+      downloadType = 'gitee';
+    }
     await tools.wget(appPath, appid, downloadType);
     this.app.logger.info('[StoreService] [installApp]  下载完成');
 
-    // 创建一个临时文件
-    // const file = appPath + '/installing.lock';
-    // fs.writeFileSync(file);
-    // utils.chmodPath(appPath, '777');
+    // 修改权限
+    utils.chmodPath(appPath, '777');
 
     this.app.logger.info('[StoreService] [installApp] 开始docker安装...');
     shell.cd(appPath);
@@ -336,12 +337,6 @@ class StoreService extends BaseService {
       }
     }
 
-    // const delFileRes = await this.service.store.delAppFile(appid);
-    // if (!delFileRes) {
-    //   res.msg = '删除应用文件失败';
-    //   return res;
-    // }
-
     const removeRes = await this.service.lowdb.removeMyapp(appid);
     if (removeRes.length == 0) {
       res.msg = '删除失败';
@@ -351,6 +346,47 @@ class StoreService extends BaseService {
     res.code = CODE.SUCCESS;
     res.msg = '删除成功';
     return res;
+  }
+
+  /*
+   * 更新应用
+   */
+  async updateApp(appid) {
+    const downloadType = 'github';
+    const appPath = this.app.baseDir + '/docker/addons/' + appid;
+    this.app.logger.info(
+      '[StoreService] [updateApp]  开始下载平台文件压缩包...'
+    );
+    await tools.wget(appPath, appid, downloadType);
+    this.app.logger.info('[StoreService] [updateApp]  下载完成');
+
+    // 修改权限
+    utils.chmodPath(appPath, '777');
+
+    this.app.logger.info('[StoreService] [updateApp] 开始docker安装...');
+    shell.cd(appPath);
+
+    const stopRes = shell.exec(
+      'docker-compose -f ' + DOCKER_COMPOE_FILE + ' stop ' + appid,
+      {
+        silent: false,
+      }
+    );
+    this.app.logger.info('[StoreService] [updateApp] stop stopRes:', stopRes);
+
+    const dockerRes = shell.exec(
+      'docker-compose  -f ' + DOCKER_COMPOE_FILE + ' up -d ' + appid,
+      {
+        silent: false,
+      }
+    );
+    this.app.logger.info('[StoreService] [updateApp] dockerRes:', dockerRes);
+    this.app.logger.info(
+      '[StoreService] [updateApp]  dockerRes.code:',
+      dockerRes.code
+    );
+
+    return true;
   }
 
   /*

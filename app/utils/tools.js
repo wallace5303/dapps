@@ -17,7 +17,10 @@ function github(appid, type = 'github') {
       appid +
       '.zip';
   } else {
-    // url = 'http://yapi.demo.qunar.com/publicapi/archive/' + appid;
+    url =
+      'https://gitee.com/wallace5303/dapps-addons/raw/master/zip/' +
+      appid +
+      '.zip';
   }
   return url;
 }
@@ -45,7 +48,7 @@ module.exports = {
   wget(dest, appid, type) {
     const url = github(appid, type);
     const cmd = download(url, dest, { extract: true, strip: 1 });
-    console.log(url);
+    console.log('下载路径：%j', url);
     cmd.stdout = process.stdout;
     return cmd;
   },

@@ -22,4 +22,6 @@ module.exports = app => {
   router.get('/api/v1/store/app_start', controller.v1.store.appStart);
   // 应用停止
   router.get('/api/v1/store/app_stop', controller.v1.store.appStop);
+  // 应用更新
+  router.get('/api/v1/store/app_update', controller.v1.store.appUpdate);
 };

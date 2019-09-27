@@ -136,8 +136,39 @@ class StoreController extends BaseController {
   async chat() {
     const { app, ctx, service } = this;
 
+    let has_new_version = false;
+
+    // 本地版本
+    const localDappsInfo = await service.lowdb.getDapps();
+    console.log(localDappsInfo);
+    const localVersion = localDappsInfo.version;
+
+    // 线上版本
+    const params = {
+      out_url: 'dappsInfo',
+      method: 'GET',
+      data: {},
+    };
+
+    const dappsInfoRes = await service.outapi.api(params);
+    if (dappsInfoRes.code === CODE.SUCCESS) {
+      const onlineVersion = dappsInfoRes.data.version;
+      console.log(
+        'localVersion:%j, onlineVersion:%j',
+        localVersion,
+        onlineVersion
+      );
+      const compareRes = utils.compareVersion(localVersion, onlineVersion);
+      console.log('compareRes:%j', compareRes);
+      if (compareRes) {
+        has_new_version = true;
+      }
+    }
+
     const data = {
       navigation: 'chat',
+      current_version: localVersion,
+      has_new_version,
     };
     await ctx.render('store/chat.ejs', data);
   }
@@ -206,6 +237,26 @@ class StoreController extends BaseController {
 
     const data = {};
     self.sendSuccess(data, '卸载成功');
+  }
+
+  /*
+   * api - APP更新
+   */
+  async appUpdate() {
+    const self = this;
+    const { app, ctx, service } = this;
+    const query = ctx.query;
+    const appid = query.appid;
+
+    if (!appid) {
+      self.sendFail({}, '参数错误', CODE.SYS_PARAMS_ERROR);
+      return;
+    }
+
+    await service.store.updateApp(appid);
+
+    const data = {};
+    self.sendSuccess(data, '正在更新中，请稍后刷新...');
   }
 
   /*

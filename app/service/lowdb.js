@@ -141,6 +141,34 @@ class LowdbService extends BaseService {
     }
     return null;
   }
+
+  /*
+   * 更新 dapps
+   */
+  async updateDapps(version = '') {
+    let key = '';
+    let value = '';
+    if (version) {
+      key = 'dapps.version';
+      value = version;
+    }
+    const res = this.fileSyncInstance()
+      .set(key, value)
+      .write();
+
+    return res;
+  }
+
+  /*
+   * 获取dapps
+   */
+  async getDapps() {
+    const info = this.fileSyncInstance()
+      .get('dapps')
+      .value();
+
+    return info;
+  }
 }
 
 module.exports = LowdbService;

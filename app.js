@@ -55,6 +55,9 @@ class AppBootHook {
     if (!db.has('my_app').value()) {
       db.set('my_app', []).write();
     }
+    if (!db.has('dapps').value()) {
+      db.set('dapps', { version: '1.0.0' }).write();
+    }
   }
 
   async serverDidReady() {

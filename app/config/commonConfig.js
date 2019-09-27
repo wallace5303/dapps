@@ -14,4 +14,18 @@ module.exports = {
     github: 'https://github.com/wallace5303/dapps-addons/tree/master/addons/',
     gitee: 'https://gitee.com/wallace5303/dapps-addons/tree/master/addons/',
   },
+
+  // 主程序包路径
+  dappsPath: {
+    github:
+      'https://github.com/wallace5303/dapps-addons/raw/master/zip/dapps.zip',
+    gitee:
+      'https://gitee.com/wallace5303/dapps-addons/raw/master/zip/dapps.zip',
+  },
+
+  // 插件包路径
+  addonsPath: {
+    github: 'https://github.com/wallace5303/dapps-addons/raw/master/zip/',
+    gitee: 'https://gitee.com/wallace5303/dapps-addons/raw/master/zip/',
+  },
 };
