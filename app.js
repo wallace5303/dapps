@@ -55,13 +55,12 @@ class AppBootHook {
     if (!db.has('my_app').value()) {
       db.set('my_app', []).write();
     }
-    if (!db.has('dapps').value()) {
-      db.set('dapps', { version: '1.0.0' }).write();
-    }
   }
 
   async serverDidReady() {
     // Server is listening.
+    const dappsFile = this.app.baseDir + '/storage';
+    utils.chmodPath(dappsFile, '777');
   }
 
   async beforeClose() {

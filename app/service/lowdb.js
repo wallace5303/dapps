@@ -7,13 +7,21 @@ const FileSync = require('lowdb/adapters/FileSync');
 const FileAsync = require('lowdb/adapters/FileAsync');
 const LowdbKey = require('./../const/lowdbKey');
 const shortid = require('shortid');
+const fs = require('fs');
 
 class LowdbService extends BaseService {
   /*
    * fileSyncInstance
    */
-  fileSyncInstance() {
-    const file = this.app.baseDir + '/storage/db.json';
+  fileSyncInstance(file = null) {
+    if (!file) {
+      file = this.app.baseDir + '/storage/db.json';
+    }
+    const isDir = fs.existsSync(file);
+    if (!isDir) {
+      return null;
+    }
+
     const adapter = new FileSync(file);
     const db = low(adapter);
 
@@ -146,13 +154,14 @@ class LowdbService extends BaseService {
    * 更新 dapps
    */
   async updateDapps(version = '') {
+    const file = this.app.baseDir + '/storage/dapps.json';
     let key = '';
     let value = '';
     if (version) {
       key = 'dapps.version';
       value = version;
     }
-    const res = this.fileSyncInstance()
+    const res = this.fileSyncInstance(file)
       .set(key, value)
       .write();
 
@@ -163,7 +172,8 @@ class LowdbService extends BaseService {
    * 获取dapps
    */
   async getDapps() {
-    const info = this.fileSyncInstance()
+    const file = this.app.baseDir + '/storage/dapps.json';
+    const info = this.fileSyncInstance(file)
       .get('dapps')
       .value();
 

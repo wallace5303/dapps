@@ -25,19 +25,19 @@
           <div class="col-md-12">
             <!-- The time line -->
             <div class="timeline">
-              
+
               <!-- timeline item -->
               <div>
                 <i class="fas fa-envelope bg-blue"></i>
-                <div class="timeline-item">
+                <div id="update_div" class="timeline-item">
                   <h3 class="timeline-header"><a href="#">应用版本</a></h3>
                   <% if (has_new_version) {%>
                     <div id="update_system" class="timeline-body">
-                        发现新的版本，请更新...
-                      </div>
-                      <div id="update_button" class="timeline-footer">
-                        <a class="btn btn-primary btn-sm" onclick="updateSystem()" >更新</a>
-                      </div>
+                      发现新的版本，请更新...
+                    </div>
+                    <div class="timeline-footer">
+                      <a class="btn btn-primary btn-sm" onclick="updateSystem()" >更新</a>
+                    </div>
                   <% } else { %>
                     <div id="update_system" class="timeline-body">
                         当前版本：<%= current_version %>
@@ -94,7 +94,7 @@
       $("#update_system").text(content);
       var url = "/api/v1/home/sys_update";
       $.get(url,function(result){
-        $("#update_system").remove();
+        $("#update_div").remove();
       });
     }
   </script>

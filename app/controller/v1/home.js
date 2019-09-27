@@ -80,7 +80,7 @@ class HomeController extends BaseController {
     }
 
     // 更新为线上版本
-    await service.lowdb.updateDapps(onlineVersion);
+    // await service.lowdb.updateDapps(onlineVersion);
 
     let url = commonConfig.dappsPath.github;
     if (app.config.env === 'prod') {
