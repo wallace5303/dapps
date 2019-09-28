@@ -45,10 +45,10 @@ module.exports = {
   error(error) {
     console.error(error);
   },
-  wget(dest, appid, type) {
+  async wget(dest, appid, type) {
     const url = github(appid, type);
-    const cmd = download(url, dest, { extract: true, strip: 1 });
     console.log('下载路径：%j', url);
+    const cmd = await download(url, dest, { extract: true, strip: 1 });
     cmd.stdout = process.stdout;
     return cmd;
   },

@@ -352,11 +352,14 @@ class StoreService extends BaseService {
    * 更新应用
    */
   async updateApp(appid) {
-    const downloadType = 'github';
     const appPath = this.app.baseDir + '/docker/addons/' + appid;
     this.app.logger.info(
       '[StoreService] [updateApp]  开始下载平台文件压缩包...'
     );
+    let downloadType = 'github';
+    if (this.app.config.env === 'prod') {
+      downloadType = 'gitee';
+    }
     await tools.wget(appPath, appid, downloadType);
     this.app.logger.info('[StoreService] [updateApp]  下载完成');
 
