@@ -149,7 +149,9 @@
       $.get(url,function(result){
           if (result.code !== 0) {
               alert(result.msg);
-              window.location.reload();
+              // window.location.reload();
+              var url = "/html/v1/store/help";
+              window.location.href = url;
           } else {
             $("#install_" + appid).remove();
             setTimeout(function(){
