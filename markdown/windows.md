@@ -6,7 +6,7 @@
 &nbsp;
 ### 安装
 
-下载： [地址](https://download.docker.com/win/stable/Docker%20Desktop%20Installer.exe)
+下载： [百度云](https://pan.baidu.com/s/1ktkQmkn7yE00lj3XY_qN2w) 或 [官方地址](https://download.docker.com/win/stable/Docker%20Desktop%20Installer.exe)
 
 
 &nbsp;

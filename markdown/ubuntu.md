@@ -1,5 +1,5 @@
 &nbsp;
-### 使用脚本自动安装
+### 安装
 
 ```bash
 $ curl -fsSL get.docker.com -o get-docker.sh
