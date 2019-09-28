@@ -87,7 +87,7 @@ class HomeController extends BaseController {
       url = commonConfig.dappsPath.gitee;
     }
     const dest = this.app.baseDir;
-    const cmd = download(url, dest, { extract: true, strip: 1 });
+    const cmd = await download(url, dest, { extract: true, strip: 1 });
     cmd.stdout = process.stdout;
     console.log(cmd.stdout);
     this.app.logger.info('[HomeController] [sysUpdate]  dapps 下载完成');
