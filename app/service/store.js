@@ -12,6 +12,29 @@ const tools = require('../utils/tools');
 
 class StoreService extends BaseService {
   /*
+   * docker检查
+   */
+  async checkDocker() {
+    const res = {
+      code: 1000,
+      msg: 'unknown error',
+    };
+
+    if (!shell.which('docker')) {
+      res.msg = 'docker软件不存在';
+      return res;
+    }
+
+    if (!shell.which('docker-compose')) {
+      res.msg = 'docker-compose软件不存在';
+      return res;
+    }
+    res.code = 0;
+
+    return res;
+  }
+
+  /*
    * 商店应用列表
    */
   async appList(all, page, appid, author, sortField, sortType) {
@@ -253,7 +276,6 @@ class StoreService extends BaseService {
    * 安装应用
    */
   async installApp(query) {
-    // updateAddons.run(app, query);
     const nodeVersion = shell.exec('node -v', { silent: true }).substr(1);
 
     if (!utils.compareVersion('7.6', nodeVersion)) {

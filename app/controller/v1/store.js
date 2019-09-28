@@ -4,6 +4,8 @@ const BaseController = require('../base');
 const _ = require('lodash');
 const utils = require('../../utils/utils');
 const commonConfig = require('../../config/commonConfig');
+const MarkdownIt = require('markdown-it');
+const fs = require('fs');
 
 class StoreController extends BaseController {
   /*
@@ -174,6 +176,74 @@ class StoreController extends BaseController {
   }
 
   /*
+   * html - 帮助
+   */
+  async help() {
+    const { app, ctx, service } = this;
+    const md = new MarkdownIt();
+    // win 10
+    const winFile = fs.readFileSync(
+      this.app.baseDir + '/markdown/windows.md',
+      'utf-8'
+    );
+    const winFileHtml = md.render(winFile);
+
+    // centos
+    const centosFile = fs.readFileSync(
+      this.app.baseDir + '/markdown/centos.md',
+      'utf-8'
+    );
+    const centosFileHtml = md.render(centosFile);
+
+    // debian
+    const debianFile = fs.readFileSync(
+      this.app.baseDir + '/markdown/debian.md',
+      'utf-8'
+    );
+    const debianFileHtml = md.render(debianFile);
+
+    // fedora
+    const fedoraFile = fs.readFileSync(
+      this.app.baseDir + '/markdown/fedora.md',
+      'utf-8'
+    );
+    const fedoraFileHtml = md.render(fedoraFile);
+
+    // mac
+    const macFile = fs.readFileSync(
+      this.app.baseDir + '/markdown/mac.md',
+      'utf-8'
+    );
+    const macFileHtml = md.render(macFile);
+
+    // ubuntu
+    const ubuntuFile = fs.readFileSync(
+      this.app.baseDir + '/markdown/ubuntu.md',
+      'utf-8'
+    );
+    const ubuntuFileHtml = md.render(ubuntuFile);
+
+    // 镜像加速器
+    const mirrorFile = fs.readFileSync(
+      this.app.baseDir + '/markdown/mirror.md',
+      'utf-8'
+    );
+    const mirrorFileHtml = md.render(mirrorFile);
+
+    const data = {
+      navigation: 'help',
+      win_file_html: winFileHtml,
+      centos_file_html: centosFileHtml,
+      debian_file_html: debianFileHtml,
+      fedora_file_html: fedoraFileHtml,
+      mac_file_html: macFileHtml,
+      ubuntu_file_html: ubuntuFileHtml,
+      mirror_file_html: mirrorFileHtml,
+    };
+    await ctx.render('store/help.ejs', data);
+  }
+
+  /*
    * api - APP安装
    */
   async appInstall() {
@@ -184,6 +254,13 @@ class StoreController extends BaseController {
 
     if (!appid) {
       self.sendFail({}, '参数错误', CODE.SYS_PARAMS_ERROR);
+      return;
+    }
+
+    // 用户是否安装docker
+    const checkRes = await service.store.checkDocker();
+    if (checkRes.code !== CODE.SUCCESS) {
+      self.sendFail({}, checkRes.code, checkRes.msg);
       return;
     }
 

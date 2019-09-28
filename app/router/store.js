@@ -12,6 +12,7 @@ module.exports = app => {
   router.get('/html/v1/store/list', controller.v1.store.index);
   router.get('/html/v1/store/myapp', controller.v1.store.myApp);
   router.get('/html/v1/store/chat', controller.v1.store.chat);
+  router.get('/html/v1/store/help', controller.v1.store.help);
 
   // api
   // 应用安装

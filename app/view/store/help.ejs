@@ -1,0 +1,91 @@
+<%- include('header'); %>
+  <!-- Sidenav -->
+  <%- include('sidebar'); %>
+  <!-- Main content -->
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+
+        <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>
+              帮助 
+            </h1>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="card card-primary card-outline">
+          <div class="card-header">
+            <h3 class="card-title">
+              docker安装
+            </h3>
+          </div>
+          <div class="card-body">
+            <!-- <h4>Custom Content Below</h4> -->
+            <ul class="nav nav-tabs" id="custom-content-below-tab" role="tablist">
+              <li class="nav-item">
+                <a class="nav-link active" id="custom-content-below-win10-tab" data-toggle="pill" href="#custom-content-below-win10" role="tab" aria-controls="custom-content-below-win10" aria-selected="true">windows 10</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" id="custom-content-below-macos-tab" data-toggle="pill" href="#custom-content-below-macos" role="tab" aria-controls="custom-content-below-macos" aria-selected="false">mac OS</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" id="custom-content-below-ubuntu-tab" data-toggle="pill" href="#custom-content-below-ubuntu" role="tab" aria-controls="custom-content-below-ubuntu" aria-selected="false">Ubuntu</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" id="custom-content-below-centos-tab" data-toggle="pill" href="#custom-content-below-centos" role="tab" aria-controls="custom-content-below-centos" aria-selected="false">CentOS</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" id="custom-content-below-debian-tab" data-toggle="pill" href="#custom-content-below-debian" role="tab" aria-controls="custom-content-below-debian" aria-selected="false">Debian</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" id="custom-content-below-fedora-tab" data-toggle="pill" href="#custom-content-below-fedora" role="tab" aria-controls="custom-content-below-fedora" aria-selected="false">Fedora</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" id="custom-content-below-mirror-tab" data-toggle="pill" href="#custom-content-below-mirror" role="tab" aria-controls="custom-content-below-mirror" aria-selected="false">镜像加速器</a>
+              </li>
+            </ul>
+            <div class="tab-content" id="custom-content-below-tabContent">
+              <div class="tab-pane fade show active" id="custom-content-below-win10" role="tabpanel" aria-labelledby="custom-content-below-win10-tab">
+                <%- win_file_html %>
+              </div>
+              <div class="tab-pane fade" id="custom-content-below-macos" role="tabpanel" aria-labelledby="custom-content-below-macos-tab">
+                <%- mac_file_html %>
+              </div>
+              <div class="tab-pane fade" id="custom-content-below-ubuntu" role="tabpanel" aria-labelledby="custom-content-below-ubuntu-tab">
+                <%- ubuntu_file_html %>
+              </div>
+              <div class="tab-pane fade" id="custom-content-below-centos" role="tabpanel" aria-labelledby="custom-content-below-centos-tab">
+                <%- centos_file_html %>
+              </div>
+              <div class="tab-pane fade" id="custom-content-below-debian" role="tabpanel" aria-labelledby="custom-content-below-debian-tab">
+                <%- debian_file_html %>
+              </div>
+              <div class="tab-pane fade" id="custom-content-below-fedora" role="tabpanel" aria-labelledby="custom-content-below-fedora-tab">
+                <%- fedora_file_html %>
+              </div>
+              <div class="tab-pane fade" id="custom-content-below-mirror" role="tabpanel" aria-labelledby="custom-content-below-mirror-tab">
+                <%- mirror_file_html %>
+              </div>
+            </div>
+
+          </div>
+          <!-- /.card -->
+        </div>
+        <!-- /.card -->
+      </div>
+      <!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+
+
+<%- include('bottom'); %>
