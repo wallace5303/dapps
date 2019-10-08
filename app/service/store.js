@@ -101,6 +101,7 @@ class StoreService extends BaseService {
         app_name: '',
         introduction: '',
         version: '',
+        open_url: '',
       };
       const envFile = addonsDir + '/' + tmpAppid + '/.env';
       if (fs.existsSync(envFile)) {
@@ -121,6 +122,13 @@ class StoreService extends BaseService {
           }
           if (tmpEle.indexOf('APP_VERSION') !== -1) {
             tmpAppObj.version = tmpEle.substr(12);
+          }
+          if (tmpEle.indexOf('APP_PORT') !== -1) {
+            const appPort = tmpEle.substr(9);
+            if (appPort) {
+              tmpAppObj.open_url =
+                'http://' + utils.getIPAddress() + ':' + appPort;
+            }
           }
         }
       }
@@ -200,7 +208,7 @@ class StoreService extends BaseService {
    * 应用是否启动
    */
   async appIsRunning(appid) {
-    const runningInfo = shell.exec('docker top dapps_' + appid, {
+    const runningInfo = shell.exec('docker top dapps-' + appid, {
       silent: true,
     });
     this.app.logger.info(
@@ -218,7 +226,7 @@ class StoreService extends BaseService {
    * 容器是否存在
    */
   async appContainerExist(appid) {
-    const containerInfo = shell.exec('docker inspect dapps_' + appid, {
+    const containerInfo = shell.exec('docker inspect dapps-' + appid, {
       silent: true,
     });
     if (containerInfo.code === 0) {
@@ -418,7 +426,7 @@ class StoreService extends BaseService {
    * kill应用
    */
   async killApp(appid) {
-    const killRes = shell.exec('docker kill dapps_' + appid, {
+    const killRes = shell.exec('docker kill dapps-' + appid, {
       silent: true,
     });
     this.app.logger.info(
@@ -436,7 +444,7 @@ class StoreService extends BaseService {
    * 删除应用
    */
   async delApp(appid) {
-    const delRes = shell.exec('docker rm dapps_' + appid, {
+    const delRes = shell.exec('docker rm dapps-' + appid, {
       silent: true,
     });
     this.app.logger.info(
