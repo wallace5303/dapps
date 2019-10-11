@@ -17,7 +17,7 @@ git clone https://github.com/wallace5303/dapps.git
 cd dapps
 
 # 请确保已经安装了nodejs，否则下载地址：http://nodejs.cn/download/
-npm install
+npm install # 速度更快的安装：npm install --registry=https://registry.npm.taobao.org
 npm run start-prod
 ```
 
