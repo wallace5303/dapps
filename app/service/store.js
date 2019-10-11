@@ -21,12 +21,12 @@ class StoreService extends BaseService {
     };
 
     if (!shell.which('dockerss')) {
-      res.msg = '请先安装docker软件';
+      res.msg = '请先安装或启动docker软件';
       return res;
     }
 
     if (!shell.which('docker-compose')) {
-      res.msg = '请先安装docker-compose软件';
+      res.msg = '请先安装或启动docker-compose软件';
       return res;
     }
     res.code = 0;

@@ -15,10 +15,11 @@
 ```
 git clone https://github.com/wallace5303/dapps.git
 cd dapps
+
+# 请确保已经安装了nodejs
 npm install
 npm run start-prod
 ```
-注：请确保本机有docker环境，否则，请按照程序的帮助页面，安装docker
 
 ## 效果图
 1. 访问： localhost:8000
