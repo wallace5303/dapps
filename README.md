@@ -22,7 +22,7 @@ npm run start-prod
 ```
 
 ## 效果图
-1. 访问： localhost:8000
+1. 访问： http://localhost:8000/
  
 ![](https://i.loli.net/2019/10/11/HnfFyrmdeZj3Pat.png)
 ![](https://i.loli.net/2019/10/11/yWCI8TQReAMsdpB.png)

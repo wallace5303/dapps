@@ -20,7 +20,7 @@ class StoreService extends BaseService {
       msg: 'unknown error',
     };
 
-    if (!shell.which('dockerss')) {
+    if (!shell.which('docker')) {
       res.msg = '请先安装或启动docker软件';
       return res;
     }
