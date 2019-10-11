@@ -211,11 +211,11 @@ class StoreService extends BaseService {
     const runningInfo = shell.exec('docker top dapps-' + appid, {
       silent: true,
     });
-    this.app.logger.info(
-      '[StoreService] [appIsRunning] appid:, runningInfo:',
-      appid,
-      runningInfo
-    );
+    // this.app.logger.info(
+    //   '[StoreService] [appIsRunning] appid:, runningInfo:',
+    //   appid,
+    //   runningInfo
+    // );
     if (runningInfo.code === 0) {
       return true;
     }

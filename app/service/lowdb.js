@@ -116,7 +116,7 @@ class LowdbService extends BaseService {
       .get('my_app')
       .value();
     if (all.length > 0) {
-      const listPage = _.chunk(all, 15);
+      const listPage = _.chunk(all, 10);
       const listInfo = listPage[page - 1];
       list = _.map(listInfo, 'appid');
     }
