@@ -20,13 +20,13 @@ class StoreService extends BaseService {
       msg: 'unknown error',
     };
 
-    if (!shell.which('docker')) {
-      res.msg = 'docker软件不存在';
+    if (!shell.which('dockerss')) {
+      res.msg = '请先安装docker软件';
       return res;
     }
 
     if (!shell.which('docker-compose')) {
-      res.msg = 'docker-compose软件不存在';
+      res.msg = '请先安装docker-compose软件';
       return res;
     }
     res.code = 0;
