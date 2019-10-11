@@ -56,7 +56,7 @@ class StoreController extends BaseController {
           }
 
           // 文档地址
-          one.show = commonConfig.docPath.github + one.appid;
+          one.show = commonConfig.docPath.gitee + one.appid;
         }
       }
 
@@ -118,7 +118,7 @@ class StoreController extends BaseController {
             app.baseDir + '/docker/addons/' + one.appid + '/config';
 
           // 文档地址
-          one.show = commonConfig.docPath.github + one.appid;
+          one.show = commonConfig.docPath.gitee + one.appid;
         }
       }
       // console.log(appList);
