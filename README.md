@@ -6,14 +6,9 @@
 ## 目前包含的软件
 1. PHP ： 世界上最好的语言
 2. Mysql ： 数据库
-3. MongoDB ： 数据库
-4. Redis ： 数据库
-5. Nginx ： 服务器
-6. Rabbitmq ： 队列服务
-7.  PhpMyAdmin：  mysql管理工具
-8.  PhpRedisAdmin：  redis管理工具
-9.  AdminMongo：MongoDB管理工具
-10. ......
+3. Nginx ： 服务器
+4.  PhpMyAdmin：  mysql管理工具
+5.  redis，mongo，游戏，12306抢票软件正在开发测试中......
 
 ## 开始使用
 
