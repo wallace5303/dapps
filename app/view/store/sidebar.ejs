@@ -30,7 +30,6 @@
 
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
-
       <!-- <li class="nav-item">
         <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#">
           <i class="fas fa-th-large"></i>
@@ -98,14 +97,14 @@
               </p>
             </a>
           </li>
-          <!-- <li class="nav-item">
-            <a href="#" class="nav-link">
+          <li class="nav-item">
+            <a href="/html/v1/store/version" <% if (navigation === 'version') { %> class="nav-link active" <% } else { %> class="nav-link" <% } %> >
               <i class="nav-icon fas fa-th"></i>
-              <p>
-                疑难解答
+              <p id="sys_version">
+                版本信息
               </p>
             </a>
-          </li> -->
+          </li>
           <!-- <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-th"></i>
@@ -132,6 +131,15 @@
         var user_info_content = '<a href="#" class="d-block">' + userInfo.username + '</a>';
         $("#user_info").html(user_info_content);
       }
+
+      // 检查是否有新的版本
+      var url = "/api/v1/store/check_sys_version";
+      $.get(url,function(result){
+        var versionInfo = result.data;
+        if (versionInfo === true) {
+          $("#sys_version").text("发现新版本");
+        }
+      });
 
     });
   </script>

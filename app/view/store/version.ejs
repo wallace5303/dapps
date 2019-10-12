@@ -1,0 +1,76 @@
+<%- include('header'); %>
+  <!-- Sidenav -->
+  <%- include('sidebar'); %>
+  <!-- Main content -->
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>版本信息</h1>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+
+        <!-- Timelime example  -->
+        <div class="row">
+          <div class="col-md-12">
+            <!-- The time line -->
+            <div class="timeline">
+
+              <!-- timeline item -->
+              <div id="update_div">
+                <i class="fas fa-cog bg-blue"></i>
+                <div class="timeline-item">
+                  <h3 class="timeline-header"><a href="#">应用版本</a></h3>
+                  <% if (has_new_version) {%>
+                    <div id="update_system" class="timeline-body">
+                      发现新的版本，请更新...
+                    </div>
+                    <div class="timeline-footer">
+                      <a class="btn btn-primary btn-sm" onclick="updateSystem()" >更新</a>
+                    </div>
+                  <% } else { %>
+                    <div id="update_system" class="timeline-body">
+                        当前版本：<%= current_version %>
+                    </div>
+                  <% } %>
+                </div>
+              </div>
+              <!-- END timeline item -->
+
+              <div>
+                <i class="fas fa-clock bg-gray"></i>
+              </div>
+            </div>
+          </div>
+          <!-- /.col -->
+        </div>
+      </div>
+      <!-- /.timeline -->
+
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+
+  <script>
+    function updateSystem()
+    {
+      var content = '正在更新...';
+      $("#update_system").text(content);
+      var url = "/api/v1/home/sys_update";
+      $.get(url,function(result){
+        $("#update_div").remove();
+      });
+    }
+  </script>
+<%- include('bottom'); %>

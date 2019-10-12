@@ -138,39 +138,8 @@ class StoreController extends BaseController {
   async chat() {
     const { app, ctx, service } = this;
 
-    let has_new_version = false;
-
-    // 本地版本
-    const localDappsInfo = await service.lowdb.getDapps();
-    console.log(localDappsInfo);
-    const localVersion = localDappsInfo.version;
-
-    // 线上版本
-    const params = {
-      out_url: 'dappsInfo',
-      method: 'GET',
-      data: {},
-    };
-
-    const dappsInfoRes = await service.outapi.api(params);
-    if (dappsInfoRes.code === CODE.SUCCESS) {
-      const onlineVersion = dappsInfoRes.data.version;
-      console.log(
-        'localVersion:%j, onlineVersion:%j',
-        localVersion,
-        onlineVersion
-      );
-      const compareRes = utils.compareVersion(localVersion, onlineVersion);
-      console.log('compareRes:%j', compareRes);
-      if (compareRes) {
-        has_new_version = true;
-      }
-    }
-
     const data = {
       navigation: 'chat',
-      current_version: localVersion,
-      has_new_version,
     };
     await ctx.render('store/chat.ejs', data);
   }
@@ -244,6 +213,49 @@ class StoreController extends BaseController {
   }
 
   /*
+   * html - 版本信息
+   */
+  async version() {
+    const { app, ctx, service } = this;
+
+    let has_new_version = false;
+
+    // 本地版本
+    const localDappsInfo = await service.lowdb.getDapps();
+    console.log(localDappsInfo);
+    const localVersion = localDappsInfo.version;
+
+    // 线上版本
+    const params = {
+      out_url: 'dappsInfo',
+      method: 'GET',
+      data: {},
+    };
+
+    const dappsInfoRes = await service.outapi.api(params);
+    if (dappsInfoRes.code === CODE.SUCCESS) {
+      const onlineVersion = dappsInfoRes.data.version;
+      console.log(
+        'localVersion:%j, onlineVersion:%j',
+        localVersion,
+        onlineVersion
+      );
+      const compareRes = utils.compareVersion(localVersion, onlineVersion);
+      console.log('compareRes:%j', compareRes);
+      if (compareRes) {
+        has_new_version = true;
+      }
+    }
+
+    const data = {
+      navigation: 'version',
+      current_version: localVersion,
+      has_new_version,
+    };
+    await ctx.render('store/version.ejs', data);
+  }
+
+  /*
    * api - APP安装
    */
   async appInstall() {
@@ -279,7 +291,7 @@ class StoreController extends BaseController {
       return;
     }
 
-    // 本地是否安装了应用
+    // github和gitee仓库中是否有zip文件
 
     service.store.installApp(query);
 
@@ -380,6 +392,50 @@ class StoreController extends BaseController {
 
     const data = {};
     self.sendSuccess(data, '应用已停止');
+  }
+
+  /*
+   * api - dapps是否有新的版本
+   */
+  async checkSysVersion() {
+    const self = this;
+    const { app, ctx, service } = this;
+
+    let has_new_version = false;
+
+    // 本地版本
+    const localDappsInfo = await service.lowdb.getDapps();
+    console.log(localDappsInfo);
+    const localVersion = localDappsInfo.version;
+
+    // 线上版本
+    const params = {
+      out_url: 'dappsInfo',
+      method: 'GET',
+      data: {},
+    };
+
+    const dappsInfoRes = await service.outapi.api(params);
+    if (dappsInfoRes.code === CODE.SUCCESS) {
+      const onlineVersion = dappsInfoRes.data.version;
+      console.log(
+        'localVersion:%j, onlineVersion:%j',
+        localVersion,
+        onlineVersion
+      );
+      const compareRes = utils.compareVersion(localVersion, onlineVersion);
+      console.log('compareRes:%j', compareRes);
+      if (compareRes) {
+        has_new_version = true;
+      }
+    }
+
+    const data = {
+      current_version: localVersion,
+      has_new_version,
+    };
+
+    self.sendSuccess(data);
   }
 }
 

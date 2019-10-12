@@ -478,7 +478,7 @@ class StoreService extends BaseService {
   async startApp(appid) {
     const res = {
       code: 1000,
-      msg: 'unknown error',
+      msg: 'unknown error，请查看日志./dapps/logs/dapps/dapps-web.log',
     };
 
     const appIsExist = await this.service.store.appIsInstall(appid);
@@ -508,6 +508,8 @@ class StoreService extends BaseService {
       res.code = CODE.SUCCESS;
       return res;
     }
+
+    res.msg = '请重启docker';
     return res;
   }
 

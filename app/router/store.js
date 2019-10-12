@@ -13,6 +13,7 @@ module.exports = app => {
   router.get('/html/v1/store/myapp', controller.v1.store.myApp);
   router.get('/html/v1/store/chat', controller.v1.store.chat);
   router.get('/html/v1/store/help', controller.v1.store.help);
+  router.get('/html/v1/store/version', controller.v1.store.version);
 
   // api
   // 应用安装
@@ -25,4 +26,9 @@ module.exports = app => {
   router.get('/api/v1/store/app_stop', controller.v1.store.appStop);
   // 应用更新
   router.get('/api/v1/store/app_update', controller.v1.store.appUpdate);
+  // dapps是否有新的版本
+  router.get(
+    '/api/v1/store/check_sys_version',
+    controller.v1.store.checkSysVersion
+  );
 };
