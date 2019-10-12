@@ -93,10 +93,10 @@ class HomeController extends BaseController {
     app.logger.info(cmd.stdout);
     app.logger.info('[HomeController] [sysUpdate]  dapps 下载完成');
     app.logger.info('[HomeController] [sysUpdate]  dapps 重启中...');
-    process.send({
-      to: 'master',
-      action: 'reload-worker',
-    });
+    // process.send({
+    //   to: 'master',
+    //   action: 'reload-worker',
+    // });
 
     const data = {};
     self.sendSuccess(data, '正在更新中，请稍后刷新...');
