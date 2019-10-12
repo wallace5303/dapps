@@ -18,3 +18,7 @@ exports.outApi = {
   userinfo: 'http://192.168.10.233:8081/api/dapps/user/info',
   incrDownload: 'http://192.168.10.233:8081/api/dapps/store/incr_download',
 };
+
+exports.logger = {
+  dir: './logs/local',
+};

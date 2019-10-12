@@ -66,13 +66,13 @@ class HomeController extends BaseController {
     const localDappsInfo = await service.lowdb.getDapps();
     console.log(localDappsInfo);
     const localVersion = localDappsInfo.version;
-    console.log(
+    app.logger.info(
       'localVersion:%j, onlineVersion:%j',
       localVersion,
       onlineVersion
     );
     const compareRes = utils.compareVersion(localVersion, onlineVersion);
-    console.log('compareRes:%j', compareRes);
+    app.logger.info('compareRes:%j', compareRes);
 
     if (!compareRes) {
       self.sendFail({}, '没有新版本', CODE.DAPPS_NO_NEW_VERSION);
@@ -86,12 +86,13 @@ class HomeController extends BaseController {
     if (app.config.env === 'prod') {
       url = commonConfig.dappsPath.gitee;
     }
+    app.logger.info('[HomeController] [sysUpdate]  url:%j', url);
     const dest = this.app.baseDir;
     const cmd = await download(url, dest, { extract: true, strip: 1 });
     cmd.stdout = process.stdout;
-    console.log(cmd.stdout);
-    this.app.logger.info('[HomeController] [sysUpdate]  dapps 下载完成');
-    this.app.logger.info('[HomeController] [sysUpdate]  dapps 重启中...');
+    app.logger.info(cmd.stdout);
+    app.logger.info('[HomeController] [sysUpdate]  dapps 下载完成');
+    app.logger.info('[HomeController] [sysUpdate]  dapps 重启中...');
     process.send({
       to: 'master',
       action: 'reload-worker',

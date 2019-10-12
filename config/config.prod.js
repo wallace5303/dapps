@@ -17,3 +17,7 @@ exports.outApi = {
   userinfo: 'http://www.kaka996.com/api/dapps/user/info',
   incrDownload: 'http://www.kaka996.com/api/dapps/store/incr_download',
 };
+
+exports.logger = {
+  dir: './logs/prod',
+};
