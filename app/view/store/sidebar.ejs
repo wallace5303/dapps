@@ -136,7 +136,7 @@
       var url = "/api/v1/store/check_sys_version";
       $.get(url,function(result){
         var versionInfo = result.data;
-        if (versionInfo === true) {
+        if (versionInfo.has_new_version === true) {
           $("#sys_version").text("发现新版本");
         }
       });
