@@ -23,6 +23,11 @@ class StoreController extends BaseController {
       now_installing: 'no',
     };
 
+    query.debug = 0;
+    if (app.config.env === 'local') {
+      query.debug = 1;
+    }
+
     const params = {
       out_url: 'appList',
       method: 'GET',
