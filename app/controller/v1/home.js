@@ -82,10 +82,10 @@ class HomeController extends BaseController {
     // 更新为线上版本
     // await service.lowdb.updateDapps(onlineVersion);
 
-    let url = commonConfig.dappsPath.github;
-    if (app.config.env === 'prod') {
-      url = commonConfig.dappsPath.gitee;
-    }
+    const url = commonConfig.dappsPath.github;
+    // if (app.config.env === 'prod') {
+    //   url = commonConfig.dappsPath.gitee;
+    // }
     app.logger.info('[HomeController] [sysUpdate]  url:%j', url);
     const dest = this.app.baseDir;
     const cmd = await download(url, dest, { extract: true, strip: 1 });
