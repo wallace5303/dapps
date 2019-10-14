@@ -94,15 +94,16 @@ class HomeController extends BaseController {
     cmd.stdout = process.stdout;
     app.logger.info(cmd.stdout);
     app.logger.info('[HomeController] [sysUpdate]  dapps 下载完成');
-    app.logger.info('[HomeController] [sysUpdate]  dapps 重启中...');
+    app.logger.info('[HomeController] [sysUpdate]  dapps 请重启服务');
 
-    // shell.cd(this.app.baseDir);
-    // exec('npm run restart', (error, stdout, stderr) => {
-    //   if (error) {
-    //     app.logger.info(`exec error: ${error}`);
-    //   }
-    //   app.logger.info(`stdout: ${stdout}`);
-    //   app.logger.info(`stderr: ${stderr}`);
+    shell.cd(this.app.baseDir);
+    shell.exec('npm run stop', {
+      silent: false,
+    });
+
+    // process.send({
+    //   to: 'master',
+    //   action: 'reload-worker',
     // });
 
     const data = {};
