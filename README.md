@@ -8,18 +8,20 @@
 2. Mysql ： 数据库（版本：5.6，5.7，,8.0）
 3. Nginx ： 服务器（版本：1.16）
 4.  PhpMyAdmin：  mysql管理工具
-5.  redis，mongo，游戏，12306抢票软件正在开发测试中......
+5.  redis   nosql数据库（版本：5.0）
+6.  mongo   是一个基于分布式文件存储的数据库（版本：3.4，4.0）
+7.  游戏，12306抢票软件正在开发测试中......
 
 ## 开始使用
 
 ```
 git clone https://github.com/wallace5303/dapps.git
 cd dapps
-
-# 请确保已经安装了nodejs，否则下载地址：http://nodejs.cn/download/
-npm install # 速度更快的安装：npm install --registry=https://registry.npm.taobao.org
+npm install # 加速安装：npm install --registry=https://registry.npm.taobao.org
 npm run start-prod
 ```
+
+注：# 请确保已经安装了nodejs，下载地址：http://nodejs.cn/download/
 
 ## 效果图
 1. 访问： http://localhost:8000/
