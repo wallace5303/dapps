@@ -2,12 +2,9 @@
 
 const BaseService = require('./base');
 const _ = require('lodash');
-const moment = require('moment');
 const utils = require('../utils/utils');
 const fs = require('fs');
-const path = require('path');
 const shell = require('shelljs');
-const updateAddons = require('../../script/commands/update-addons');
 const tools = require('../utils/tools');
 
 class StoreService extends BaseService {
@@ -550,6 +547,30 @@ class StoreService extends BaseService {
       return res;
     }
     return res;
+  }
+
+  /*
+   * dapps 信息
+   */
+  async getDappsInfo() {
+    let info = await this.service.keyv.getOnlineDappsinfo();
+    // this.app.logger.info('info1:', info);
+    if (info) {
+      return info;
+    }
+
+    const params = {
+      out_url: 'dappsInfo',
+      method: 'GET',
+      data: {},
+    };
+
+    const dappsInfoRes = await this.service.outapi.api(params);
+    info = dappsInfoRes.data;
+    // this.app.logger.info('info2:', info);
+    await this.service.keyv.setOnlineDappsinfo(info);
+
+    return info;
   }
 }
 
