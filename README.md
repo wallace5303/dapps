@@ -10,15 +10,23 @@
 4.  PhpMyAdmin：  mysql管理工具
 5.  redis   nosql数据库（版本：5.0）
 6.  mongo   是一个基于分布式文件存储的数据库（版本：3.4，4.0）
-7.  游戏，12306抢票软件，常用建站程序等，正在开发测试中......
+7.  web游戏，12306抢票软件，常用建站程序等，正在开发测试中......
 
 ## 开始使用
 
 ```
+# 下载
 git clone https://github.com/wallace5303/dapps.git
+
+# 进入目录
 cd dapps
-npm install # 加速安装：npm install --registry=https://registry.npm.taobao.org
-npm run start-prod
+
+# 安装
+npm install
+# 或 npm install --registry=https://registry.npm.taobao.org
+
+# 启动
+npm run start
 ```
 
 注：# 请确保已经安装了nodejs，下载地址：http://nodejs.cn/download/
