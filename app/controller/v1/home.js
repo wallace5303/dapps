@@ -6,6 +6,8 @@ const moment = require('moment');
 const download = require('download');
 const commonConfig = require('../../config/commonConfig');
 const utils = require('../../utils/utils');
+const { exec } = require('child_process');
+const shell = require('shelljs');
 
 class HomeController extends BaseController {
   async index() {
@@ -93,11 +95,15 @@ class HomeController extends BaseController {
     app.logger.info(cmd.stdout);
     app.logger.info('[HomeController] [sysUpdate]  dapps 下载完成');
     app.logger.info('[HomeController] [sysUpdate]  dapps 重启中...');
-    // process.send({
-    //   to: 'master',
-    //   action: 'reload-worker',
-    // });
 
+    // shell.cd(this.app.baseDir);
+    // exec('npm run stop && npm run start', (error, stdout, stderr) => {
+    //   if (error) {
+    //     app.logger.info(`exec error: ${error}`);
+    //   }
+    //   app.logger.info(`stdout: ${stdout}`);
+    //   app.logger.info(`stderr: ${stderr}`);
+    // });
     const data = {};
     self.sendSuccess(data, '正在更新中，请稍后刷新...');
   }
