@@ -4,10 +4,7 @@ const BaseService = require('./base');
 const _ = require('lodash');
 const ROAClient = require('@alicloud/pop-core').ROAClient;
 const smsConfig = require('../config/smsConfig');
-const AWS = require('aws-sdk');
-const vsprintf = require('sprintf-js').vsprintf;
 const commonConfig = require('../config/commonConfig');
-const qs = require('querystring');
 
 class SmsService extends BaseService {
   /*
@@ -94,86 +91,10 @@ class SmsService extends BaseService {
       case 'ali':
         res = await this.smsFromAli(country, phone, cphone, code);
         break;
-      case 'aws':
-        res = await this.smsFromAws(country, phone, cphone, code);
-        break;
-      case 'yunpian':
-        res = await this.smsFromYunPian(country, phone, cphone, code);
-        break;
-      case 'jianxun':
-        res = await this.smsFromJianXun(country, phone, cphone, code);
-        break;
       default:
     }
 
     return res;
-  }
-
-  /*
-   * 简讯短信
-   */
-  async smsFromJianXun(country, phone, cphone, msg) {
-    const postData = {
-      cmd: 'SendVerificationCode',
-      user: smsConfig.jianxun.accessInfo.accessKeyId,
-      signature: smsConfig.jianxun.accessInfo.accessKeySecret,
-      mobile_Phone: phone,
-      title: '库斯科',
-      message: msg,
-    };
-    // var content = qs.stringify(postData);
-    try {
-      const url = smsConfig.jianxun.accessInfo.url;
-      const response = await this.app.curl(url, {
-        method: 'POST',
-        contentType: 'json',
-        data: postData,
-        dataType: 'json',
-      });
-      const result = response.data;
-      // console.log("response:", response);
-      this.app.logger.info('[SmsService] [smsFromJianXun]: result:%j', result);
-      if (result.error_Code === 200) {
-        return CODE.SUCCESS;
-      }
-    } catch (e) {
-      this.app.logger.error('[smsService] [smsFromJianXun] send sms error', e);
-    }
-
-    return CODE.SMS_SEND_ERROR;
-  }
-
-  /*
-   * 云片短信
-   */
-  async smsFromYunPian(country, phone, cphone, msg) {
-    const postData = {
-      apikey: smsConfig.yunpian.accessInfo.accessKeyId,
-      mobile: phone,
-      text: msg,
-    };
-    // var content = qs.stringify(postData);
-    try {
-      const url =
-        smsConfig.yunpian.accessInfo.sms_host +
-        smsConfig.yunpian.accessInfo.sms_uri;
-      const response = await this.app.curl(url, {
-        method: 'POST',
-        contentType: 'json',
-        data: postData,
-        dataType: 'json',
-      });
-      const result = response.data;
-      // console.log("result:", response);
-      this.app.logger.info('[SmsService] [smsFromYunPian]: result:%j', result);
-      if (result.code === 0) {
-        return CODE.SUCCESS;
-      }
-    } catch (e) {
-      this.app.logger.error('[smsService] [smsFromYunPian] send sms error', e);
-    }
-
-    return CODE.SMS_SEND_ERROR;
   }
 
   /*
@@ -199,52 +120,6 @@ class SmsService extends BaseService {
     }
 
     return CODE.SMS_SEND_ERROR;
-  }
-
-  /*
-   * 亚马逊短信
-   */
-  async smsFromAws(country, phone, cphone, msg) {
-    const self = this;
-    AWS.config.update({
-      accessKeyId: smsConfig.aws.accessInfo.accessKeyId,
-      secretAccessKey: smsConfig.aws.accessInfo.accessKeySecret,
-      region: smsConfig.aws.accessInfo.region,
-    });
-
-    const message = vsprintf(commonConfig.smsContent.checkCode, [msg]);
-    const sns = new AWS.SNS();
-    const msgParams = {
-      Message: String(message),
-      PhoneNumber: String(cphone),
-      MessageAttributes: {
-        'AWS.SNS.SMS.SMSType': {
-          DataType: 'String',
-          StringValue: 'Transactional',
-        },
-      },
-    };
-
-    return new Promise((resolve, reject) => {
-      sns.publish(msgParams, function(err, data) {
-        let code = null;
-        if (err) {
-          self.app.logger.error(
-            '[smsService] [smsFromAws] send sms error',
-            err.stack
-          );
-          code = CODE.SMS_SEND_ERROR;
-        } else {
-          code = CODE.SUCCESS;
-        }
-        self.app.logger.info(
-          '[smsService] [smsFromAws] send sms info err:%j, data:%j',
-          err,
-          data
-        );
-        resolve(code);
-      });
-    });
   }
 
   /*
