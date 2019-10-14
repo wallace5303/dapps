@@ -23,6 +23,8 @@ class TestController extends BaseController {
       env: app.config.env,
     };
 
+    // const port = await utils.portIsOccupied(3306);
+    // console.log(port);
     // const val = await service.lowdb.updateDapps('1.0.0');
     // console.log(val);
     // process.send({

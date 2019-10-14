@@ -5,6 +5,7 @@ const fs = require('fs');
 const path = require('path');
 const _ = require('lodash');
 const readline = require('readline');
+const net = require('net');
 
 exports = module.exports;
 
@@ -449,4 +450,27 @@ exports.getIPAddress = function() {
       }
     }
   }
+};
+
+/*
+ * 端口是否被占用
+ */
+exports.portIsOccupied = function portIsOccupied(port) {
+  const server = net.createServer().listen(port);
+  return new Promise((resolve, reject) => {
+    server.on('listening', () => {
+      console.log(`the server is runnint on port ${port}`);
+      server.close();
+      resolve(false);
+    });
+
+    server.on('error', err => {
+      if (err.code === 'EADDRINUSE') {
+        resolve(true);
+        console.log(`this port ${port} is occupied.try another.`);
+      } else {
+        resolve(true);
+      }
+    });
+  });
 };
