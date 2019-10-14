@@ -55,6 +55,7 @@
   "scripts": {
     "start": "egg-scripts start --daemon --title=dapps --ignore-stderr --env=prod --workers=4",
     "stop": "egg-scripts stop --title=dapps",
+    "restart": "npm run stop && npm run start",
     "start-preview": "egg-scripts start --daemon --title=dapps-preview --ignore-stderr --env=preview --workers=4",
     "stop-preview": "egg-scripts stop --title=dapps-preview",
     "start-beta": "egg-scripts start --daemon --title=dapps-beta --ignore-stderr --env=beta --workers=4",

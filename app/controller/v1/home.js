@@ -97,13 +97,14 @@ class HomeController extends BaseController {
     app.logger.info('[HomeController] [sysUpdate]  dapps 重启中...');
 
     // shell.cd(this.app.baseDir);
-    // exec('npm run stop && npm run start', (error, stdout, stderr) => {
+    // exec('npm run restart', (error, stdout, stderr) => {
     //   if (error) {
     //     app.logger.info(`exec error: ${error}`);
     //   }
     //   app.logger.info(`stdout: ${stdout}`);
     //   app.logger.info(`stderr: ${stderr}`);
     // });
+
     const data = {};
     self.sendSuccess(data, '正在更新中，请稍后刷新...');
   }
