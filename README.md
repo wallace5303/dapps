@@ -16,14 +16,11 @@
 
 ```
 # 下载
-git clone https://github.com/wallace5303/dapps.git
-
-# 进入目录
-cd dapps
+git clone https://gitee.com/wallace5303/dapps.git
 
 # 安装
-npm install
-# 或 npm install --registry=https://registry.npm.taobao.org
+cd dapps
+npm install --registry=https://registry.npm.taobao.org
 
 # 启动
 npm run start
