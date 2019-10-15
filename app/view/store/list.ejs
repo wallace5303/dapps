@@ -127,13 +127,17 @@
 
 <script>
     $(document).ready(function(){
-      
+      // 清除异常的flag
+      setTimeout(function(){
+        sessionStorage.removeItem("install_flag");
+      }, 9000);
+
       // 如果有正在安装的APP，则定时刷新
       var inData = $("#is_installing_app").attr('data');
       if (inData === 'yes') {
         setInterval(function(){
           window.location.reload();
-        }, 5000);
+        }, 10000);
       }
     })
 
@@ -146,16 +150,17 @@
         url += page;
         window.location.href = url;
     }
-    
+
     function installApp(appid)
     {
       // 临时的安装标识
-      // var installFlag = sessionStorage.getItem("install_flag");
-      // if (installFlag == "yes") {
-      //   alert(result.msg);
-      //   return;
-      // }
-      // sessionStorage.setItem("install_flag", "yes");
+      var installFlag = sessionStorage.getItem("install_flag");
+      if (installFlag == "yes") {
+        alert('另外一个程序正在安装，请稍后再试');
+        return;
+      } else {
+        sessionStorage.setItem("install_flag", "yes");
+      }
 
       var install_status__app_content = '正在安装...';
       $("#install_status_" + appid).html(install_status__app_content);
@@ -176,8 +181,9 @@
         } else {
           $("#install_" + appid).remove();
           setTimeout(function(){
+            sessionStorage.removeItem("install_flag");
             window.location.reload();
-          }, 5000);
+          }, 10000);
         }
       });
     }
