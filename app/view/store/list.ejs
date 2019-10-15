@@ -167,16 +167,18 @@
       var url = "/api/v1/store/app_install?appid=" + appid;
       $.get(url,function(result){
         if (result.code == 70002) {
-            alert(result.msg + '-' + result.code);
+            alert(result.msg + '(' + result.code + ')');
             window.location.reload();
             return;
-        } else if (result.code == 70003) {    
-          alert(result.msg + '-' + result.code);
+        } else if (result.code == 70003) {
+          sessionStorage.removeItem("install_flag");
+          alert(result.msg + '(' + result.code + ')');
           var url = "/html/v1/store/help";
           window.location.href = url;
           return;
-        } else if (result.code !== 0) {    
-          alert(result.msg + '-' + result.code);
+        } else if (result.code !== 0) {  
+          sessionStorage.removeItem("install_flag");  
+          alert(result.msg + '(' + result.code + ')');
           return;
         } else {
           $("#install_" + appid).remove();
