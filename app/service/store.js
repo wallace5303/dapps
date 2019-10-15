@@ -13,7 +13,7 @@ class StoreService extends BaseService {
    */
   async checkDocker() {
     const res = {
-      code: 1000,
+      code: 70003,
       msg: 'unknown error',
     };
 
@@ -293,6 +293,7 @@ class StoreService extends BaseService {
     const appid = query.appid;
 
     // 写入正在安装的临时数据
+    // await this.service.lowdb.setInstallingAppFlag();
     await this.service.lowdb.setMyInstallingApp(appid);
 
     const appPath = this.app.baseDir + '/docker/addons/' + appid;
@@ -329,6 +330,7 @@ class StoreService extends BaseService {
     );
 
     // 删除临时文件
+    // await this.service.lowdb.delInstallingAppFlag();
     await this.service.lowdb.delMyInstallingApp(appid);
 
     // my app

@@ -65,6 +65,42 @@ class LowdbService extends BaseService {
   }
 
   /*
+   * set安装APP的临时标识
+   */
+  async setInstallingAppFlag() {
+    const key = LowdbKey.KV_APP_INSTALLING_FLAG;
+    const res = this.fileSyncInstance()
+      .set(key, 1)
+      .write();
+
+    return res;
+  }
+
+  /*
+   * get安装APP的临时标识
+   */
+  async getInstallingAppFlag() {
+    const key = LowdbKey.KV_APP_INSTALLING_FLAG;
+    const res = this.fileSyncInstance()
+      .get(key)
+      .value();
+
+    return res;
+  }
+
+  /*
+   * del安装APP的临时标识
+   */
+  async delInstallingAppFlag() {
+    const key = LowdbKey.KV_APP_INSTALLING_FLAG;
+    const res = this.fileSyncInstance()
+      .unset(key)
+      .write();
+
+    return res;
+  }
+
+  /*
    * 添加my app
    */
   async createMyapp(appid) {

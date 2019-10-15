@@ -21,4 +21,5 @@ module.exports = {
 
   // kv
   KV_APP_INSTALLING: 'kv.app_installing_', // {uid}
+  KV_APP_INSTALLING_FLAG: 'kv.app_installin_flag',
 };
