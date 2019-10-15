@@ -275,15 +275,15 @@ class StoreController extends BaseController {
     }
 
     // 是否有正在安装的程序
-    // const flag = await this.service.lowdb.getInstallingAppFlag();
-    // if (flag) {
-    //   self.sendFail(
-    //     {},
-    //     '另外一个程序正在安装，请稍后再试',
-    //     CODE.DAPPS_OHTER_APP_INSTALLING
-    //   );
-    //   return;
-    // }
+    const flag = await this.service.lowdb.getInstallingAppFlag();
+    if (flag) {
+      self.sendFail(
+        {},
+        '另外一个程序正在安装，请稍后再试',
+        CODE.DAPPS_OHTER_APP_INSTALLING
+      );
+      return;
+    }
 
     // 用户是否安装docker
     const checkRes = await service.store.checkDocker();

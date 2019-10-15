@@ -149,21 +149,36 @@
     
     function installApp(appid)
     {
+      // 临时的安装标识
+      // var installFlag = sessionStorage.getItem("install_flag");
+      // if (installFlag == "yes") {
+      //   alert(result.msg);
+      //   return;
+      // }
+      // sessionStorage.setItem("install_flag", "yes");
+
       var install_status__app_content = '正在安装...';
       $("#install_status_" + appid).html(install_status__app_content);
       var url = "/api/v1/store/app_install?appid=" + appid;
       $.get(url,function(result){
-          if (result.code !== 0) {
-              alert(result.msg);
-              // window.location.reload();
-              var url = "/html/v1/store/help";
-              window.location.href = url;
-          } else {
-            $("#install_" + appid).remove();
-            setTimeout(function(){
-              window.location.reload();
-            }, 5000);
-          }
+        if (result.code == 70002) {
+            alert(result.msg + '-' + result.code);
+            window.location.reload();
+            return;
+        } else if (result.code == 70003) {    
+          alert(result.msg + '-' + result.code);
+          var url = "/html/v1/store/help";
+          window.location.href = url;
+          return;
+        } else if (result.code !== 0) {    
+          alert(result.msg + '-' + result.code);
+          return;
+        } else {
+          $("#install_" + appid).remove();
+          setTimeout(function(){
+            window.location.reload();
+          }, 5000);
+        }
       });
     }
 
