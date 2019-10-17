@@ -19,13 +19,15 @@ module.exports = {
   dappsPath: {
     github:
       'https://github.com/wallace5303/dapps-addons/raw/master/zip/dapps.zip',
+    // gitee:'https://gitee.com/wallace5303/dapps-addons/raw/master/zip/dapps.zip',
     gitee:
-      'https://gitee.com/wallace5303/dapps-addons/raw/master/zip/dapps.zip',
+      'https://github.com/wallace5303/dapps-addons/raw/master/zip/dapps.zip',
   },
 
-  // 插件包路径
+  // 插件包路径, gitee 不知道大文件下载，导致没法更新，统一用GitHub
   addonsPath: {
     github: 'https://github.com/wallace5303/dapps-addons/raw/master/zip/',
-    gitee: 'https://gitee.com/wallace5303/dapps-addons/raw/master/zip/',
+    // gitee: 'https://gitee.com/wallace5303/dapps-addons/raw/master/zip/',
+    gitee: 'https://github.com/wallace5303/dapps-addons/raw/master/zip/',
   },
 };
