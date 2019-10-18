@@ -1,5 +1,5 @@
 ## 更新
-2019-10-18 周末了，上线一个牛X的软件：magnetw 种子搜索神器；快下载啊（说不定什么时候和谐了）
+1. 2019-10-18 周末了，上线一个牛X的软件：[magnetw 种子搜索神器](https://gitee.com/wallace5303/dapps-addons/tree/master/addons/magnetw21)；快下载啊（说不定什么时候和谐了）[查看效果](https://gitee.com/wallace5303/dapps-addons/tree/master/addons/magnetw21)
 
 ## dapps是什么？
 &emsp;&emsp;它是基于docker的应用程序商店，包含丰富的软件，因为基于docker，使你本机电脑有云开发的效果。
