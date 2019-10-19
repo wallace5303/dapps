@@ -35,4 +35,25 @@ $ docker-machine --version
 docker-machine version 0.16.1, build cce350d7
 ```
 
+### 下载加速
 
+对于使用 macOS 的用户，在任务栏点击 Docker Desktop 应用图标 -> `Perferences`，在左侧导航菜单选择 `Docker Engine` (或者是：daemon)，在右侧像下边一样编辑 json 文件。修改完成之后，点击 `Apply & Restart` 按钮，Docker 就会重启并应用配置的镜像地址了。
+
+```json
+{
+  "registry-mirrors": [
+      "https://reg-mirror.qiniu.com",
+      "https://dockerhub.azk8s.cn"
+  ]
+}
+```
+
+&nbsp;
+### 检查加速器是否生效
+
+执行 `$ docker info`，如果从结果中看到了如下内容，说明配置成功。
+
+```bash
+Registry Mirrors:
+ https://reg-mirror.qiniu.com
+```

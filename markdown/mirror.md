@@ -6,8 +6,8 @@
 ```json
 {
   "registry-mirrors": [
-    "https://dockerhub.azk8s.cn",
     "https://reg-mirror.qiniu.com"
+    "https://dockerhub.azk8s.cn"
   ]
 }
 ```

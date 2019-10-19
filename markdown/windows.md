@@ -30,3 +30,24 @@ Docker CE 启动之后会在 Windows 任务栏出现鲸鱼图标。
 - 点击“settings”
 - 再点击“shared Drives”
 - 然后把磁盘都勾上，就可以了
+
+### 下载加速
+
+在任务栏托盘 Docker 图标内右键菜单选择 `Settings`，
+1. 新版本
+
+    打开配置窗口后在左侧导航菜单选择 `daemon`，如图：
+    ![](https://i.loli.net/2019/10/19/SIvyHez6OE7Wshw.png)
+
+2. 老版本
+
+    打开配置窗口后在左侧导航菜单选择 `Docker Engine`，在右侧像下边一样编辑 json 文件，之后点击 `Apply & Restart` 保存后 Docker 就会重启并应用配置的镜像地址了。
+
+    ```json
+    {
+        "registry-mirrors": [
+            "https://reg-mirror.qiniu.com",
+            "https://dockerhub.azk8s.cn"
+        ]
+    }
+    ```
