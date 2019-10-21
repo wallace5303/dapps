@@ -66,6 +66,8 @@ class StoreController extends BaseController {
       app_list: [],
       all_data: null,
       now_installing: 'no',
+      search_param_str: JSON.stringify(query),
+      search_param: query,
     };
 
     query.debug = 0;

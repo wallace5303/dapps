@@ -25,15 +25,15 @@
           <div class="card">
             <div class="card-header">
               <h3 class="card-title">列表</h3>
-              <!-- <div class="card-tools">
+              <div class="card-tools">
                 <div class="input-group input-group-sm" style="width: 150px;">
-                  <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+                  <input id="search_app_name" type="text" name="table_search" class="form-control float-right" placeholder="应用名称" value="<%= search_param.app_name %>">
 
                   <div class="input-group-append">
-                    <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
+                    <button onclick="search_app()" type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
                   </div>
                 </div>
-              </div> -->
+              </div>
             </div>
             <% if (app_list.length == 0) {%>
               <span style="margin: auto">没有数据了！</span>
@@ -124,6 +124,7 @@
 
 <!-- 是否有正在安装的APP -->
 <p id='is_installing_app' data='<%= now_installing %>'></p>
+<p id='search_param_str' data='<%= search_param_str %>'></p>
 
 <script>
     $(document).ready(function(){
@@ -143,12 +144,29 @@
 
     function change_page(page)
     {
-        var url = "/html/v1/store/list?page=";
-        if (Number(page) < 1) {
-          page = 1;
-        }
-        url += page;
+      var search_param_str = $("#search_param_str").attr('data');
+      search_param_obj = JSON.parse(search_param_str);
+      delete search_param_obj.page;
+      var new_search_param_str = $.param(search_param_obj);
+
+      var url = "/html/v1/store/list?page=";
+      if (Number(page) < 1) {
+        page = 1;
+      }
+      url += page;
+      url += '&' + new_search_param_str;
+
+      window.location.href = url;
+    }
+
+    function search_app()
+    {
+      var app_name = $("#search_app_name").val();
+      console.log('length', app_name.length);
+      if (app_name.length > 0) {
+        var url = "/html/v1/store/list?page=1&app_name=" + app_name;
         window.location.href = url;
+      }
     }
 
     function installApp(appid)
