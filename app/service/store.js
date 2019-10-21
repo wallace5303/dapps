@@ -168,6 +168,47 @@ class StoreService extends BaseService {
   }
 
   /*
+   * 我的web应用
+   */
+  async myWebAppList() {
+    const webAppList = [];
+    const addonsDir = this.app.baseDir + '/docker/addons';
+
+    // 获取我的APP列表
+    const lsDir = await this.service.lowdb.getMyapp();
+    // console.log(lsDir);
+    for (let i = 0; i < lsDir.length; i++) {
+      const tmpAppInfo = lsDir[i];
+      const tmpAppid = tmpAppInfo.appid;
+      const tmpAppObj = {
+        appid: tmpAppid,
+        app_name: '',
+        open_url: '',
+      };
+      const envFile = addonsDir + '/' + tmpAppid + '/.env';
+      if (fs.existsSync(envFile)) {
+        const fileArr = await utils.readFileToArr(envFile);
+        for (let i = 0; i < fileArr.length; i++) {
+          const tmpEle = fileArr[i];
+          if (tmpEle.indexOf('APP_NAME') !== -1) {
+            tmpAppObj.app_name = tmpEle.substr(9);
+          }
+          if (tmpEle.indexOf('APP_PORT') !== -1) {
+            const appPort = tmpEle.substr(9);
+            if (appPort) {
+              tmpAppObj.open_url =
+                'http://' + utils.getIPAddress() + ':' + appPort;
+              webAppList.push(tmpAppObj);
+            }
+          }
+        }
+      }
+    }
+
+    return webAppList;
+  }
+
+  /*
    * 应用是否安装
    */
   async appIsInstall(appid) {

@@ -1,0 +1,72 @@
+<%- include('header'); %>
+  <!-- Sidenav -->
+  <%- include('sidebar'); %>
+  <!-- Main content -->
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1></h1>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card card-primary card-outline">
+              <div class="card-header">
+                <h3 class="card-title">
+                  应用
+                </h3>
+              </div>
+              <% if (app_list.length == 0) {%>
+                <div class="card-body pad table-responsive">
+                    <span style="margin: auto">没有数据，<a href="/html/v1/store/list">浏览应用商店</a></span>
+                  <% } else { %>
+                    <table class="table text-center">
+                      <% for (let i = 0; i < app_list.length; i++) {
+                        let oneLevel = app_list[i];
+                      %>
+                        <tr>
+                            <% for (let j = 0; j < oneLevel.length; j++) {
+                              let one = oneLevel[j];
+                            %>
+                              <td width="16.6%">
+                                <% if (one.appid != '') {%>
+                                  <a href="<%= one.open_url %>" target="_blank">
+                                      <button type="button" class="btn btn-block btn-outline-secondary"><%= one.app_name %></button>
+                                  </a>
+                                <% } %>
+                              </td>
+                            <% } %>
+                        </tr>
+                      <% } %>
+                    </table>
+                </div>
+              <% } %>
+              <!-- /.card -->
+            </div>
+          </div>
+          <!-- /.col -->
+        </div>
+
+      </div>
+
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+
+  <script>
+
+  </script>
+<%- include('bottom'); %>

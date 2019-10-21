@@ -8,6 +8,7 @@ module.exports = app => {
   const auth = app.middleware.auth();
 
   // html
+  router.get('/html/v1/store/quick', controller.v1.store.quick);
   // 商店列表
   router.get('/html/v1/store/list', controller.v1.store.index);
   router.get('/html/v1/store/myapp', controller.v1.store.myApp);

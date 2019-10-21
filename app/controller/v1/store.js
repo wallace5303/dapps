@@ -9,6 +9,51 @@ const fs = require('fs');
 
 class StoreController extends BaseController {
   /*
+   * html - 快速使用
+   */
+  async quick() {
+    const { app, ctx, service } = this;
+
+    const data = {
+      navigation: 'quick',
+      app_list: [],
+      all_data: {
+        total: 0,
+      },
+    };
+
+    const appList = await service.store.myWebAppList();
+    // console.log(appList);
+
+    // 改为二维数组
+    const webApplist = _.chunk(appList, 6);
+    // console.log(webApplist);
+
+    // 补充满，每组6个
+    for (let i = 0; i < webApplist.length; i++) {
+      const tmpOneLevel = webApplist[i];
+      if (_.isArray(tmpOneLevel)) {
+        while (tmpOneLevel.length < 6) {
+          const tmpAppObj = {
+            appid: '',
+            app_name: '',
+            open_url: '',
+          };
+          tmpOneLevel.push(tmpAppObj);
+        }
+      }
+    }
+    // console.log(webApplist);
+    data.app_list = webApplist;
+
+    // 总数目
+    const total = data.app_list.length;
+    data.all_data.total = total;
+
+    await ctx.render('store/quick.ejs', data);
+  }
+
+  /*
    * html - 应用列表
    */
   async index() {
