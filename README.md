@@ -1,5 +1,6 @@
 ## 更新
-1. 2019-10-18 周末了，上线一个牛X的软件：[magnetw 种子搜索神器](https://gitee.com/wallace5303/dapps-addons/tree/master/addons/magnetw21)；快下载啊， [查看效果](https://gitee.com/wallace5303/dapps-addons/tree/master/addons/magnetw21)
+- 2019-10-22 上线应用：py12306抢票，gogs版本控制，mysql-8.0.16,mongo-4.0.13,rabbitmq3.7队列服务等多个应用
+- 2019-10-18 周末了，上线一个牛X的软件：[magnetw 种子搜索神器](https://gitee.com/wallace5303/dapps-addons/tree/master/addons/magnetw21)；快下载啊， [查看效果](https://gitee.com/wallace5303/dapps-addons/tree/master/addons/magnetw21)
 
 ## dapps是什么？
 &emsp;&emsp;它是基于docker的应用程序商店，包含丰富的软件，因为基于docker，使你本机电脑有云开发的效果。
@@ -57,5 +58,14 @@ npm run start
 
 >9.支持系统版本：Linux、MacOs、Windows
 
+## 交流群
+
+* 微信讨论群
+
+    ![](https://i.loli.net/2019/08/22/5BHxFJhYpzoAVT1.png)
+
+* QQ讨论群
+
+    ![](https://i.loli.net/2019/10/22/a2mCiT95hYJvyXB.png)
 
 #### 帮忙加个星吧!
