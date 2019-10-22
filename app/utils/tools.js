@@ -18,7 +18,7 @@ function github(appid, type = 'github') {
       '.zip';
   } else {
     url =
-      'https://gitee.com/wallace5303/dapps-addons/raw/master/zip/' +
+      'https://github.com/wallace5303/dapps-addons/raw/master/zip/' +
       appid +
       '.zip';
   }

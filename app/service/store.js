@@ -332,11 +332,6 @@ class StoreService extends BaseService {
     }
 
     const appid = query.appid;
-
-    // 写入正在安装的临时数据
-    await this.service.lowdb.setInstallingAppFlag();
-    await this.service.lowdb.setMyInstallingApp(appid);
-
     const appPath = this.app.baseDir + '/docker/addons/' + appid;
     this.app.logger.info(
       '[StoreService] [installApp]  开始下载平台文件压缩包...'
@@ -346,7 +341,19 @@ class StoreService extends BaseService {
       downloadType = 'gitee';
     }
     await tools.wget(appPath, appid, downloadType);
+
+    // 检查是否下载成功
+    const appIsExist = await this.service.store.appIsInstall(appid);
+    if (!appIsExist) {
+      this.app.logger.error('[StoreService] [installApp]  下载失败');
+      return false;
+    }
+
     this.app.logger.info('[StoreService] [installApp]  下载完成');
+
+    // 写入正在安装的临时数据
+    await this.service.lowdb.setInstallingAppFlag();
+    await this.service.lowdb.setMyInstallingApp(appid);
 
     // 修改权限
     utils.chmodPath(appPath, '777');
