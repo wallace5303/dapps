@@ -1,21 +1,26 @@
-## 更新
-- 2019-10-22 上线应用：py12306抢票，gogs版本控制，mysql-8.0.16,mongo-4.0.13,rabbitmq3.7队列服务等多个应用
-- 2019-10-18 周末了，上线一个牛X的软件：[magnetw 种子搜索神器](https://gitee.com/wallace5303/dapps-addons/tree/master/addons/magnetw21)；快下载啊， [查看效果](https://gitee.com/wallace5303/dapps-addons/tree/master/addons/magnetw21)
-
 ## dapps是什么？
 &emsp;&emsp;它是基于docker的应用程序商店，包含丰富的软件，因为基于docker，使你本机电脑有云开发的效果。
 一键安装程序；多版本共存，完善的使用说明，且不影响本机环境。
 前端、服务端、运维、站长可以直接使用，效率提高非常多。普通用户亦可使用其中部分软件。
 
 ## 目前包含的软件
-1. PHP ： 世界上最好的语言（版本：5.6，7.1，7.2，7.3）
-2. Mysql ： 数据库（版本：5.6，5.7，,8.0）
-3. Nginx ： 服务器（版本：1.16）
-4.  PhpMyAdmin：  mysql管理工具
-5.  redis ：   nosql数据库（版本：5.0）
-6.  mongo ：  是一个基于分布式文件存储的数据库（版本：3.4，4.0）
-7.  magnetw ： 种子搜索神器
-8.  web游戏，12306抢票软件，常用建站程序等，正在开发测试中......
+- py12306抢票 ------ [查看效果](https://github.com/wallace5303/dapps-addons/blob/master/addons/py12306/README.md)
+- magnetw： 种子搜索神器 ------ [查看效果](https://github.com/wallace5303/dapps-addons/blob/master/addons/magnetw21/README.md)
+- PhpMyAdmin：mysql管理工具 ------ [查看效果](https://github.com/wallace5303/dapps-addons/blob/master/addons/phpmyadmin/README.md)
+- adminmongo: mongo管理工具 ------ [查看效果](https://github.com/wallace5303/dapps-addons/blob/master/addons/adminmongo/README.md)
+- PHP： 世界上最好的语言（版本：5.6，7.1，7.2，7.3）------ [查看效果](https://github.com/wallace5303/dapps-addons/blob/master/addons/php-7-2-21/README.md)
+- Mysql：数据库（版本：5.6，5.7，,8.0）------ [查看效果](https://github.com/wallace5303/dapps-addons/blob/master/addons/mysql57/README.md)
+- Nginx：服务器（版本：1.16）------ [查看效果](https://github.com/wallace5303/dapps-addons/blob/master/addons/nginx116/README.md)
+- redis：nosql数据库（版本：5.0）------ [查看效果](https://github.com/wallace5303/dapps-addons/blob/master/addons/redis5/README.md)
+- mongo：是一个基于分布式文件存储的数据库（版本：3.4，4.0）------ [查看效果](https://github.com/wallace5303/dapps-addons/blob/master/addons/mongo-4-0-13/README.md)
+- gogs版本控制 ------ [查看效果](https://github.com/wallace5303/dapps-addons/blob/master/addons/gogs/README.md)
+- rabbitmq3.7队列服务 ------ [查看效果](https://github.com/wallace5303/dapps-addons/blob/master/addons/rabbitmq37/README.md)
+- 2048游戏 ------ [查看效果](https://github.com/wallace5303/dapps-addons/blob/master/addons/game-2048/README.md)
+- 等......
+
+## 交流
+
+如果你有什么软件需求，请加下面群或者留言，我们可以开发并发布到应用商店中
 
 ## 开始使用
 
