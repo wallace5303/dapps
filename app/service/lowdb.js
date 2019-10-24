@@ -101,6 +101,42 @@ class LowdbService extends BaseService {
   }
 
   /*
+   * set更新APP的临时标识
+   */
+  async setUpdatingAppFlag() {
+    const key = LowdbKey.KV_APP_UPDATING_FLAG;
+    const res = this.fileSyncInstance()
+      .set(key, 1)
+      .write();
+
+    return res;
+  }
+
+  /*
+   * get更新APP的临时标识
+   */
+  async getUpdatingAppFlag() {
+    const key = LowdbKey.KV_APP_UPDATING_FLAG;
+    const res = this.fileSyncInstance()
+      .get(key)
+      .value();
+
+    return res;
+  }
+
+  /*
+   * del更新APP的临时标识
+   */
+  async delUpdatingAppFlag() {
+    const key = LowdbKey.KV_APP_UPDATING_FLAG;
+    const res = this.fileSyncInstance()
+      .unset(key)
+      .write();
+
+    return res;
+  }
+
+  /*
    * 添加my app
    */
   async createMyapp(appid) {
@@ -214,6 +250,67 @@ class LowdbService extends BaseService {
       .value();
 
     return info;
+  }
+
+  /*
+   * 添加app update
+   */
+  async createAppUpate(appInfo) {
+    const res = this.fileSyncInstance()
+      .get('app_update')
+      .push(appInfo)
+      .write();
+
+    return res;
+  }
+
+  /*
+   * 移除app update
+   */
+  async removeAppUpdate(appid) {
+    const res = this.fileSyncInstance()
+      .get('app_update')
+      .remove({ appid })
+      .write();
+
+    return res;
+  }
+
+  /*
+   * 获取app update
+   */
+  async getAppUpdateList() {
+    const list = this.fileSyncInstance()
+      .get('app_update')
+      .value();
+
+    return list;
+  }
+
+  /*
+   * 获取 app update
+   */
+  async getAppUpdateByAppid(appid) {
+    const info = this.fileSyncInstance()
+      .get('app_update')
+      .find({ appid })
+      .value();
+    if (info) {
+      return info;
+    }
+    return null;
+  }
+
+  /*
+   * 获取app update 个数
+   */
+  async getAppUpdateNum() {
+    const num = this.fileSyncInstance()
+      .get('app_update')
+      .size()
+      .value();
+
+    return num;
   }
 }
 

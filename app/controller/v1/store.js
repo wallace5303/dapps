@@ -156,15 +156,6 @@ class StoreController extends BaseController {
             one.is_running = true;
           }
 
-          // 是否有更新
-          // const newVersionRes = await service.store.appHasNewVersion(
-          //   one.appid,
-          //   one.version
-          // );
-          // if (newVersionRes) {
-          //   one.is_new_version = true;
-          // }
-
           // 配置文件地址
           one.config_dir_url =
             app.baseDir + '/docker/addons/' + one.appid + '/config';
@@ -182,6 +173,32 @@ class StoreController extends BaseController {
     data.all_data.total = total;
 
     await ctx.render('store/myapp.ejs', data);
+  }
+
+  /*
+   * html - 应用升级
+   */
+  async htmlAppUpdate() {
+    const self = this;
+    const { app, ctx, service } = this;
+
+    const data = {
+      navigation: 'appupdate',
+      app_list: [],
+      all_data: {
+        total: 0,
+      },
+    };
+
+    const appList = await service.store.myAppUpdateList();
+    console.log(appList);
+
+    // 总数目
+    const total = await service.lowdb.getAppUpdateNum();
+    data.all_data.total = total;
+    data.app_list = appList;
+
+    await ctx.render('store/appupdate.ejs', data);
   }
 
   /*
@@ -405,10 +422,21 @@ class StoreController extends BaseController {
       return;
     }
 
+    // 是否有正在更新的程序
+    const flag = await this.service.lowdb.getUpdatingAppFlag();
+    if (flag) {
+      self.sendFail(
+        {},
+        '另外一个程序正在更新，请稍后再试',
+        CODE.DAPPS_OHTER_APP_UPDATING
+      );
+      return;
+    }
+
     await service.store.updateApp(appid);
 
     const data = {};
-    self.sendSuccess(data, '正在更新中，请稍后刷新...');
+    self.sendSuccess(data, '已更新');
   }
 
   /*

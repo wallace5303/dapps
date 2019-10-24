@@ -22,9 +22,9 @@
         <div class="row">
           <div class="col-12">
 
-            <div class="callout callout-info">
+            <!-- <div class="callout callout-info">
                 注：启动太多的服务，会导致电脑运行效率低，请关闭不需要的
-            </div>
+            </div> -->
 
             <div class="card">
               <div class="card-header">
@@ -40,7 +40,9 @@
                 </div> -->
               </div>
               <% if (app_list.length == 0) {%>
-                <span style="margin: auto">无</span>
+                <div class="card-header">
+                    <span style="margin: auto">没有数据</span>
+                </div>
               <% } else { %>  
               <!-- /.card-header -->
               <div class="card-body table-responsive p-0">           
@@ -99,12 +101,6 @@
                                 <% } else { %>
                                   <a id="operation_<%= one.appid %>" class="btn btn-info btn-sm" href="#" onclick="start('<%= one.appid %>')">
                                     启动
-                                  </a>
-                                <% } %>
-                                <!-- 是否需要更新 -->
-                                <% if (one.is_new_version) {%>
-                                  <a id="update_<%= one.appid %>" class="btn btn-primary btn-sm" href="#" onclick="update('<%= one.appid %>')">
-                                    更新
                                   </a>
                                 <% } %>
 
@@ -221,22 +217,6 @@
               var is_running__app_content = '已停止';
               $("#is_running_" + appid).html(is_running__app_content);
               //window.location.reload();
-            }
-        });
-      }
-
-      function update(appid)
-      {
-        var updateing_app_content = '正在更新...';
-        $("#update_" + appid).html(updateing_app_content);
-        $("#update_" + appid).attr("onclick", "");
-        var url = "/api/v1/store/app_update?appid=" + appid;
-        $.get(url,function(result){
-            if (result.code !== 0) {
-                alert(result.msg);
-                window.location.reload();
-            } else {
-              $("#update_" + appid).remove();
             }
         });
       }

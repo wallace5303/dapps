@@ -15,6 +15,7 @@ module.exports = app => {
   router.get('/html/v1/store/chat', controller.v1.store.chat);
   router.get('/html/v1/store/help', controller.v1.store.help);
   router.get('/html/v1/store/version', controller.v1.store.version);
+  router.get('/html/v1/store/appupdate', controller.v1.store.htmlAppUpdate);
 
   // api
   // 应用安装

@@ -55,6 +55,9 @@ class AppBootHook {
     if (!db.has('my_app').value()) {
       db.set('my_app', []).write();
     }
+    if (!db.has('app_update').value()) {
+      db.set('app_update', []).write();
+    }
   }
 
   async serverDidReady() {

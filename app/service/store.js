@@ -136,6 +136,43 @@ class StoreService extends BaseService {
   }
 
   /*
+   * 应用升级列表
+   */
+  async myAppUpdateList() {
+    const appList = [];
+    const addonsDir = this.app.baseDir + '/docker/addons';
+
+    // 获取我的APP列表
+    const appUpdateList = await this.service.lowdb.getAppUpdateList();
+
+    for (let i = 0; i < appUpdateList.length; i++) {
+      const tmpAppInfo = appUpdateList[i];
+      const tmpAppid = tmpAppInfo.appid;
+      const tmpAppObj = {
+        appid: tmpAppid,
+        app_name: '',
+        update_content: '',
+      };
+      const envFile = addonsDir + '/' + tmpAppid + '/.env';
+      if (fs.existsSync(envFile)) {
+        const fileArr = await utils.readFileToArr(envFile);
+        for (let i = 0; i < fileArr.length; i++) {
+          const tmpEle = fileArr[i];
+          if (tmpEle.indexOf('APP_NAME') !== -1) {
+            tmpAppObj.app_name = tmpEle.substr(9);
+          }
+          if (tmpEle.indexOf('APP_UPDATE_CONTENT') !== -1) {
+            tmpAppObj.update_content = tmpEle.substr(19);
+          }
+        }
+      }
+      appList.push(tmpAppObj);
+    }
+
+    return appList;
+  }
+
+  /*
    * 我的应用总数
    */
   async myAppTotal() {
@@ -180,6 +217,13 @@ class StoreService extends BaseService {
     for (let i = 0; i < lsDir.length; i++) {
       const tmpAppInfo = lsDir[i];
       const tmpAppid = tmpAppInfo.appid;
+
+      // 检查应用是否启动
+      const runRes = await this.service.store.appIsRunning(tmpAppid);
+      if (!runRes) {
+        continue;
+      }
+
       const tmpAppObj = {
         appid: tmpAppid,
         app_name: '',
@@ -438,7 +482,11 @@ class StoreService extends BaseService {
       downloadType = 'gitee';
     }
     await tools.wget(appPath, appid, downloadType);
+
     this.app.logger.info('[StoreService] [updateApp]  下载完成');
+
+    // 写入正在更新的临时数据
+    await this.service.lowdb.setUpdatingAppFlag();
 
     // 修改权限
     utils.chmodPath(appPath, '777');
@@ -465,6 +513,9 @@ class StoreService extends BaseService {
       '[StoreService] [updateApp]  dockerRes.code:',
       dockerRes.code
     );
+
+    await this.service.lowdb.delUpdatingAppFlag();
+    await this.service.lowdb.removeAppUpdate(appid);
 
     return true;
   }

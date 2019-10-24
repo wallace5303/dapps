@@ -58,6 +58,8 @@ let StatusCode;
   StatusCode[(StatusCode.DAPPS_OHTER_APP_INSTALLING = 70002)] =
     'DAPPS_OHTER_APP_INSTALLING'; // 有其它程序正在安装
   StatusCode[(StatusCode.DAPPS_NO_DOCKER = 70003)] = 'DAPPS_NO_DOCKER'; // 没有docker
+  StatusCode[(StatusCode.DAPPS_OHTER_APP_UPDATING = 70004)] =
+    'DAPPS_OHTER_APP_UPDATING'; // 有其它程序正在更新
 })(StatusCode || (StatusCode = {}));
 
 module.exports = StatusCode;

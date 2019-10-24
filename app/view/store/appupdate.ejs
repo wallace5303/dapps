@@ -1,0 +1,126 @@
+<%- include('header'); %>
+  <!-- Sidenav -->
+  <%- include('sidebar'); %>
+  <!-- Main content -->
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+      <!-- Content Header (Page header) -->
+      <section class="content-header">
+        <div class="container-fluid">
+          <div class="row mb-2">
+            <div class="col-sm-6">
+              <h1>应用更新</h1>
+            </div>
+          </div>
+        </div><!-- /.container-fluid -->
+      </section>
+  
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-12">
+
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">列表</h3>
+              </div>
+              <% if (app_list.length == 0) {%>
+                <div class="card-header">
+                  <h3 class="card-title">应用全部为最新版本</h3>
+                </div>
+              <% } else { %>  
+              <!-- /.card-header -->
+              <div class="card-body table-responsive p-0">
+                  <table class="table table-hover"> 
+                    <thead> 
+                      <tr>
+                          <th width="20%" >应用名称</th>
+                          <th width="60%" >更新内容</th>
+                          <th width="20%" >操作</th>
+                      </tr> 
+                    </thead> 
+                    <tbody> 
+                      <% for (let i = 0; i < app_list.length; i++) {
+                        let one = app_list[i];
+                        %>
+                        <tr id="td_update_<%= one.appid %>" >
+                            <td>
+                                <strong><%= one.app_name %></strong>
+                            </td>
+                            <td>
+                              <strong><%= one.update_content %></strong>
+                            </td>
+                            <td>
+                              <a id="update_<%= one.appid %>" class="btn btn-primary btn-sm" href="#" onclick="update('<%= one.appid %>')">
+                                更新
+                              </a>
+                            </td>
+                        </tr>
+                      <% } %>
+                    </tbody>
+                  </table>
+              </div>
+              <% } %>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+          <!-- /.col -->
+        </div>
+
+        <!-- /.row -->
+        <div class="row">
+          <div class="col-sm-12 col-md-4">
+            <div class="dataTables_info" id="example2_info" role="status" aria-live="polite">
+              共 <%= all_data.total %> 条数据
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+    <!-- /.content -->
+  </div>
+  
+  <script>
+      $(document).ready(function(){
+        // 清除异常的flag
+        setTimeout(function(){
+          sessionStorage.removeItem("updating_flag");
+        }, 5000);
+      })
+
+      function update(appid)
+      {
+        // 临时的更新标识
+        var updateFlag = sessionStorage.getItem("updating_flag");
+        if (updateFlag == "yes") {
+          alert('另外一个程序正在更新，请稍后再试');
+          return;
+        } else {
+          sessionStorage.setItem("updating_flag", "yes");
+        }
+
+        var updating_app_content = '正在更新...';
+        $("#update_" + appid).html(updating_app_content);
+        $("#update_" + appid).attr("onclick", "");
+        var url = "/api/v1/store/app_update?appid=" + appid;
+        $.get(url,function(result){
+          sessionStorage.removeItem("updating_flag");
+          if (result.code == 70004) {
+            alert(result.msg + '(' + result.code + ')');
+            return;
+          } else if (result.code !== 0) {  
+            alert(result.msg + '(' + result.code + ')');
+            return;
+          } else {
+            $("#td_update_" + appid).remove();
+            //window.location.reload();
+          }
+        });
+      }
+  </script>
+  
+<%- include('bottom'); %>
