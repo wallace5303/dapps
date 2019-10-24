@@ -1,5 +1,5 @@
 ## dapps是什么？
-&emsp;&emsp;它是基于docker的应用程序商店，包含丰富的软件，因为基于docker，使你本机电脑有云开发的效果。
+&emsp;&emsp;它是一个应用程序商店，包含丰富的软件，因为基于docker，使你本机电脑有云开发的效果。
 一键安装程序；多版本共存，完善的使用说明，且不影响本机环境。
 前端、服务端、运维、站长可以直接使用，效率提高非常多。普通用户亦可使用其中部分软件。
 
@@ -72,5 +72,13 @@ npm run start
 * QQ讨论群
 
     ![](https://i.loli.net/2019/10/22/a2mCiT95hYJvyXB.png)
+
+## 本项目技术栈
+- nodejs
+- egg.js
+- docker
+- docker-compose
+- shell
+
 
 #### 帮忙加个星吧!
