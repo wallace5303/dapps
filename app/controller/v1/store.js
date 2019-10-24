@@ -157,13 +157,13 @@ class StoreController extends BaseController {
           }
 
           // 是否有更新
-          const newVersionRes = await service.store.appHasNewVersion(
-            one.appid,
-            one.version
-          );
-          if (newVersionRes) {
-            one.is_new_version = true;
-          }
+          // const newVersionRes = await service.store.appHasNewVersion(
+          //   one.appid,
+          //   one.version
+          // );
+          // if (newVersionRes) {
+          //   one.is_new_version = true;
+          // }
 
           // 配置文件地址
           one.config_dir_url =
