@@ -50,11 +50,11 @@
                     <thead> 
                       <tr>
                           <th width="15%" >应用名称</th>
-                          <th width="27%" >开始使用</th>
-                          <th width="8%" >文档</th>
-                          <th width="10%" >配置</th>
+                          <th width="30%" >开始使用</th>
+                          <th width="10%" >文档</th>
+                          <!-- <th width="10%" >配置</th> -->
                           <th width="15%" >状态</th>
-                          <th width="15%" >操作</th>
+                          <th width="20%" >操作</th>
                           <th width="10%" >危险</th>
                       </tr> 
                     </thead> 
@@ -81,11 +81,11 @@
                                     使用说明
                                 </a>
                             </td>
-                            <td id="app_config_<%= one.appid %>" data="<%= one.config_dir_url %>">
+                            <!-- <td id="app_config_<%= one.appid %>" data="<%= one.config_dir_url %>">
                               <a href="#" data-toggle="modal" data-target="#modal-lg" onclick="appConfig('<%= one.appid %>')">
                                 查看
                               </a>
-                            </td>
+                            </td> -->
                             <td id="is_running_<%= one.appid %>">
                               <% if (one.is_running) {%>
                                 正在运行
