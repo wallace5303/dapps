@@ -63,6 +63,25 @@ npm run start
 
 >9.支持系统版本：Linux、MacOs、Windows
 
+## 软件升级（推荐时不时，升级一下^_^）
+
+### git方式（推荐）
+
+    ```
+        # 拉取新代码
+        cd dapps
+        git pull
+
+        # 重启
+        npm run restart
+    ```
+
+### 软件中升级
+
+- 点击按钮，然后重启即可
+![](https://i.loli.net/2019/10/24/b6O8aG2ZmLodFxN.png)
+
+
 ## 交流群
 
 * 微信讨论群
