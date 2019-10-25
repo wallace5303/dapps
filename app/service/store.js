@@ -382,7 +382,7 @@ class StoreService extends BaseService {
     );
     let downloadType = 'github';
     if (this.app.config.env === 'prod') {
-      downloadType = 'gitee';
+      downloadType = 'coding';
     }
     await tools.wget(appPath, appid, downloadType);
 

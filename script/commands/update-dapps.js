@@ -26,7 +26,7 @@ async function run() {
     return false;
   }
 
-  const url = commonConfig.dappsPath.github;
+  const url = commonConfig.dappsPath.coding;
 
   console.log('[script] [sysUpdate]  url:%j', url);
   const dest = root + '/test';

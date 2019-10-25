@@ -1,8 +1,6 @@
 'use strict';
 const download = require('download');
 const fs = require('fs');
-const semver = require('semver');
-const axios = require('axios');
 
 function oldVersion() {
   return [];
@@ -17,10 +15,7 @@ function github(appid, type = 'github') {
       appid +
       '.zip';
   } else {
-    url =
-      'https://github.com/wallace5303/dapps-addons/raw/master/zip/' +
-      appid +
-      '.zip';
+    url = 'https://kaka996.coding.net/p/zip/git/raw/master/' + appid + '.zip';
   }
   return url;
 }
@@ -28,15 +23,6 @@ module.exports = {
   message: {
     fount_project_path_error:
       '项目目录找不到配置文件 config.json, 请确认当前目录是否为项目目录',
-  },
-
-  async getVersions() {
-    const info = await axios.get(
-      'https://www.easy-mock.com/mock/5c2851e3d84c733cb500c3b9/yapi/versions'
-    );
-    const versions = info.data.data;
-    console.log(versions);
-    return [].concat(versions, oldVersion());
   },
 
   log(msg) {
