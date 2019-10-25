@@ -5,17 +5,34 @@
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
+    
     <section class="content-header">
-      <div class="container-fluid">
+      <!-- <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1></h1>
+            <h1>ddd</h1>
           </div>
         </div>
-      </div><!-- /.container-fluid -->
+      </div> -->
     </section>
-
+    <div class="wrap">
+      <div id="qb-bg" style="display: none;"></div>
+      <form action="http://www.baidu.com/baidu" target="_blank">
+          <input name=tn type=hidden value=baidu>
+          <div class="search">
+              <div class="qbsbox-container" data-btn="text" data-logo="top" style="width: 692px;" data-engine="baidu">
+                  <div class="qbsbox-logo"></div>
+                  <div class="qbsbox-main">
+                      <div class="qbsbox-input-wrap"><input type="text" name=word class="qbsbox-input" data-log="search.13" id="irid_1"
+                                                            placeholder="请输入要搜索的内容">
+                      </div>
+                      <input  class="qbsbox-search-btn" type="submit" value="百度一下" >
+                  </div>
+              </div>
+          </div>
+      </form>
+      <div class="sites-drag" draggable="false"></div>
+    </div>
     <!-- Main content -->
     <section class="content">
       <div class="container-fluid">
@@ -58,6 +75,37 @@
           </div>
           <!-- /.col -->
         </div>
+
+          <div class="col-md-9" style="max-width: 100%;">
+            <div class="card">
+              <div class="card-header p-2">
+                <ul class="nav nav-pills">
+                  <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Activity</a></li>
+                  <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Timeline</a></li>
+                  <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Settings</a></li>
+                </ul>
+              </div><!-- /.card-header -->
+              <div class="card-body">
+                <div class="tab-content">
+                  <div class="active tab-pane" id="activity">
+                    a
+                  </div>
+                  <!-- /.tab-pane -->
+                  <div class="tab-pane" id="timeline">
+                      b
+                  </div>
+                  <!-- /.tab-pane -->
+                      
+                  <div class="tab-pane" id="settings">
+                      c
+                  </div>
+                  <!-- /.tab-pane -->
+                </div>
+                <!-- /.tab-content -->
+              </div><!-- /.card-body -->
+            </div>
+            <!-- /.nav-tabs-custom -->
+          </div>
 
       </div>
 
