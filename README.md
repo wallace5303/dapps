@@ -41,8 +41,14 @@ npm run start
 ## 效果图
 1. 访问： http://localhost:8000/
  
-![](https://i.loli.net/2019/10/11/HnfFyrmdeZj3Pat.png)
-![](https://i.loli.net/2019/10/11/yWCI8TQReAMsdpB.png)
+    ![](https://i.loli.net/2019/10/26/fLmqtePbAHFnksl.png)
+    ![](https://i.loli.net/2019/10/26/jScTp4DCKRMfobk.png)
+    ![](https://i.loli.net/2019/10/11/yWCI8TQReAMsdpB.png)
+
+    一些软件效果
+    ![](https://i.loli.net/2019/10/08/Y2DGjzJ4opiFueM.png)
+    ![](https://i.loli.net/2019/10/24/H6kSeoMhjiLJK17.png)
+
 
 ## 特性
 >1.使用对象：**普通用户**，**前端**，**服务端**，**运维**
