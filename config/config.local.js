@@ -5,18 +5,18 @@
  * 远程调用
  */
 exports.outApi = {
-  dappsInfo: 'http://192.168.10.233:8081/api/dapps/info',
-  appInfo: 'http://192.168.10.233:8081/api/dapps/store/app_info',
-  appList: 'http://192.168.10.233:8081/api/dapps/store/app_list',
-  allAppList: 'http://192.168.10.233:8081/api/dapps/store/all_app_list',
-  login: 'http://192.168.10.233:8081/api/dapps/login',
-  register: 'http://192.168.10.233:8081/api/dapps/register',
+  dappsInfo: 'http://test-www.kaka996.com/api/dapps/info',
+  appInfo: 'http://test-www.kaka996.com/api/dapps/store/app_info',
+  appList: 'http://test-www.kaka996.com/api/dapps/store/app_list',
+  allAppList: 'http://test-www.kaka996.com/api/dapps/store/all_app_list',
+  login: 'http://test-www.kaka996.com/api/dapps/login',
+  register: 'http://test-www.kaka996.com/api/dapps/register',
   developerAppUpdate:
-    'http://192.168.10.233:8081/api/dapps/store/developer_app_update',
+    'http://test-www.kaka996.com/api/dapps/store/developer_app_update',
   developerAppList:
-    'http://192.168.10.233:8081/api/dapps/store/developer_app_list',
-  userinfo: 'http://192.168.10.233:8081/api/dapps/user/info',
-  incrDownload: 'http://192.168.10.233:8081/api/dapps/store/incr_download',
+    'http://test-www.kaka996.com/api/dapps/store/developer_app_list',
+  userinfo: 'http://test-www.kaka996.com/api/dapps/user/info',
+  incrDownload: 'http://test-www.kaka996.com/api/dapps/store/incr_download',
 };
 
 exports.logger = {
