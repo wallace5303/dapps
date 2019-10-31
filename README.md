@@ -4,6 +4,8 @@
 前端、服务端、运维、站长可以直接使用，效率提高非常多。普通用户亦可使用其中部分软件。
 
 ## 目前包含的软件
+- 百度网盘下载器 ------ [查看效果](https://github.com/wallace5303/dapps-addons/blob/master/addons/baidupcs-go/README.md)
+- wordpress ------ [查看效果](https://github.com/wallace5303/dapps-addons/blob/master/addons/wordpress/README.md)
 - py12306抢票 ------ [查看效果](https://github.com/wallace5303/dapps-addons/blob/master/addons/py12306/README.md)
 - magnetw： 种子搜索神器 ------ [查看效果](https://github.com/wallace5303/dapps-addons/blob/master/addons/magnetw21/README.md)
 - PhpMyAdmin：mysql管理工具 ------ [查看效果](https://github.com/wallace5303/dapps-addons/blob/master/addons/phpmyadmin/README.md)
