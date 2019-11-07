@@ -496,16 +496,22 @@ class StoreController extends BaseController {
 
     // 本地版本
     const localDappsInfo = await service.lowdb.getDapps();
-    console.log('local DappsInfo:%j', localDappsInfo);
+    // console.log('local DappsInfo:%j', localDappsInfo);
     const localVersion = localDappsInfo.version;
 
     // 获取线上dappsinfo
     const dappsInfoRes = await service.store.getDappsInfo();
-    console.log('online dappsInfo:%j', dappsInfoRes);
+    console.log(
+      '[StoreController] [checkSysVersion] online dappsInfo:%j',
+      dappsInfoRes
+    );
     // 线上版本
     const onlineVersion = dappsInfoRes.version;
     const compareRes = utils.compareVersion(localVersion, onlineVersion);
-    console.log('compareRes:%j', compareRes);
+    console.log(
+      '[StoreController] [checkSysVersion] compareRes:%j',
+      compareRes
+    );
     if (compareRes) {
       has_new_version = true;
     }
