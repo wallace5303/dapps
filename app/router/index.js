@@ -13,7 +13,6 @@ module.exports = app => {
   require('./initialize')(app);
   require('./user')(app);
   require('./test')(app);
-  require('./sms')(app);
   require('./store')(app);
   require('./home')(app);
 };
