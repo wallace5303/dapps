@@ -51,8 +51,13 @@ npm run start
     ![](https://i.loli.net/2019/10/26/jScTp4DCKRMfobk.png)
     ![](https://i.loli.net/2019/10/11/yWCI8TQReAMsdpB.png)
 
-    一些软件效果
+2. 一些软件效果：
+
+    百度网盘
+    ![](https://i.loli.net/2019/11/06/MDPWZJcGaBpUznr.png)
+    ariang下载器
     ![](https://i.loli.net/2019/11/04/RoxOCNnWEdaHFLw.png)
+    数据库管理
     ![](https://i.loli.net/2019/10/08/Y2DGjzJ4opiFueM.png)
 
 
