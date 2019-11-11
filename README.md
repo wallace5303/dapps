@@ -4,6 +4,9 @@
 前端、服务端、运维、站长可以直接使用，效率提高非常多。普通用户亦可使用其中部分软件。
 
 ## 目前包含的软件
+    
+> 注：每周会上架一款新应用，持续更新
+ 
 - AriaNg高速下载器：2倍迅雷速度，迅雷无法下载的资源，也能下载 ------ [查看效果](https://github.com/wallace5303/dapps-addons/blob/master/addons/ariang/README.md)
 - 百度网盘下载器 ------ [查看效果](https://github.com/wallace5303/dapps-addons/blob/master/addons/baidupcs-go/README.md)
 - wordpress ------ [查看效果](https://github.com/wallace5303/dapps-addons/blob/master/addons/wordpress/README.md)
