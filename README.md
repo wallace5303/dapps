@@ -6,8 +6,9 @@
 ## 目前包含的软件
 
 - 注：每周会上架一款新应用，持续更新
+- 百度网盘web版：下载速度比官方快很多 ------ [查看效果](https://github.com/wallace5303/dapps-addons/blob/master/addons/baidupcs-web/README.md)
 - AriaNg高速下载器：2倍迅雷速度，迅雷无法下载的资源，也能下载 ------ [查看效果](https://github.com/wallace5303/dapps-addons/blob/master/addons/ariang/README.md)
-- 百度网盘下载器 ------ [查看效果](https://github.com/wallace5303/dapps-addons/blob/master/addons/baidupcs-go/README.md)
+- 百度网盘下载器(命令行) ------ [查看效果](https://github.com/wallace5303/dapps-addons/blob/master/addons/baidupcs-go/README.md)
 - wordpress ------ [查看效果](https://github.com/wallace5303/dapps-addons/blob/master/addons/wordpress/README.md)
 - py12306抢票 ------ [查看效果](https://github.com/wallace5303/dapps-addons/blob/master/addons/py12306/README.md)
 - magnetw： 种子搜索神器 ------ [查看效果](https://github.com/wallace5303/dapps-addons/blob/master/addons/magnetw21/README.md)
