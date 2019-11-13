@@ -318,6 +318,22 @@ class StoreService extends BaseService {
   }
 
   /*
+   * 网络是否存在
+   */
+  async appNetworkExist(appid) {
+    const networkInfo = shell.exec(
+      'docker network inspect ' + appid + '_default',
+      {
+        silent: true,
+      }
+    );
+    if (networkInfo.code === 0) {
+      return true;
+    }
+    return false;
+  }
+
+  /*
    * 应用是否有更新
    */
   async appHasNewVersion(appid) {
@@ -458,6 +474,16 @@ class StoreService extends BaseService {
       }
     }
 
+    // 检查网络是否存在
+    const networkIsExist = await this.service.store.appNetworkExist(appid);
+    if (networkIsExist) {
+      const delNetworkRes = await this.service.store.delAppNetwork(appid);
+      if (!delNetworkRes) {
+        res.msg = '删除容器网络失败';
+        return res;
+      }
+    }
+
     const removeRes = await this.service.lowdb.removeMyapp(appid);
     if (removeRes.length == 0) {
       res.msg = '删除失败';
@@ -547,6 +573,24 @@ class StoreService extends BaseService {
     });
     this.app.logger.info(
       '[StoreService] [delApp] appid:, delRes:',
+      appid,
+      delRes
+    );
+    if (delRes.code === 0) {
+      return true;
+    }
+    return false;
+  }
+
+  /*
+   * 删除网络
+   */
+  async delAppNetwork(appid) {
+    const delRes = shell.exec('docker network rm ' + appid + '_default', {
+      silent: true,
+    });
+    this.app.logger.info(
+      '[StoreService] [delAppNetwork] appid:, delRes:',
       appid,
       delRes
     );
