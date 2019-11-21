@@ -5,12 +5,14 @@
 
 #注：每周会上架1~2款新应用，持续更新
 
+#### 本次更新：cxk打篮球：一款休闲游戏 ------ [查看效果](https://github.com/wallace5303/dapps-addons/tree/master/addons/cxk-ball)
+
 ## 目前包含的软件
 
-- 人人影视：美剧爱好者的第一选择 ------ [查看效果](https://github.com/wallace5303/dapps-addons/tree/master/addons/rrshare)
 - 百度网盘web版：下载速度比官方快很多 ------ [查看效果](https://github.com/wallace5303/dapps-addons/blob/master/addons/baidupcs-web/README.md)
+- AriaNg高速下载器：2倍迅雷速度，迅雷无法下载的资源，也能下载 ------ [查看效果](https://github.com/wallace5303/dapps-addons/blob/master/addons/ariang/README.md) 
+- 人人影视：美剧爱好者的第一选择 ------ [查看效果](https://github.com/wallace5303/dapps-addons/tree/master/addons/rrshare)
 - auxpi免费图床：集合多家 API 的新一代图床 ------ [查看效果](https://github.com/wallace5303/dapps-addons/tree/master/addons/auxpi)
-- AriaNg高速下载器：2倍迅雷速度，迅雷无法下载的资源，也能下载 ------ [查看效果](https://github.com/wallace5303/dapps-addons/blob/master/addons/ariang/README.md)
 - 百度网盘下载器(命令行) ------ [查看效果](https://github.com/wallace5303/dapps-addons/blob/master/addons/baidupcs-go/README.md)
 - wordpress ------ [查看效果](https://github.com/wallace5303/dapps-addons/blob/master/addons/wordpress/README.md)
 - py12306抢票 ------ [查看效果](https://github.com/wallace5303/dapps-addons/blob/master/addons/py12306/README.md)
