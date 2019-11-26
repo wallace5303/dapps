@@ -5,7 +5,7 @@
 
 #注：每周会上架1~2款新应用，持续更新
 
-#### 本次更新：cxk打篮球：一款休闲游戏 ------ [查看效果](https://github.com/wallace5303/dapps-addons/tree/master/addons/cxk-ball)
+#### 本次更新：NextCloud云盘：将电脑（或服务器）变为网盘 ------ [查看效果](https://github.com/wallace5303/dapps-addons/tree/master/addons/nextcloud)
 
 ## 目前包含的软件
 
@@ -27,6 +27,7 @@
 - gogs版本控制 ------ [查看效果](https://github.com/wallace5303/dapps-addons/blob/master/addons/gogs/README.md)
 - rabbitmq3.7队列服务 ------ [查看效果](https://github.com/wallace5303/dapps-addons/blob/master/addons/rabbitmq37/README.md)
 - 2048游戏 ------ [查看效果](https://github.com/wallace5303/dapps-addons/blob/master/addons/game-2048/README.md)
+- cxk打篮球：一款休闲游戏 ------ [查看效果](https://github.com/wallace5303/dapps-addons/tree/master/addons/cxk-ball)
 - 等......
 
 ## 交流
