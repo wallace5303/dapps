@@ -101,7 +101,7 @@ npm run start
 
 ## 交流群
 
-* 微信讨论群
+* 微信讨论群（请备注：dapps）
 
     ![](https://i.loli.net/2019/08/22/5BHxFJhYpzoAVT1.png)
 
