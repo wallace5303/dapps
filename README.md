@@ -98,6 +98,8 @@ npm run start
 - 点击按钮，然后重启即可
 ![](https://i.loli.net/2019/10/24/b6O8aG2ZmLodFxN.png)
 
+### 日志
+- dapps/logs/prod/dapps-web.log
 
 ## 交流群
 
