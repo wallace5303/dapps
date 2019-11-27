@@ -651,7 +651,7 @@ class StoreService extends BaseService {
       return res;
     }
 
-    res.msg = '请重启docker';
+    res.msg = startRes.stderr;
     return res;
   }
 
@@ -691,6 +691,7 @@ class StoreService extends BaseService {
       res.code = CODE.SUCCESS;
       return res;
     }
+    res.msg = stopRes.stderr;
     return res;
   }
 
