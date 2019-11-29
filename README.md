@@ -9,6 +9,7 @@
 
 ## 目前包含的软件
 
+- NextCloud云盘：将电脑（或服务器）变为网盘 ------ [查看效果](https://github.com/wallace5303/dapps-addons/tree/master/addons/nextcloud)
 - 百度网盘web版：下载速度比官方快很多 ------ [查看效果](https://github.com/wallace5303/dapps-addons/blob/master/addons/baidupcs-web/README.md)
 - AriaNg高速下载器：2倍迅雷速度，迅雷无法下载的资源，也能下载 ------ [查看效果](https://github.com/wallace5303/dapps-addons/blob/master/addons/ariang/README.md) 
 - 人人影视：美剧爱好者的第一选择 ------ [查看效果](https://github.com/wallace5303/dapps-addons/tree/master/addons/rrshare)
@@ -115,8 +116,6 @@ npm run start
 ## 关联项目（应用程序项目）
 
 - [github：dapps-addons](https://github.com/wallace5303/dapps-addons)
-- [码云：dapps-addons](https://gitee.com/wallace5303/dapps-addons)
-
 
 ## 本项目技术栈
 - nodejs
