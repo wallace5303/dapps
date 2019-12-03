@@ -5,7 +5,7 @@
 
 #注：每周会上架1~2款新应用，持续更新
 
-#### 本次更新：NextCloud云盘：将电脑（或服务器）变为网盘 ------ [查看效果](https://github.com/wallace5303/dapps-addons/tree/master/addons/nextcloud)
+#### 本次更新：kodexplorer可道云：像Windows操作一样的企业网盘 ------ [查看效果](https://github.com/wallace5303/dapps-addons/tree/master/addons/kodexplorer)
 
 ## 目前包含的软件
 
