@@ -52,7 +52,7 @@ npm run start
 注：# 请确保已经安装了nodejs，下载地址：http://nodejs.cn/download/
 
 ## 效果图
-1. 访问： http://localhost:8000/
+1. 访问： http://localhost:8000/ 或者 http://本机ip:8000
 
     ![](https://i.loli.net/2019/10/26/fLmqtePbAHFnksl.png)
     ![](https://i.loli.net/2019/10/26/jScTp4DCKRMfobk.png)
