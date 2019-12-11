@@ -219,7 +219,7 @@ class StoreService extends BaseService {
       const tmpAppid = tmpAppInfo.appid;
 
       // 检查应用是否启动
-      const runRes = await this.service.store.appIsRunning(tmpAppid);
+      const runRes = await this.service.docker.appIsRunning(tmpAppid);
       if (!runRes) {
         continue;
       }
@@ -281,53 +281,6 @@ class StoreService extends BaseService {
   async appIsInstalling(appid) {
     const val = await this.service.lowdb.getMyInstallingApp(appid);
     if (val) {
-      return true;
-    }
-    return false;
-  }
-
-  /*
-   * 应用是否启动
-   */
-  async appIsRunning(appid) {
-    const runningInfo = shell.exec('docker top dapps-' + appid, {
-      silent: true,
-    });
-    // this.app.logger.info(
-    //   '[StoreService] [appIsRunning] appid:, runningInfo:',
-    //   appid,
-    //   runningInfo
-    // );
-    if (runningInfo.code === 0) {
-      return true;
-    }
-    return false;
-  }
-
-  /*
-   * 容器是否存在
-   */
-  async appContainerExist(appid) {
-    const containerInfo = shell.exec('docker inspect dapps-' + appid, {
-      silent: true,
-    });
-    if (containerInfo.code === 0) {
-      return true;
-    }
-    return false;
-  }
-
-  /*
-   * 网络是否存在
-   */
-  async appNetworkExist(appid) {
-    const networkInfo = shell.exec(
-      'docker network inspect ' + appid + '_default',
-      {
-        silent: true,
-      }
-    );
-    if (networkInfo.code === 0) {
       return true;
     }
     return false;
@@ -456,18 +409,18 @@ class StoreService extends BaseService {
       msg: 'unknown error',
     };
 
-    const isRunning = await this.service.store.appIsRunning(appid);
+    const isRunning = await this.service.docker.appIsRunning(appid);
     if (isRunning) {
-      const killRes = await this.service.store.killApp(appid);
+      const killRes = await this.service.docker.killApp(appid);
       if (!killRes) {
         res.msg = '停止容器失败';
         return res;
       }
     }
 
-    const containerIsExist = await this.service.store.appContainerExist(appid);
+    const containerIsExist = await this.service.docker.appContainerExist(appid);
     if (containerIsExist) {
-      const delRes = await this.service.store.delApp(appid);
+      const delRes = await this.service.docker.delApp(appid);
       if (!delRes) {
         res.msg = '删除容器失败';
         return res;
@@ -475,9 +428,9 @@ class StoreService extends BaseService {
     }
 
     // 检查网络是否存在
-    const networkIsExist = await this.service.store.appNetworkExist(appid);
+    const networkIsExist = await this.service.docker.appNetworkExist(appid);
     if (networkIsExist) {
-      const delNetworkRes = await this.service.store.delAppNetwork(appid);
+      const delNetworkRes = await this.service.docker.delAppNetwork(appid);
       if (!delNetworkRes) {
         res.msg = '删除容器网络失败';
         return res;
@@ -547,60 +500,6 @@ class StoreService extends BaseService {
   }
 
   /*
-   * kill应用
-   */
-  async killApp(appid) {
-    const killRes = shell.exec('docker kill dapps-' + appid, {
-      silent: true,
-    });
-    this.app.logger.info(
-      '[StoreService] [killApp] appid:, killRes:',
-      appid,
-      killRes
-    );
-    if (killRes.code === 0) {
-      return true;
-    }
-    return false;
-  }
-
-  /*
-   * 删除应用
-   */
-  async delApp(appid) {
-    const delRes = shell.exec('docker rm dapps-' + appid, {
-      silent: true,
-    });
-    this.app.logger.info(
-      '[StoreService] [delApp] appid:, delRes:',
-      appid,
-      delRes
-    );
-    if (delRes.code === 0) {
-      return true;
-    }
-    return false;
-  }
-
-  /*
-   * 删除网络
-   */
-  async delAppNetwork(appid) {
-    const delRes = shell.exec('docker network rm ' + appid + '_default', {
-      silent: true,
-    });
-    this.app.logger.info(
-      '[StoreService] [delAppNetwork] appid:, delRes:',
-      appid,
-      delRes
-    );
-    if (delRes.code === 0) {
-      return true;
-    }
-    return false;
-  }
-
-  /*
    * 删除应用文件
    */
   async delAppFile(appid) {
@@ -629,7 +528,7 @@ class StoreService extends BaseService {
       return res;
     }
 
-    const isRunning = await this.service.store.appIsRunning(appid);
+    const isRunning = await this.service.docker.appIsRunning(appid);
     if (isRunning) {
       res.msg = '应用正在运行';
       return res;
@@ -670,7 +569,7 @@ class StoreService extends BaseService {
       return res;
     }
 
-    const isRunning = await this.service.store.appIsRunning(appid);
+    const isRunning = await this.service.docker.appIsRunning(appid);
     if (!isRunning) {
       res.msg = '应用没有在运行';
       return res;

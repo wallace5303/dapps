@@ -1,13 +1,13 @@
 /*!
- * AdminLTE v3.0.0-rc.4 (https://adminlte.io)
+ * AdminLTE v3.0.1 (https://adminlte.io)
  * Copyright 2014-2019 Colorlib <http://colorlib.com>
- * Licensed under MIT (https://github.com/almasaeed2010/AdminLTE/blob/master/LICENSE)
+ * Licensed under MIT (https://github.com/ColorlibHQ/AdminLTE/blob/master/LICENSE)
  */
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
   typeof define === 'function' && define.amd ? define(['exports'], factory) :
   (global = global || self, factory(global.adminlte = {}));
-}(this, function (exports) { 'use strict';
+}(this, (function (exports) { 'use strict';
 
   /**
    * --------------------------------------------
@@ -51,6 +51,11 @@
       FOOTER_MD_FIXED: 'layout-md-footer-fixed',
       FOOTER_LG_FIXED: 'layout-lg-footer-fixed',
       FOOTER_XL_FIXED: 'layout-xl-footer-fixed'
+    };
+    var Default = {
+      controlsidebarSlide: true,
+      scrollbarTheme: 'os-theme-light',
+      scrollbarAutoHide: 'l'
     };
     /**
      * Class Definition
@@ -230,8 +235,10 @@
         return this.each(function () {
           var data = $(this).data(DATA_KEY);
 
+          var _options = $.extend({}, Default, $(this).data());
+
           if (!data) {
-            data = new ControlSidebar(this, $(this).data());
+            data = new ControlSidebar(this, _options);
             $(this).data(DATA_KEY, data);
           }
 
@@ -298,6 +305,7 @@
       CONTROL_SIDEBAR: '.control-sidebar',
       LAYOUT_FIXED: '.layout-fixed',
       FOOTER: '.main-footer',
+      PUSHMENU_BTN: '[data-widget="pushmenu"]',
       LOGIN_BOX: '.login-box',
       REGISTER_BOX: '.register-box'
     };
@@ -344,9 +352,15 @@
 
         var max = this._max(heights);
 
-        $(Selector.CONTENT).css('min-height', max - heights.footer);
+        if (max == heights.window) {
+          $(Selector.CONTENT).css('min-height', max - heights.header - heights.footer);
+        } else {
+          $(Selector.CONTENT).css('min-height', max - heights.header);
+        }
 
         if ($('body').hasClass(ClassName.LAYOUT_FIXED)) {
+          $(Selector.CONTENT).css('min-height', max - heights.header - heights.footer);
+
           if (typeof $.fn.overlayScrollbars !== 'undefined') {
             $(Selector.SIDEBAR).overlayScrollbars({
               className: this._config.scrollbarTheme,
@@ -366,7 +380,10 @@
 
         // Activate layout height watcher
         this.fixLayoutHeight();
-        $(Selector.SIDEBAR).on('collapsed.lte.treeview expanded.lte.treeview collapsed.lte.pushmenu expanded.lte.pushmenu', function () {
+        $(Selector.SIDEBAR).on('collapsed.lte.treeview expanded.lte.treeview', function () {
+          _this.fixLayoutHeight();
+        });
+        $(Selector.PUSHMENU_BTN).on('collapsed.lte.pushmenu shown.lte.pushmenu', function () {
           _this.fixLayoutHeight();
         });
         $(window).resize(function () {
@@ -399,10 +416,10 @@
         return this.each(function () {
           var data = $(this).data(DATA_KEY);
 
-          var _config = $.extend({}, Default, $(this).data());
+          var _options = $.extend({}, Default, $(this).data());
 
           if (!data) {
-            data = new Layout($(this), _config);
+            data = new Layout($(this), _options);
             $(this).data(DATA_KEY, data);
           }
 
@@ -465,7 +482,7 @@
       SHOWN: "shown" + EVENT_KEY
     };
     var Default = {
-      autoCollapseSize: false,
+      autoCollapseSize: 992,
       enableRemember: false,
       noTransitionAfterReload: true
     };
@@ -494,10 +511,6 @@
         this._element = element;
         this._options = $.extend({}, Default, options);
 
-        if (!$(Selector.BODY).hasClass(ClassName.COLLAPSED) && !$(Selector.BODY).hasClass(ClassName.OPEN)) {
-          $(Selector.BODY).addClass(ClassName.OPEN);
-        }
-
         if (!$(Selector.OVERLAY).length) {
           this._addOverlay();
         }
@@ -508,8 +521,14 @@
 
       var _proto = PushMenu.prototype;
 
-      _proto.show = function show() {
-        $(Selector.BODY).addClass(ClassName.OPEN).removeClass(ClassName.COLLAPSED);
+      _proto.expand = function expand() {
+        if (this._options.autoCollapseSize) {
+          if ($(window).width() <= this._options.autoCollapseSize) {
+            $(Selector.BODY).addClass(ClassName.OPEN);
+          }
+        }
+
+        $(Selector.BODY).removeClass(ClassName.COLLAPSED);
 
         if (this._options.enableRemember) {
           localStorage.setItem("remember" + EVENT_KEY, ClassName.OPEN);
@@ -520,7 +539,13 @@
       };
 
       _proto.collapse = function collapse() {
-        $(Selector.BODY).removeClass(ClassName.OPEN).addClass(ClassName.COLLAPSED);
+        if (this._options.autoCollapseSize) {
+          if ($(window).width() <= this._options.autoCollapseSize) {
+            $(Selector.BODY).removeClass(ClassName.OPEN);
+          }
+        }
+
+        $(Selector.BODY).addClass(ClassName.COLLAPSED);
 
         if (this._options.enableRemember) {
           localStorage.setItem("remember" + EVENT_KEY, ClassName.COLLAPSED);
@@ -531,22 +556,26 @@
       };
 
       _proto.toggle = function toggle() {
-        if ($(Selector.BODY).hasClass(ClassName.OPEN)) {
+        if (!$(Selector.BODY).hasClass(ClassName.COLLAPSED)) {
           this.collapse();
         } else {
-          this.show();
+          this.expand();
         }
       };
 
-      _proto.autoCollapse = function autoCollapse() {
+      _proto.autoCollapse = function autoCollapse(resize) {
+        if (resize === void 0) {
+          resize = false;
+        }
+
         if (this._options.autoCollapseSize) {
           if ($(window).width() <= this._options.autoCollapseSize) {
-            if ($(Selector.BODY).hasClass(ClassName.OPEN)) {
-              this.toggle();
-            }
-          } else {
             if (!$(Selector.BODY).hasClass(ClassName.OPEN)) {
-              this.toggle();
+              this.collapse();
+            }
+          } else if (resize == true) {
+            if ($(Selector.BODY).hasClass(ClassName.OPEN)) {
+              $(Selector.BODY).removeClass(ClassName.OPEN);
             }
           }
         }
@@ -585,7 +614,7 @@
         this.remember();
         this.autoCollapse();
         $(window).resize(function () {
-          _this.autoCollapse();
+          _this.autoCollapse(true);
         });
       };
 
@@ -613,7 +642,7 @@
             $(this).data(DATA_KEY, data);
           }
 
-          if (operation === 'toggle') {
+          if (typeof operation === 'string' && operation.match(/collapse|expand|toggle/)) {
             data[operation]();
           }
         });
@@ -688,12 +717,15 @@
       LI: 'nav-item',
       LINK: 'nav-link',
       TREEVIEW_MENU: 'nav-treeview',
-      OPEN: 'menu-open'
+      OPEN: 'menu-open',
+      SIDEBAR_COLLAPSED: 'sidebar-collapse'
     };
     var Default = {
       trigger: Selector.DATA_WIDGET + " " + Selector.LINK,
       animationSpeed: 300,
-      accordion: true
+      accordion: true,
+      expandSidebar: false,
+      sidebarButtonSelector: '[data-widget="pushmenu"]'
     };
     /**
      * Class Definition
@@ -730,6 +762,10 @@
           parentLi.addClass(ClassName.OPEN);
           $(_this._element).trigger(expandedEvent);
         });
+
+        if (this._config.expandSidebar) {
+          this._expandSidebar();
+        }
       };
 
       _proto.collapse = function collapse(treeviewMenu, parentLi) {
@@ -747,11 +783,11 @@
       _proto.toggle = function toggle(event) {
         var $relativeTarget = $(event.currentTarget);
         var $parent = $relativeTarget.parent();
-        var treeviewMenu = $parent.find(Selector.TREEVIEW_MENU);
+        var treeviewMenu = $parent.find('> ' + Selector.TREEVIEW_MENU);
 
         if (!treeviewMenu.is(Selector.TREEVIEW_MENU)) {
           if (!$parent.is(Selector.LI)) {
-            treeviewMenu = $parent.parent().find(Selector.TREEVIEW_MENU);
+            treeviewMenu = $parent.parent().find('> ' + Selector.TREEVIEW_MENU);
           }
 
           if (!treeviewMenu.is(Selector.TREEVIEW_MENU)) {
@@ -777,6 +813,12 @@
         $(document).on('click', this._config.trigger, function (event) {
           _this3.toggle(event);
         });
+      };
+
+      _proto._expandSidebar = function _expandSidebar() {
+        if ($('body').hasClass(ClassName.SIDEBAR_COLLAPSED)) {
+          $(this._config.sidebarButtonSelector).PushMenu('expand');
+        }
       } // Static
       ;
 
@@ -784,10 +826,10 @@
         return this.each(function () {
           var data = $(this).data(DATA_KEY);
 
-          var _config = $.extend({}, Default, $(this).data());
+          var _options = $.extend({}, Default, $(this).data());
 
           if (!data) {
-            data = new Treeview($(this), _config);
+            data = new Treeview($(this), _options);
             $(this).data(DATA_KEY, data);
           }
 
@@ -993,10 +1035,10 @@
         return this.each(function () {
           var data = $(this).data(DATA_KEY);
 
-          var _config = $.extend({}, Default, $(this).data());
+          var _options = $.extend({}, Default, $(this).data());
 
           if (!data) {
-            data = new TodoList($(this), _config);
+            data = new TodoList($(this), _options);
             $(this).data(DATA_KEY, data);
           }
 
@@ -1218,8 +1260,10 @@
       CardWidget._jQueryInterface = function _jQueryInterface(config) {
         var data = $(this).data(DATA_KEY);
 
+        var _options = $.extend({}, Default, $(this).data());
+
         if (!data) {
-          data = new CardWidget($(this), data);
+          data = new CardWidget($(this), _options);
           $(this).data(DATA_KEY, typeof config === 'string' ? data : config);
         }
 
@@ -1392,10 +1436,11 @@
 
       CardRefresh._jQueryInterface = function _jQueryInterface(config) {
         var data = $(this).data(DATA_KEY);
-        var options = $(this).data();
+
+        var _options = $.extend({}, Default, $(this).data());
 
         if (!data) {
-          data = new CardRefresh($(this), options);
+          data = new CardRefresh($(this), _options);
           $(this).data(DATA_KEY, typeof config === 'string' ? data : config);
         }
 
@@ -1722,9 +1767,9 @@
 
       Toasts._jQueryInterface = function _jQueryInterface(option, config) {
         return this.each(function () {
-          var _config = $.extend({}, Default, config);
+          var _options = $.extend({}, Default, config);
 
-          var toast = new Toasts($(this), _config);
+          var toast = new Toasts($(this), _options);
 
           if (option === 'create') {
             toast[option]();
@@ -1764,5 +1809,5 @@
 
   Object.defineProperty(exports, '__esModule', { value: true });
 
-}));
+})));
 //# sourceMappingURL=adminlte.js.map

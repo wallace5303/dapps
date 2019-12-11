@@ -6,7 +6,6 @@ const moment = require('moment');
 const download = require('download');
 const commonConfig = require('../../config/commonConfig');
 const utils = require('../../utils/utils');
-const { exec } = require('child_process');
 const shell = require('shelljs');
 
 class HomeController extends BaseController {

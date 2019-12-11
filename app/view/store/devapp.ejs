@@ -1,0 +1,215 @@
+<%- include('header'); %>
+  <!-- Sidenav -->
+  <%- include('sidebar'); %>
+  <!-- Main content -->
+
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>开发者应用</h1>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+  <!-- Main content -->
+  <section class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-12">
+
+          <!-- <div class="callout callout-info">
+              注：启动太多的服务，会导致电脑运行效率低，请关闭不需要的
+          </div> -->
+
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">列表</h3>
+              <!-- <div class="card-tools">
+                <div class="input-group input-group-sm" style="width: 150px;">
+                  <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+
+                  <div class="input-group-append">
+                    <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
+                  </div>
+                </div>
+              </div> -->
+            </div>
+            <% if (app_list.length == 0) {%>
+              <div class="card-header">
+                  <span style="margin: auto">没有数据</span>
+              </div>
+            <% } else { %>  
+            <!-- /.card-header -->
+            <div class="card-body table-responsive p-0">           
+                <table class="table table-hover"> 
+                  <thead> 
+                    <tr>
+                        <th width="20%" >应用名称</th>
+                        <th width="30%" >开始使用</th>
+                        <th width="15%" >状态</th>
+                        <th width="20%" >操作</th>
+                        <th width="15%" >清理</th>
+                    </tr> 
+                  </thead> 
+                  <tbody> 
+
+                    <% for (let i = 0; i < app_list.length; i++) {
+                      let one = app_list[i];
+                      %>
+                      <tr>
+                          <td>
+                              <strong><%= one.app_name %></strong>
+                          </td>
+                          <td>
+                            <% if (one.open_url) {%>
+                              <a href="<%= one.open_url %>" target="_blank">
+                                打开
+                              </a>
+                            <% } else { %>
+                              后台服务
+                            <% } %>
+                          </td>
+                          <td id="is_running_<%= one.appid %>">
+                            <% if (one.is_running) {%>
+                              正在运行
+                            <% } else { %>
+                              已停止
+                            <% } %>
+                          </td>
+                          <td>
+                              <% if (one.is_running) {%>
+                                <a id="operation_<%= one.appid %>" class="btn btn-danger btn-sm" href="#" onclick="stop('<%= one.appid %>')">
+                                  停止
+                                </a>
+                              <% } else { %>
+                                <a id="operation_<%= one.appid %>" class="btn btn-info btn-sm" href="#" onclick="start('<%= one.appid %>')">
+                                  启动
+                                </a>
+                              <% } %>
+                          </td>
+                          <td id="delete_<%= one.appid %>">
+                            <% if (one.exist_container) {%>
+                                <a id="delete_<%= one.appid %>" class="btn btn-danger btn-sm" href="#" onclick="uninstall('<%= one.appid %>')">
+                                    清除容器
+                                </a>
+                                <% } else { %>
+                                    无
+                            <% } %>
+                          </td>
+                      </tr>
+                    <% } %>
+
+                  </tbody>
+                </table>
+            </div>
+            <% } %>
+            <!-- /.card-body -->
+          </div>
+          <!-- /.card -->
+        </div>
+        <!-- /.col -->
+      </div>
+      
+      <!-- /.row -->
+      <div class="row">
+        <div class="col-sm-12 col-md-4">
+          <div class="dataTables_info" id="example2_info" role="status" aria-live="polite">
+            共 <%= all_data.total %> 条数据
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-7">
+          <div class="dataTables_paginate paging_simple_numbers" id="example2_paginate">
+            <ul class="pagination">
+            <li class="paginate_button page-item previous" id="example2_previous"><a href="#" onclick="change_page('<%= (all_data.current_page - 1) %>')" aria-controls="example2" data-dt-idx="0" tabindex="0" class="page-link">上一页</a></li>
+            <li class="paginate_button page-item active"><a href="#" aria-controls="example2" data-dt-idx="1" tabindex="0" class="page-link"><%= all_data.current_page %></a></li>
+            <li class="paginate_button page-item next" id="example2_next"><a href="#" onclick="change_page('<%= (all_data.current_page + 1) %>')" aria-controls="example2" data-dt-idx="7" tabindex="0" class="page-link">下一页</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+  <!-- /.content -->
+</div>
+
+<script>
+    function change_page(page)
+    {
+        var url = "/html/v1/dev/index?page=";
+        if (Number(page) < 1) {
+          page = 1;
+        }
+        url += page;
+        window.location.href = url;
+    }
+    
+    function start(appid)
+    {
+      var starting_app_content = '正在启动...';
+      $("#operation_" + appid).html(starting_app_content);
+      $("#operation_" + appid).attr("onclick", "");
+      var url = "/api/v1/dev/app_start?appid=" + appid;
+      $.get(url,function(result){
+          if (result.code !== 0) {
+              alert(result.msg);
+              window.location.reload();
+          } else {
+            $("#operation_" + appid).attr("class", "btn btn-danger btn-sm");
+            $("#operation_" + appid).attr("onclick", "stop( '" + appid + "' )");
+            $("#operation_" + appid).text("停止");
+
+            var is_running__app_content = '正在运行';
+            $("#is_running_" + appid).html(is_running__app_content);
+            //window.location.reload();
+          }
+      });
+    }
+
+    function stop(appid)
+    {
+      var stoping_app_content = '正在停止...';
+      $("#operation_" + appid).html(stoping_app_content);
+      $("#operation_" + appid).attr("onclick", "");
+      var url = "/api/v1/dev/app_stop?appid=" + appid;
+      $.get(url,function(result){
+          if (result.code !== 0) {
+              alert(result.msg);
+              window.location.reload();
+          } else {
+            $("#operation_" + appid).attr("class", "btn btn-info btn-sm");
+            $("#operation_" + appid).attr("onclick", "start('" + appid + "')");
+            $("#operation_" + appid).text("启动");
+
+            var is_running__app_content = '已停止';
+            $("#is_running_" + appid).html(is_running__app_content);
+            //window.location.reload();
+          }
+      });
+    }
+
+    function uninstall(appid)
+    {
+        if (!confirm("你确定清除吗？")) {
+                return;
+        }
+
+        var uninstalling_app_content = '正在清除...';
+        $("#delete_" + appid).html(uninstalling_app_content);
+
+        var url = "/api/v1/dev/app_uninstall?appid=" + appid;
+        $.get(url,function(result){
+            if (result.code !== 0) {
+                alert(result.msg);
+            } else {
+                window.location.reload();
+            }
+        });
+    }
+
+</script>
+<%- include('bottom'); %>
