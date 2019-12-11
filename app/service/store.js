@@ -534,6 +534,12 @@ class StoreService extends BaseService {
       return res;
     }
 
+    const checkPort = await this.appPortCheck(appid);
+    if (checkPort) {
+      res.msg = '端口已被占用，请关闭占用端口的服务';
+      return res;
+    }
+
     const dirpath = this.app.baseDir + '/docker/addons/' + appid;
     shell.cd(dirpath);
     const startRes = shell.exec(
@@ -552,6 +558,36 @@ class StoreService extends BaseService {
 
     res.msg = startRes.stderr;
     return res;
+  }
+
+  /*
+   * 端口是否被占用
+   */
+  async appPortCheck(appid) {
+    let res = false;
+    const addonsDir = this.app.baseDir + '/docker/addons';
+    const envFile = addonsDir + '/' + appid + '/.env';
+    if (fs.existsSync(envFile)) {
+      const fileArr = await utils.readFileToArr(envFile);
+      for (let i = 0; i < fileArr.length; i++) {
+        const tmpEle = fileArr[i];
+        let appPort = null;
+        if (tmpEle.indexOf('APP_PORT') !== -1) {
+          appPort = tmpEle.substr(9);
+          if (appPort) {
+            res = await utils.portIsOccupied(appPort);
+            return res;
+          }
+        }
+        if (tmpEle.indexOf('HOST_PORT') !== -1) {
+          appPort = tmpEle.substr(10);
+          if (appPort) {
+            res = await utils.portIsOccupied(appPort);
+            return res;
+          }
+        }
+      }
+    }
   }
 
   /*

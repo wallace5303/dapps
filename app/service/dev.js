@@ -75,6 +75,7 @@ class DevService extends BaseService {
 
     return lsDir.length;
   }
+
   /*
    * 我的开发应用
    */
@@ -135,6 +136,36 @@ class DevService extends BaseService {
   }
 
   /*
+   * 端口是否被占用
+   */
+  async devAppPortCheck(appid) {
+    let res = false;
+    const addonsDir = this.app.baseDir + '/docker/dev';
+    const envFile = addonsDir + '/' + appid + '/.env';
+    if (fs.existsSync(envFile)) {
+      const fileArr = await utils.readFileToArr(envFile);
+      for (let i = 0; i < fileArr.length; i++) {
+        const tmpEle = fileArr[i];
+        let appPort = null;
+        if (tmpEle.indexOf('APP_PORT') !== -1) {
+          appPort = tmpEle.substr(9);
+          if (appPort) {
+            res = await utils.portIsOccupied(appPort);
+            return res;
+          }
+        }
+        if (tmpEle.indexOf('HOST_PORT') !== -1) {
+          appPort = tmpEle.substr(10);
+          if (appPort) {
+            res = await utils.portIsOccupied(appPort);
+            return res;
+          }
+        }
+      }
+    }
+  }
+
+  /*
    * start应用
    */
   async startApp(appid) {
@@ -152,6 +183,12 @@ class DevService extends BaseService {
     const isRunning = await this.service.docker.appIsRunning(appid);
     if (isRunning) {
       res.msg = '应用正在运行';
+      return res;
+    }
+
+    const checkPort = await this.devAppPortCheck(appid);
+    if (checkPort) {
+      res.msg = '端口已被占用，请关闭占用端口的服务';
       return res;
     }
 
