@@ -17,4 +17,6 @@ module.exports = app => {
   router.get('/api/v1/dev/app_start', controller.v1.dev.appStart);
   // 应用停止
   router.get('/api/v1/dev/app_stop', controller.v1.dev.appStop);
+  // 应用创建
+  router.get('/api/v1/dev/app_create', controller.v1.dev.appCreate);
 };

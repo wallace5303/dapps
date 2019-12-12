@@ -151,7 +151,7 @@
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label">App id</label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="appid" placeholder="必填，如：redis-5-0-7" value="">
+                                        <input type="text" class="form-control" id="appid" placeholder="必填，如：redis-5-0-7 （数字，字母，中划线-）" value="">
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -161,9 +161,15 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label class="col-sm-2 col-form-label">App docker 镜像</label>
+                                    <label class="col-sm-2 col-form-label">docker镜像</label>
                                     <div class="col-sm-10">
                                         <input type="text" class="form-control" id="app_image" placeholder="选填，如：redis:5.0.7" value="">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">镜像软件端口</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="app_image_port" placeholder="选填，镜像软件的默认端口，如：redis的为6379" value="">
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -179,22 +185,22 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label class="col-sm-2 col-form-label">App Web端口</label>
+                                    <label class="col-sm-2 col-form-label">App前台端口</label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="app_web_port" placeholder="选填，web应用必填" value="">
+                                        <input type="text" class="form-control" id="app_port" placeholder="选填，web（UI）应用必填" value="">
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label">App服务端口</label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="app_server_port" placeholder="必填，如：6381" value="">
+                                        <input type="text" class="form-control" id="host_port" placeholder="必填，如：6381" value="">
                                     </div>
                                 </div>
                             </div>
                             <!-- /.card-body -->
                             <div class="card-body">
-                                <button type="submit" class="btn btn-info" onclick="creat_app()">确认</button>
-                                <button type="submit" class="btn btn-default float-right" data-dismiss="modal">取消</button>
+                                <button type="button" class="btn btn-info" onclick="create_app()">确认</button>
+                                <button type="button" class="btn btn-default float-right" data-dismiss="modal">取消</button>
                             </div>
                             <!-- /.card-footer -->
                         </form>
@@ -222,23 +228,50 @@
         window.location.href = url;
     }
 
-    function creat_app()
+    function create_app()
     {
+        // 用户信息
+        let uid = 0;
+        let username = '';
+        var userInfo=localStorage.getItem("user_info");
+        if (!userInfo) {
+            alert('请登录');
+            return;
+        }
+        var userInfo = JSON.parse(userInfo);
+        uid = userInfo.uid;
+        username = userInfo.username;
+
         let appid = $("#appid").val();
         let app_name = $("#app_name").val();
         let app_image = $("#app_image").val();
         let app_introduction = $("#app_introduction").val();
         let app_version = $("#app_version").val();
-        let app_web_port = $("#app_web_port").val();
-        let app_server_port = $("#app_server_port").val();
-
-        if (!appid || !app_name || !app_image || !app_introduction || !app_version || !app_server_port) {
+        let app_port = $("#app_port").val();
+        let host_port = $("#host_port").val();
+        let app_image_port = $("#app_image_port").val();
+        // appid = 'redis-5-0-7';
+        // app_name = 'redis 5.0.7';
+        // app_image = 'redis:5.0.7';
+        // app_introduction = 'redis数据库';
+        // app_version = '5.0.7';
+        // app_port = '';
+        // host_port = '6381';
+        // app_image_port = 6379
+        if (!appid || !app_name || !app_image || !app_introduction || !app_version || !host_port) {
             alert('参数错误');
             return;
         }
 
-        var url = "/html/v1/dev/create_app?appid=" + appid + "&app_name=" + app_name + "&app_introduction=" + app_introduction +
-            "&app_version=" + app_version + "&app_web_port=" + app_web_port + "&app_server_port=" + app_server_port + "&app_image=" + app_image;
+        var reg = /^[A-Za-z0-9\-]*$/g;
+        if (!reg.test(appid)) {
+            alert('appid只允许：数字，字母，中划线-');
+            return;
+        }
+
+        var url = "/api/v1/dev/app_create?appid=" + appid + "&app_name=" + app_name + "&app_introduction=" + app_introduction +
+            "&app_version=" + app_version + "&app_port=" + app_port + "&host_port=" + host_port + "&app_image=" + app_image +
+            "&uid=" + uid + "&username=" + username + "&app_image_port=" + app_image_port;
         $.get(url,function(result){
             if (result.code !== 0) {
                 alert(result.msg);

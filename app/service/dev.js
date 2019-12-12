@@ -5,6 +5,7 @@ const shell = require('shelljs');
 const _ = require('lodash');
 const utils = require('../utils/utils');
 const fs = require('fs');
+const decompress = require('decompress');
 
 class DevService extends BaseService {
   /*
@@ -14,7 +15,7 @@ class DevService extends BaseService {
     page = Number(page) > 1 ? Number(page) : 1;
 
     const data = {
-      dev_app_list: [],
+      app_list: [],
       all_data: {
         total: 0,
         current_page: page,
@@ -46,6 +47,7 @@ class DevService extends BaseService {
           const containerIsExist = await this.service.docker.appContainerExist(
             one.appid
           );
+          // console.log('containerIsExist', containerIsExist);
           if (containerIsExist) {
             one.exist_container = true;
           }
@@ -149,6 +151,9 @@ class DevService extends BaseService {
         let appPort = null;
         if (tmpEle.indexOf('APP_PORT') !== -1) {
           appPort = tmpEle.substr(9);
+          if (appPort < 0 || appPort > 65536) {
+            return true;
+          }
           if (appPort) {
             res = await utils.portIsOccupied(appPort);
             return res;
@@ -156,6 +161,9 @@ class DevService extends BaseService {
         }
         if (tmpEle.indexOf('HOST_PORT') !== -1) {
           appPort = tmpEle.substr(10);
+          if (appPort < 0 || appPort > 65536) {
+            return true;
+          }
           if (appPort) {
             res = await utils.portIsOccupied(appPort);
             return res;
@@ -309,15 +317,113 @@ class DevService extends BaseService {
   /*
    * dev app create
    */
-  async createApp() {
+  async createApp(params) {
+    const res = {
+      code: 1000,
+      msg: 'unknown error',
+    };
     const addonsDir = this.app.baseDir + '/docker/dev';
-    const lsDir = utils.getDirs(addonsDir);
-    const index = lsDir.indexOf('example');
-    if (index > -1) {
-      lsDir.splice(index, 1);
+    const examplezip = addonsDir + '/example.zip';
+
+    // 检查appid是否存在
+    const appIsExist = await this.service.dev.appIsInstall(params.appid);
+    if (appIsExist) {
+      res.msg = 'appid已经存在，请更换';
+      return res;
     }
 
-    return lsDir.length;
+    // 解压
+    const dist = addonsDir + '/' + params.appid;
+    await decompress(examplezip, dist, { strip: 1 });
+    utils.chmodPath(dist, '777');
+
+    // 修改文件信息
+    const modifyRes = await this.service.dev.modifyFile(params);
+    if (!modifyRes) {
+      res.msg = '创建异常，请手动修改文件';
+      return res;
+    }
+
+    res.code = CODE.SUCCESS;
+    res.msg = 'ok';
+    return res;
+  }
+
+  /*
+   * modify file
+   */
+  async modifyFile(params) {
+    const addonsDir = this.app.baseDir + '/docker/dev';
+    const fileDir = addonsDir + '/' + params.appid;
+
+    // .env
+    shell.sed('-i', '{authoruid}', params.uid, fileDir + '/.env');
+    shell.sed('-i', '{author_name}', params.username, fileDir + '/.env');
+    shell.sed('-i', '{app_id}', params.appid, fileDir + '/.env');
+    shell.sed('-i', '{app_name}', params.app_name, fileDir + '/.env');
+    shell.sed(
+      '-i',
+      '{app_introduction}',
+      params.app_introduction,
+      fileDir + '/.env'
+    );
+    shell.sed('-i', '{app_version}', params.app_version, fileDir + '/.env');
+    shell.sed('-i', '{app_port}', params.app_port, fileDir + '/.env');
+    shell.sed('-i', '{host_port}', params.host_port, fileDir + '/.env');
+
+    // docker-compose.yml
+    shell.sed(
+      '-i',
+      'example-server',
+      params.appid,
+      fileDir + '/docker-compose.yml'
+    );
+    shell.sed(
+      '-i',
+      'example-image',
+      params.app_image,
+      fileDir + '/docker-compose.yml'
+    );
+    shell.sed(
+      '-i',
+      'dapps-example',
+      'dapps-' + params.appid,
+      fileDir + '/docker-compose.yml'
+    );
+    shell.sed(
+      '-i',
+      'app_image_port',
+      params.app_image_port,
+      fileDir + '/docker-compose.yml'
+    );
+
+    // docker-compose-win.yml
+    shell.sed(
+      '-i',
+      'example-server',
+      params.appid,
+      fileDir + '/docker-compose-win.yml'
+    );
+    shell.sed(
+      '-i',
+      'example-image',
+      params.app_image,
+      fileDir + '/docker-compose-win.yml'
+    );
+    shell.sed(
+      '-i',
+      'dapps-example',
+      'dapps-' + params.appid,
+      fileDir + '/docker-compose-win.yml'
+    );
+    shell.sed(
+      '-i',
+      'app_image_port',
+      params.app_image_port,
+      fileDir + '/docker-compose-win.yml'
+    );
+
+    return true;
   }
 }
 

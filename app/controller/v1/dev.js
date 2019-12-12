@@ -33,15 +33,18 @@ class DevController extends BaseController {
     const app_image = query.app_image;
     const app_introduction = query.app_introduction;
     const app_version = query.app_version;
-    const app_web_port = query.app_web_port;
-    const app_server_port = query.app_server_port;
+    const app_port = query.app_port;
+    const host_port = query.host_port;
+    const uid = query.uid;
+    const username = query.username;
+    const app_image_port = query.app_image_port;
     if (
       !appid ||
       !app_name ||
       !app_image ||
       !app_introduction ||
       !app_version ||
-      !app_server_port
+      !host_port
     ) {
       self.sendFail({}, '参数错误', CODE.SYS_PARAMS_ERROR);
       return;
@@ -52,9 +55,14 @@ class DevController extends BaseController {
       app_image,
       app_introduction,
       app_version,
-      app_web_port,
-      app_server_port,
+      app_port,
+      host_port,
+      uid,
+      username,
+      app_image_port,
     };
+    console.log(params);
+
     const createRes = await service.dev.createApp(params);
     if (createRes.code !== CODE.SUCCESS) {
       self.sendFail({}, createRes.msg, createRes.code);
