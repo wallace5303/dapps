@@ -289,7 +289,6 @@
       $.get(url,function(result){
           if (result.code !== 0) {
               alert(result.msg);
-              window.location.reload();
           } else {
             $("#operation_" + appid).attr("class", "btn btn-danger btn-sm");
             $("#operation_" + appid).attr("onclick", "stop( '" + appid + "' )");
@@ -297,8 +296,8 @@
 
             var is_running__app_content = '正在运行';
             $("#is_running_" + appid).html(is_running__app_content);
-            //window.location.reload();
           }
+          window.location.reload();
       });
     }
 
@@ -337,9 +336,8 @@
         $.get(url,function(result){
             if (result.code !== 0) {
                 alert(result.msg);
-            } else {
-                window.location.reload();
             }
+            window.location.reload();
         });
     }
 

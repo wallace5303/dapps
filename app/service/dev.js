@@ -179,7 +179,7 @@ class DevService extends BaseService {
   async startApp(appid) {
     const res = {
       code: 1000,
-      msg: 'unknown error，请查看日志./dapps/logs/dapps/dapps-web.log',
+      msg: '启动失败，请检查docker应用相关文件',
     };
 
     const appIsExist = await this.appIsInstall(appid);
