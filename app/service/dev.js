@@ -305,6 +305,20 @@ class DevService extends BaseService {
     }
     return false;
   }
+
+  /*
+   * dev app create
+   */
+  async createApp() {
+    const addonsDir = this.app.baseDir + '/docker/dev';
+    const lsDir = utils.getDirs(addonsDir);
+    const index = lsDir.indexOf('example');
+    if (index > -1) {
+      lsDir.splice(index, 1);
+    }
+
+    return lsDir.length;
+  }
 }
 
 module.exports = DevService;

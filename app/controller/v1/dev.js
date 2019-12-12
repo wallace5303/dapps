@@ -22,6 +22,50 @@ class DevController extends BaseController {
   }
 
   /*
+   * api - dev 创建App
+   */
+  async appCreate() {
+    const self = this;
+    const { app, ctx, service } = this;
+    const query = ctx.query;
+    const appid = query.appid;
+    const app_name = query.app_name;
+    const app_image = query.app_image;
+    const app_introduction = query.app_introduction;
+    const app_version = query.app_version;
+    const app_web_port = query.app_web_port;
+    const app_server_port = query.app_server_port;
+    if (
+      !appid ||
+      !app_name ||
+      !app_image ||
+      !app_introduction ||
+      !app_version ||
+      !app_server_port
+    ) {
+      self.sendFail({}, '参数错误', CODE.SYS_PARAMS_ERROR);
+      return;
+    }
+    const params = {
+      appid,
+      app_name,
+      app_image,
+      app_introduction,
+      app_version,
+      app_web_port,
+      app_server_port,
+    };
+    const createRes = await service.dev.createApp(params);
+    if (createRes.code !== CODE.SUCCESS) {
+      self.sendFail({}, createRes.msg, createRes.code);
+      return;
+    }
+
+    const data = {};
+    self.sendSuccess(data, '创建成功');
+  }
+
+  /*
    * api - dev APP启动
    */
   async appStart() {

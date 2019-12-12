@@ -21,9 +21,13 @@
       <div class="row">
         <div class="col-12">
 
-          <!-- <div class="callout callout-info">
-              注：启动太多的服务，会导致电脑运行效率低，请关闭不需要的
-          </div> -->
+            <div class="p-3 mb-3">
+                <div class="row no-print">
+                    <div class="col-12">
+                        <a href="#" class="btn btn-default" data-toggle="modal" data-target="#modal-lg" >创建应用</a>
+                    </div>
+                </div>
+            </div>
 
           <div class="card">
             <div class="card-header">
@@ -132,6 +136,76 @@
         </div>
       </div>
 
+        <div class="modal fade" id="modal-lg">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">创建应用</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" id="modal_app_config_alert">
+                        <form class="form-horizontal">
+                            <div class="card-body">
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">App id</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="appid" placeholder="必填，如：redis-5-0-7" value="">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">App名称</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="app_name" placeholder="必填，如：redis 5.0.7" value="">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">App docker 镜像</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="app_image" placeholder="选填，如：redis:5.0.7" value="">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">App介绍</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="app_introduction" placeholder="必填，如：redis数据库" value="">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">App版本</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="app_version" placeholder="必填，如：5.0.7" value="">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">App Web端口</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="app_web_port" placeholder="选填，web应用必填" value="">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">App服务端口</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="app_server_port" placeholder="必填，如：6381" value="">
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.card-body -->
+                            <div class="card-body">
+                                <button type="submit" class="btn btn-info" onclick="creat_app()">确认</button>
+                                <button type="submit" class="btn btn-default float-right" data-dismiss="modal">取消</button>
+                            </div>
+                            <!-- /.card-footer -->
+                        </form>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        <!-- /.modal -->
+
     </div>
   </section>
   <!-- /.content -->
@@ -147,7 +221,32 @@
         url += page;
         window.location.href = url;
     }
-    
+
+    function creat_app()
+    {
+        let appid = $("#appid").val();
+        let app_name = $("#app_name").val();
+        let app_image = $("#app_image").val();
+        let app_introduction = $("#app_introduction").val();
+        let app_version = $("#app_version").val();
+        let app_web_port = $("#app_web_port").val();
+        let app_server_port = $("#app_server_port").val();
+
+        if (!appid || !app_name || !app_image || !app_introduction || !app_version || !app_server_port) {
+            alert('参数错误');
+            return;
+        }
+
+        var url = "/html/v1/dev/create_app?appid=" + appid + "&app_name=" + app_name + "&app_introduction=" + app_introduction +
+            "&app_version=" + app_version + "&app_web_port=" + app_web_port + "&app_server_port=" + app_server_port + "&app_image=" + app_image;
+        $.get(url,function(result){
+            if (result.code !== 0) {
+                alert(result.msg);
+            }
+            window.location.reload();
+        });
+    }
+
     function start(appid)
     {
       var starting_app_content = '正在启动...';
