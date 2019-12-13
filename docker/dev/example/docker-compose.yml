@@ -1,0 +1,10 @@
+version: '3'
+services:
+  example-server:
+    image: example-image
+    container_name: dapps-example
+    ports:
+      - "${HOST_PORT}:app_image_port"
+    volumes:
+      - ${SOURCE_DIR}:/home
+    restart: always
