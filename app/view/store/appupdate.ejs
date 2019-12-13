@@ -9,9 +9,9 @@
       <section class="content-header">
         <div class="container-fluid">
           <div class="row mb-2">
-            <div class="col-sm-6">
+            <!-- <div class="col-sm-6">
               <h1>应用更新</h1>
-            </div>
+            </div> -->
           </div>
         </div><!-- /.container-fluid -->
       </section>
@@ -23,12 +23,9 @@
           <div class="col-12">
 
             <div class="card">
-              <div class="card-header">
-                <h3 class="card-title">列表</h3>
-              </div>
               <% if (app_list.length == 0) {%>
                 <div class="card-header">
-                  <h3 class="card-title">应用全部为最新版本</h3>
+                  <span style="margin: auto">应用全部为最新版本</span>
                 </div>
               <% } else { %>  
               <!-- /.card-header -->
