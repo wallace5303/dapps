@@ -350,7 +350,7 @@ class StoreController extends BaseController {
     }
 
     // 用户是否安装docker
-    const checkRes = await service.store.checkDocker();
+    const checkRes = await service.docker.checkDocker();
     if (checkRes.code !== CODE.SUCCESS) {
       self.sendFail({}, checkRes.msg, checkRes.code);
       return;

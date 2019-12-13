@@ -5,6 +5,29 @@ const shell = require('shelljs');
 
 class DockerService extends BaseService {
   /*
+   * docker检查
+   */
+  async checkDocker() {
+    const res = {
+      code: 70003,
+      msg: 'unknown error',
+    };
+
+    if (!shell.which('docker')) {
+      res.msg = '请先安装或启动docker软件';
+      return res;
+    }
+
+    if (!shell.which('docker-compose')) {
+      res.msg = '请先安装或启动docker-compose软件';
+      return res;
+    }
+    res.code = 0;
+
+    return res;
+  }
+
+  /*
    * network clean
    */
   async networkClean() {

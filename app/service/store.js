@@ -9,29 +9,6 @@ const tools = require('../utils/tools');
 
 class StoreService extends BaseService {
   /*
-   * docker检查
-   */
-  async checkDocker() {
-    const res = {
-      code: 70003,
-      msg: 'unknown error',
-    };
-
-    if (!shell.which('docker')) {
-      res.msg = '请先安装或启动docker软件';
-      return res;
-    }
-
-    if (!shell.which('docker-compose')) {
-      res.msg = '请先安装或启动docker-compose软件';
-      return res;
-    }
-    res.code = 0;
-
-    return res;
-  }
-
-  /*
    * 商店应用列表
    */
   async appList(all, page, appid, author, sortField, sortType) {
@@ -337,9 +314,9 @@ class StoreService extends BaseService {
   async installApp(query) {
     const nodeVersion = shell.exec('node -v', { silent: true }).substr(1);
 
-    if (!utils.compareVersion('7.6', nodeVersion)) {
+    if (!utils.compareVersion('8.0', nodeVersion)) {
       this.app.logger.error(
-        '[StoreService] [installApp] node 需要 7.6 或以上版本'
+        '[StoreService] [installApp] node 需要 8.0 或以上版本'
       );
       return false;
     }

@@ -25,22 +25,16 @@
                 <div class="row no-print">
                     <div class="col-12">
                         <a href="#" class="btn btn-default" data-toggle="modal" data-target="#modal-lg" >创建应用</a>
+                        <a href="http://doc.kaka996.com/docs/dapps" class="btn btn-default" target="_blank" >使用文档</a>
                     </div>
                 </div>
             </div>
-
+            <!-- <div class="callout callout-info">
+              <a href="http://doc.kaka996.com/docs/dapps" >使用文档</a>
+            </div> -->
           <div class="card">
             <div class="card-header">
               <h3 class="card-title">列表</h3>
-              <!-- <div class="card-tools">
-                <div class="input-group input-group-sm" style="width: 150px;">
-                  <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
-
-                  <div class="input-group-append">
-                    <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
-                  </div>
-                </div>
-              </div> -->
             </div>
             <% if (app_list.length == 0) {%>
               <div class="card-header">
@@ -48,7 +42,7 @@
               </div>
             <% } else { %>  
             <!-- /.card-header -->
-            <div class="card-body table-responsive p-0">           
+            <div class="card-body table-responsive p-0">
                 <table class="table table-hover"> 
                   <thead> 
                     <tr>
