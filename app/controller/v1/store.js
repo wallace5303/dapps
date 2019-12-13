@@ -151,7 +151,7 @@ class StoreController extends BaseController {
           one.is_new_version = false;
 
           // 是否启动
-          const runRes = await service.store.appIsRunning(one.appid);
+          const runRes = await service.docker.appIsRunning(one.appid);
           if (runRes) {
             one.is_running = true;
           }
@@ -350,7 +350,7 @@ class StoreController extends BaseController {
     }
 
     // 用户是否安装docker
-    const checkRes = await service.store.checkDocker();
+    const checkRes = await service.docker.checkDocker();
     if (checkRes.code !== CODE.SUCCESS) {
       self.sendFail({}, checkRes.msg, checkRes.code);
       return;

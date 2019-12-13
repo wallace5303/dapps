@@ -15,4 +15,5 @@ module.exports = app => {
   require('./test')(app);
   require('./store')(app);
   require('./home')(app);
+  require('./dev')(app);
 };

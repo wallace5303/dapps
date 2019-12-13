@@ -456,7 +456,7 @@ exports.getIPAddress = function() {
  * 端口是否被占用
  */
 exports.portIsOccupied = function portIsOccupied(port) {
-  const server = net.createServer().listen(port);
+  const server = net.createServer().listen(port, '0.0.0.0');
   return new Promise((resolve, reject) => {
     server.on('listening', () => {
       console.log(`the server is runnint on port ${port}`);

@@ -47,12 +47,12 @@
     "node": ">=8.9.0"
   },
   "scripts": {
-    "start": "egg-scripts start --daemon --title=dapps --ignore-stderr --env=prod --workers=4",
+    "start": "egg-scripts start --daemon --title=dapps --ignore-stderr --env=prod --workers=1",
     "stop": "egg-scripts stop --title=dapps",
     "restart": "npm run stop && npm run start",
-    "start-preview": "egg-scripts start --daemon --title=dapps-preview --ignore-stderr --env=preview --workers=4",
+    "start-preview": "egg-scripts start --daemon --title=dapps-preview --ignore-stderr --env=preview --workers=1",
     "stop-preview": "egg-scripts stop --title=dapps-preview",
-    "start-beta": "egg-scripts start --daemon --title=dapps-beta --ignore-stderr --env=beta --workers=4",
+    "start-beta": "egg-scripts start --daemon --title=dapps-beta --ignore-stderr --env=beta --workers=1",
     "stop-beta": "egg-scripts stop --title=dapps-beta",
     "dev": "egg-bin dev",
     "update": "node ./script/commands/update-dapps.js",

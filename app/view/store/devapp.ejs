@@ -1,0 +1,333 @@
+<%- include('header'); %>
+  <!-- Sidenav -->
+  <%- include('sidebar'); %>
+  <!-- Main content -->
+
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <!-- <div class="col-sm-6">
+            <h1>开发者应用</h1>
+          </div> -->
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+  <!-- Main content -->
+  <section class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-12">
+
+            <div class="p-3 mb-3">
+                <div class="row no-print">
+                    <div class="col-12">
+                        <a href="#" class="btn btn-default" data-toggle="modal" data-target="#modal-lg" >创建应用</a>
+                        <a href="http://doc.kaka996.com/docs/dapps/dev" class="btn btn-default" target="_blank" >使用文档</a>
+                    </div>
+                </div>
+            </div>
+          <div class="card">
+            <% if (app_list.length == 0) {%>
+              <div class="card-header">
+                  <span style="margin: auto">没有数据</span>
+              </div>
+            <% } else { %>  
+            <!-- /.card-header -->
+            <div class="card-body table-responsive p-0">
+                <table class="table table-hover"> 
+                  <thead> 
+                    <tr>
+                        <th width="20%" >应用名称</th>
+                        <th width="30%" >开始使用</th>
+                        <th width="15%" >状态</th>
+                        <th width="20%" >操作</th>
+                        <th width="15%" >清理</th>
+                    </tr> 
+                  </thead> 
+                  <tbody> 
+
+                    <% for (let i = 0; i < app_list.length; i++) {
+                      let one = app_list[i];
+                      %>
+                      <tr>
+                          <td>
+                              <strong><%= one.app_name %></strong>
+                          </td>
+                          <td>
+                            <% if (one.open_url) {%>
+                              <a href="<%= one.open_url %>" target="_blank">
+                                打开
+                              </a>
+                            <% } else { %>
+                              后台服务
+                            <% } %>
+                          </td>
+                          <td id="is_running_<%= one.appid %>">
+                            <% if (one.is_running) {%>
+                              正在运行
+                            <% } else { %>
+                              已停止
+                            <% } %>
+                          </td>
+                          <td>
+                              <% if (one.is_running) {%>
+                                <a id="operation_<%= one.appid %>" class="btn btn-danger btn-sm" href="#" onclick="stop('<%= one.appid %>')">
+                                  停止
+                                </a>
+                              <% } else { %>
+                                <a id="operation_<%= one.appid %>" class="btn btn-info btn-sm" href="#" onclick="start('<%= one.appid %>')">
+                                  启动
+                                </a>
+                              <% } %>
+                          </td>
+                          <td id="delete_<%= one.appid %>">
+                            <% if (one.exist_container) {%>
+                                <a id="delete_<%= one.appid %>" class="btn btn-danger btn-sm" href="#" onclick="uninstall('<%= one.appid %>')">
+                                    清除容器
+                                </a>
+                                <% } else { %>
+                                    无
+                            <% } %>
+                          </td>
+                      </tr>
+                    <% } %>
+
+                  </tbody>
+                </table>
+            </div>
+            <% } %>
+            <!-- /.card-body -->
+          </div>
+          <!-- /.card -->
+        </div>
+        <!-- /.col -->
+      </div>
+      
+      <!-- /.row -->
+      <div class="row">
+        <div class="col-sm-12 col-md-4">
+          <div class="dataTables_info" id="example2_info" role="status" aria-live="polite">
+            共 <%= all_data.total %> 条数据
+          </div>
+        </div>
+        <!-- <div class="col-sm-12 col-md-7">
+          <div class="dataTables_paginate paging_simple_numbers" id="example2_paginate">
+            <ul class="pagination">
+            <li class="paginate_button page-item previous" id="example2_previous"><a href="#" onclick="change_page('<%= (all_data.current_page - 1) %>')" aria-controls="example2" data-dt-idx="0" tabindex="0" class="page-link">上一页</a></li>
+            <li class="paginate_button page-item active"><a href="#" aria-controls="example2" data-dt-idx="1" tabindex="0" class="page-link"><%= all_data.current_page %></a></li>
+            <li class="paginate_button page-item next" id="example2_next"><a href="#" onclick="change_page('<%= (all_data.current_page + 1) %>')" aria-controls="example2" data-dt-idx="7" tabindex="0" class="page-link">下一页</a></li>
+            </ul>
+          </div>
+        </div> -->
+      </div>
+
+        <div class="modal fade" id="modal-lg">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">创建应用</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" id="modal_app_config_alert">
+                        <form class="form-horizontal">
+                            <div class="card-body">
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">App id</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="appid" placeholder="必填，如：redis-5-0-7 （数字，字母，中划线-）" value="">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">App名称</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="app_name" placeholder="必填，如：redis 5.0.7" value="">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">docker镜像</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="app_image" placeholder="选填，如：redis:5.0.7" value="">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">镜像软件端口</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="app_image_port" placeholder="选填，镜像软件的默认端口，如：redis的为6379" value="">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">App介绍</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="app_introduction" placeholder="必填，如：redis数据库" value="">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">App版本</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="app_version" placeholder="必填，如：5.0.7" value="">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">App前台端口</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="app_port" placeholder="选填，web（UI）应用必填" value="">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">App服务端口</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="host_port" placeholder="必填，如：6381" value="">
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.card-body -->
+                            <div class="card-body">
+                                <button type="button" class="btn btn-info" onclick="create_app()">确认</button>
+                                <button type="button" class="btn btn-default float-right" data-dismiss="modal">取消</button>
+                            </div>
+                            <!-- /.card-footer -->
+                        </form>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        <!-- /.modal -->
+
+    </div>
+  </section>
+  <!-- /.content -->
+</div>
+
+<script>
+    function change_page(page)
+    {
+        var url = "/html/v1/dev/index?page=";
+        if (Number(page) < 1) {
+          page = 1;
+        }
+        url += page;
+        window.location.href = url;
+    }
+
+    function create_app()
+    {
+        // 用户信息
+        let uid = 0;
+        let username = '';
+        var userInfo=localStorage.getItem("user_info");
+        if (!userInfo) {
+            alert('请登录');
+            return;
+        }
+        var userInfo = JSON.parse(userInfo);
+        uid = userInfo.uid;
+        username = userInfo.username;
+
+        let appid = $("#appid").val();
+        let app_name = $("#app_name").val();
+        let app_image = $("#app_image").val();
+        let app_introduction = $("#app_introduction").val();
+        let app_version = $("#app_version").val();
+        let app_port = $("#app_port").val();
+        let host_port = $("#host_port").val();
+        let app_image_port = $("#app_image_port").val();
+        // appid = 'redis-5-0-7';
+        // app_name = 'redis 5.0.7';
+        // app_image = 'redis:5.0.7';
+        // app_introduction = 'redis数据库';
+        // app_version = '5.0.7';
+        // app_port = '';
+        // host_port = '6381';
+        // app_image_port = 6379
+        if (!appid || !app_name || !app_image || !app_introduction || !app_version || !host_port) {
+            alert('参数错误');
+            return;
+        }
+
+        var reg = /^[A-Za-z0-9\-]*$/g;
+        if (!reg.test(appid)) {
+            alert('appid只允许：数字，字母，中划线-');
+            return;
+        }
+
+        var url = "/api/v1/dev/app_create?appid=" + appid + "&app_name=" + app_name + "&app_introduction=" + app_introduction +
+            "&app_version=" + app_version + "&app_port=" + app_port + "&host_port=" + host_port + "&app_image=" + app_image +
+            "&uid=" + uid + "&username=" + username + "&app_image_port=" + app_image_port;
+        $.get(url,function(result){
+            if (result.code !== 0) {
+                alert(result.msg);
+            }
+            window.location.reload();
+        });
+    }
+
+    function start(appid)
+    {
+      var starting_app_content = '正在启动...';
+      $("#operation_" + appid).html(starting_app_content);
+      $("#operation_" + appid).attr("onclick", "");
+      var url = "/api/v1/dev/app_start?appid=" + appid;
+      $.get(url,function(result){
+          if (result.code !== 0) {
+              alert(result.msg);
+          } else {
+            $("#operation_" + appid).attr("class", "btn btn-danger btn-sm");
+            $("#operation_" + appid).attr("onclick", "stop( '" + appid + "' )");
+            $("#operation_" + appid).text("停止");
+
+            var is_running__app_content = '正在运行';
+            $("#is_running_" + appid).html(is_running__app_content);
+          }
+          window.location.reload();
+      });
+    }
+
+    function stop(appid)
+    {
+      var stoping_app_content = '正在停止...';
+      $("#operation_" + appid).html(stoping_app_content);
+      $("#operation_" + appid).attr("onclick", "");
+      var url = "/api/v1/dev/app_stop?appid=" + appid;
+      $.get(url,function(result){
+          if (result.code !== 0) {
+              alert(result.msg);
+              window.location.reload();
+          } else {
+            $("#operation_" + appid).attr("class", "btn btn-info btn-sm");
+            $("#operation_" + appid).attr("onclick", "start('" + appid + "')");
+            $("#operation_" + appid).text("启动");
+
+            var is_running__app_content = '已停止';
+            $("#is_running_" + appid).html(is_running__app_content);
+            //window.location.reload();
+          }
+      });
+    }
+
+    function uninstall(appid)
+    {
+        if (!confirm("你确定清除吗？")) {
+                return;
+        }
+
+        var uninstalling_app_content = '正在清除...';
+        $("#delete_" + appid).html(uninstalling_app_content);
+
+        var url = "/api/v1/dev/app_uninstall?appid=" + appid;
+        $.get(url,function(result){
+            if (result.code !== 0) {
+                alert(result.msg);
+            }
+            window.location.reload();
+        });
+    }
+
+</script>
+<%- include('bottom'); %>

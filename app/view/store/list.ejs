@@ -4,14 +4,11 @@
     <section class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1>全部应用</h1>
-          </div>
           <!-- <div class="col-sm-6">
-              <div class="social-share" style="float: right!important;"></div>
-          </div>   -->
+            <h1>全部应用</h1>
+          </div> -->
         </div>
-      </div><!-- /.container-fluid -->
+      </div>
     </section>
     
   <!-- Main content -->
@@ -20,14 +17,13 @@
       <div class="row">
         <div class="col-12">
 
-          <div class="callout callout-info">
-            <!-- <h5><i class="fas fa-info"></i> 注:</h5> -->
+          <!-- <div class="callout callout-info">
               注：部分软件安装时间较长，请耐心等待
-          </div>
-          
+          </div> -->
+
           <div class="card">
             <div class="card-header">
-              <h3 class="card-title">列表</h3>
+              <h3 class="card-title">全部</h3>
               <div class="card-tools">
                 <div class="input-group input-group-sm" style="width: 150px;">
                   <input id="search_app_name" type="text" name="table_search" class="form-control float-right" placeholder="应用名称" value="<%= search_param.app_name %>">
@@ -107,7 +103,7 @@
       <div class="row">
         <div class="col-sm-12 col-md-4">
           <div class="dataTables_info" id="example2_info" role="status" aria-live="polite">
-            共 <%= all_data.total %> 条数据
+            共 <%= all_data.total %> 款软件
           </div>
         </div>
         <div class="col-sm-12 col-md-7">

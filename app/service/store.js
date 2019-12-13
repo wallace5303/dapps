@@ -9,29 +9,6 @@ const tools = require('../utils/tools');
 
 class StoreService extends BaseService {
   /*
-   * docker检查
-   */
-  async checkDocker() {
-    const res = {
-      code: 70003,
-      msg: 'unknown error',
-    };
-
-    if (!shell.which('docker')) {
-      res.msg = '请先安装或启动docker软件';
-      return res;
-    }
-
-    if (!shell.which('docker-compose')) {
-      res.msg = '请先安装或启动docker-compose软件';
-      return res;
-    }
-    res.code = 0;
-
-    return res;
-  }
-
-  /*
    * 商店应用列表
    */
   async appList(all, page, appid, author, sortField, sortType) {
@@ -219,7 +196,7 @@ class StoreService extends BaseService {
       const tmpAppid = tmpAppInfo.appid;
 
       // 检查应用是否启动
-      const runRes = await this.service.store.appIsRunning(tmpAppid);
+      const runRes = await this.service.docker.appIsRunning(tmpAppid);
       if (!runRes) {
         continue;
       }
@@ -287,53 +264,6 @@ class StoreService extends BaseService {
   }
 
   /*
-   * 应用是否启动
-   */
-  async appIsRunning(appid) {
-    const runningInfo = shell.exec('docker top dapps-' + appid, {
-      silent: true,
-    });
-    // this.app.logger.info(
-    //   '[StoreService] [appIsRunning] appid:, runningInfo:',
-    //   appid,
-    //   runningInfo
-    // );
-    if (runningInfo.code === 0) {
-      return true;
-    }
-    return false;
-  }
-
-  /*
-   * 容器是否存在
-   */
-  async appContainerExist(appid) {
-    const containerInfo = shell.exec('docker inspect dapps-' + appid, {
-      silent: true,
-    });
-    if (containerInfo.code === 0) {
-      return true;
-    }
-    return false;
-  }
-
-  /*
-   * 网络是否存在
-   */
-  async appNetworkExist(appid) {
-    const networkInfo = shell.exec(
-      'docker network inspect ' + appid + '_default',
-      {
-        silent: true,
-      }
-    );
-    if (networkInfo.code === 0) {
-      return true;
-    }
-    return false;
-  }
-
-  /*
    * 应用是否有更新
    */
   async appHasNewVersion(appid) {
@@ -384,9 +314,9 @@ class StoreService extends BaseService {
   async installApp(query) {
     const nodeVersion = shell.exec('node -v', { silent: true }).substr(1);
 
-    if (!utils.compareVersion('7.6', nodeVersion)) {
+    if (!utils.compareVersion('8.0', nodeVersion)) {
       this.app.logger.error(
-        '[StoreService] [installApp] node 需要 7.6 或以上版本'
+        '[StoreService] [installApp] node 需要 8.0 或以上版本'
       );
       return false;
     }
@@ -456,18 +386,18 @@ class StoreService extends BaseService {
       msg: 'unknown error',
     };
 
-    const isRunning = await this.service.store.appIsRunning(appid);
+    const isRunning = await this.service.docker.appIsRunning(appid);
     if (isRunning) {
-      const killRes = await this.service.store.killApp(appid);
+      const killRes = await this.service.docker.killApp(appid);
       if (!killRes) {
         res.msg = '停止容器失败';
         return res;
       }
     }
 
-    const containerIsExist = await this.service.store.appContainerExist(appid);
+    const containerIsExist = await this.service.docker.appContainerExist(appid);
     if (containerIsExist) {
-      const delRes = await this.service.store.delApp(appid);
+      const delRes = await this.service.docker.delApp(appid);
       if (!delRes) {
         res.msg = '删除容器失败';
         return res;
@@ -475,9 +405,9 @@ class StoreService extends BaseService {
     }
 
     // 检查网络是否存在
-    const networkIsExist = await this.service.store.appNetworkExist(appid);
+    const networkIsExist = await this.service.docker.appNetworkExist(appid);
     if (networkIsExist) {
-      const delNetworkRes = await this.service.store.delAppNetwork(appid);
+      const delNetworkRes = await this.service.docker.delAppNetwork(appid);
       if (!delNetworkRes) {
         res.msg = '删除容器网络失败';
         return res;
@@ -547,60 +477,6 @@ class StoreService extends BaseService {
   }
 
   /*
-   * kill应用
-   */
-  async killApp(appid) {
-    const killRes = shell.exec('docker kill dapps-' + appid, {
-      silent: true,
-    });
-    this.app.logger.info(
-      '[StoreService] [killApp] appid:, killRes:',
-      appid,
-      killRes
-    );
-    if (killRes.code === 0) {
-      return true;
-    }
-    return false;
-  }
-
-  /*
-   * 删除应用
-   */
-  async delApp(appid) {
-    const delRes = shell.exec('docker rm dapps-' + appid, {
-      silent: true,
-    });
-    this.app.logger.info(
-      '[StoreService] [delApp] appid:, delRes:',
-      appid,
-      delRes
-    );
-    if (delRes.code === 0) {
-      return true;
-    }
-    return false;
-  }
-
-  /*
-   * 删除网络
-   */
-  async delAppNetwork(appid) {
-    const delRes = shell.exec('docker network rm ' + appid + '_default', {
-      silent: true,
-    });
-    this.app.logger.info(
-      '[StoreService] [delAppNetwork] appid:, delRes:',
-      appid,
-      delRes
-    );
-    if (delRes.code === 0) {
-      return true;
-    }
-    return false;
-  }
-
-  /*
    * 删除应用文件
    */
   async delAppFile(appid) {
@@ -629,9 +505,15 @@ class StoreService extends BaseService {
       return res;
     }
 
-    const isRunning = await this.service.store.appIsRunning(appid);
+    const isRunning = await this.service.docker.appIsRunning(appid);
     if (isRunning) {
       res.msg = '应用正在运行';
+      return res;
+    }
+
+    const checkPort = await this.appPortCheck(appid);
+    if (checkPort) {
+      res.msg = '端口已被占用，请关闭占用端口的服务';
       return res;
     }
 
@@ -656,6 +538,36 @@ class StoreService extends BaseService {
   }
 
   /*
+   * 端口是否被占用
+   */
+  async appPortCheck(appid) {
+    let res = false;
+    const addonsDir = this.app.baseDir + '/docker/addons';
+    const envFile = addonsDir + '/' + appid + '/.env';
+    if (fs.existsSync(envFile)) {
+      const fileArr = await utils.readFileToArr(envFile);
+      for (let i = 0; i < fileArr.length; i++) {
+        const tmpEle = fileArr[i];
+        let appPort = null;
+        if (tmpEle.indexOf('APP_PORT') !== -1) {
+          appPort = tmpEle.substr(9);
+          if (appPort) {
+            res = await utils.portIsOccupied(appPort);
+            return res;
+          }
+        }
+        if (tmpEle.indexOf('HOST_PORT') !== -1) {
+          appPort = tmpEle.substr(10);
+          if (appPort) {
+            res = await utils.portIsOccupied(appPort);
+            return res;
+          }
+        }
+      }
+    }
+  }
+
+  /*
    * stop应用
    */
   async stopApp(appid) {
@@ -670,7 +582,7 @@ class StoreService extends BaseService {
       return res;
     }
 
-    const isRunning = await this.service.store.appIsRunning(appid);
+    const isRunning = await this.service.docker.appIsRunning(appid);
     if (!isRunning) {
       res.msg = '应用没有在运行';
       return res;
