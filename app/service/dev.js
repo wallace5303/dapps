@@ -141,7 +141,10 @@ class DevService extends BaseService {
    * 端口是否被占用
    */
   async devAppPortCheck(appid) {
-    let res = false;
+    const res = {
+      occupied: false,
+      port: null,
+    };
     const addonsDir = this.app.baseDir + '/docker/dev';
     const envFile = addonsDir + '/' + appid + '/.env';
     if (fs.existsSync(envFile)) {
@@ -151,26 +154,32 @@ class DevService extends BaseService {
         let appPort = null;
         if (tmpEle.indexOf('APP_PORT') !== -1) {
           appPort = tmpEle.substr(9);
+          res.port = appPort;
           if (appPort < 0 || appPort > 65536) {
-            return true;
+            res.occupied = true;
+            return res;
           }
           if (appPort) {
-            res = await utils.portIsOccupied(appPort);
+            res.occupied = await utils.portIsOccupied(appPort);
             return res;
           }
         }
         if (tmpEle.indexOf('HOST_PORT') !== -1) {
           appPort = tmpEle.substr(10);
+          res.port = appPort;
           if (appPort < 0 || appPort > 65536) {
-            return true;
+            res.occupied = true;
+            return res;
           }
           if (appPort) {
-            res = await utils.portIsOccupied(appPort);
+            res.occupied = await utils.portIsOccupied(appPort);
             return res;
           }
         }
       }
     }
+
+    return res;
   }
 
   /*
@@ -195,8 +204,8 @@ class DevService extends BaseService {
     }
 
     const checkPort = await this.devAppPortCheck(appid);
-    if (checkPort) {
-      res.msg = '端口已被占用，请关闭占用端口的服务';
+    if (checkPort.occupied) {
+      res.msg = '端口' + checkPort.port + '已被占用，请关闭占用端口的服务';
       return res;
     }
 

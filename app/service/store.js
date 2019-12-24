@@ -512,8 +512,9 @@ class StoreService extends BaseService {
     }
 
     const checkPort = await this.appPortCheck(appid);
-    if (checkPort) {
-      res.msg = '端口已被占用，请关闭占用端口的服务';
+    // console.log(checkPort);
+    if (checkPort.occupied) {
+      res.msg = '端口' + checkPort.port + '已被占用，请关闭占用端口的服务';
       return res;
     }
 
@@ -541,7 +542,10 @@ class StoreService extends BaseService {
    * 端口是否被占用
    */
   async appPortCheck(appid) {
-    let res = false;
+    const res = {
+      occupied: false,
+      port: null,
+    };
     const addonsDir = this.app.baseDir + '/docker/addons';
     const envFile = addonsDir + '/' + appid + '/.env';
     if (fs.existsSync(envFile)) {
@@ -552,19 +556,23 @@ class StoreService extends BaseService {
         if (tmpEle.indexOf('APP_PORT') !== -1) {
           appPort = tmpEle.substr(9);
           if (appPort) {
-            res = await utils.portIsOccupied(appPort);
+            res.port = appPort;
+            res.occupied = await utils.portIsOccupied(appPort);
             return res;
           }
         }
         if (tmpEle.indexOf('HOST_PORT') !== -1) {
           appPort = tmpEle.substr(10);
           if (appPort) {
-            res = await utils.portIsOccupied(appPort);
+            res.port = appPort;
+            res.occupied = await utils.portIsOccupied(appPort);
             return res;
           }
         }
       }
     }
+
+    return res;
   }
 
   /*
