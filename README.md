@@ -5,7 +5,7 @@
 
 #注：每周会上架1~2款新应用，持续更新
 
-#### 本次更新：zblog个人博客：小巧而强大的PHP博客程序与建站系统 ------ [查看效果](https://github.com/wallace5303/dapps-addons/tree/master/addons/zblog)
+#### 本次更新：OpenSns：快速搭建类似于微博一样的社交网站 ------ [查看效果](https://github.com/wallace5303/dapps-addons/tree/master/addons/opensns)
 
 ## 目前包含的软件
 
@@ -18,6 +18,7 @@
 - 百度网盘下载器(命令行) ------ [查看效果](https://github.com/wallace5303/dapps-addons/blob/master/addons/baidupcs-go/README.md)
 - wordpress ------ [查看效果](https://github.com/wallace5303/dapps-addons/blob/master/addons/wordpress/README.md)
 - zblog个人博客：小巧而强大的PHP博客程序与建站系统 ------ [查看效果](https://github.com/wallace5303/dapps-addons/tree/master/addons/zblog)
+- opensns：快速搭建类似于微博一样的社交网站 ------ [查看效果](https://github.com/wallace5303/dapps-addons/tree/master/addons/opensns)
 - py12306抢票 ------ [查看效果](https://github.com/wallace5303/dapps-addons/blob/master/addons/py12306/README.md)
 - magnetw： 种子搜索神器 ------ [查看效果](https://github.com/wallace5303/dapps-addons/blob/master/addons/magnetw21/README.md)
 - PhpMyAdmin：mysql管理工具 ------ [查看效果](https://github.com/wallace5303/dapps-addons/blob/master/addons/phpmyadmin/README.md)
