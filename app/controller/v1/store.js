@@ -20,6 +20,7 @@ class StoreController extends BaseController {
       all_data: {
         total: 0,
       },
+      web_sites: null,
     };
 
     const appList = await service.store.myWebAppList();
@@ -45,6 +46,41 @@ class StoreController extends BaseController {
     }
     // console.log(webApplist);
     data.app_list = webApplist;
+
+    const params = {
+      out_url: 'webSites',
+      method: 'GET',
+      data: {
+        app: 'dapps',
+      },
+    };
+    const web_sites_data = await service.outapi.api(params);
+    const webs = web_sites_data.data.list;
+    // url按每8个切割
+    for (const webType1Index in webs) {
+      const webType2Obj = webs[webType1Index].children;
+      for (const webType2Index in webType2Obj) {
+        const urlList = webType2Obj[webType2Index].list;
+        const chunkUrlList = _.chunk(urlList, 8);
+        // 补充满，每组8个
+        for (let i = 0; i < chunkUrlList.length; i++) {
+          const tmpUrlArr = chunkUrlList[i];
+          if (_.isArray(tmpUrlArr)) {
+            while (tmpUrlArr.length < 8) {
+              const tmpUrlObj = {
+                url: '',
+              };
+              tmpUrlArr.push(tmpUrlObj);
+            }
+          }
+        }
+
+        webType2Obj[webType2Index].list = chunkUrlList;
+      }
+    }
+    data.web_sites = webs;
+
+    // console.log('web_sites:%j', data.web_sites);
 
     // 总数目
     const total = data.app_list.length;

@@ -17,6 +17,7 @@ exports.outApi = {
     'http://test-www.kaka996.com/api/dapps/store/developer_app_list',
   userinfo: 'http://test-www.kaka996.com/api/dapps/user/info',
   incrDownload: 'http://test-www.kaka996.com/api/dapps/store/incr_download',
+  webSites: 'http://test-www.kaka996.com/api/dapps/web/sites',
 };
 
 exports.logger = {
