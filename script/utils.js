@@ -13,7 +13,7 @@ function github(appid, type = 'github') {
 
   if (type === 'github') {
     url =
-      'https://github.com/wallace5303/dapps-addons/raw/master/zip/' +
+      'https://raw.githubusercontent.com/wallace5303/dapps-addons/master/zip/' +
       appid +
       '.zip';
   } else {

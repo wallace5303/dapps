@@ -10,10 +10,7 @@ function github(appid, type = 'github') {
   let url;
 
   if (type === 'github') {
-    url =
-      'https://github.com/wallace5303/dapps-addons/raw/master/zip/' +
-      appid +
-      '.zip';
+    url = 'https://kaka996.coding.net/p/zip/git/raw/master/' + appid + '.zip';
   } else {
     url = 'https://kaka996.coding.net/p/zip/git/raw/master/' + appid + '.zip';
   }

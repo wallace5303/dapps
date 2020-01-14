@@ -24,7 +24,8 @@ module.exports = {
 
   // 插件包路径，统一用coding
   addonsPath: {
-    github: 'https://github.com/wallace5303/dapps-addons/raw/master/zip/',
+    github:
+      'https://raw.githubusercontent.com/wallace5303/dapps-addons/master/zip/',
     coding: 'https://kaka996.coding.net/p/zip/git/raw/master/',
   },
 };
