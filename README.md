@@ -5,7 +5,7 @@
 
 #注：每周会上架1~2款新应用，持续更新
 
-#### 本次更新：OpenSns：快速搭建类似于微博一样的社交网站 ------ [查看效果](https://github.com/wallace5303/dapps-addons/tree/master/addons/opensns)
+#### 本次更新：Ubuntu：Ubuntu server 16.04和18.04 ------ [查看效果](https://github.com/wallace5303/dapps-addons/tree/master/addons/ubuntu-18-04)
 
 ## 目前包含的软件
 
@@ -32,6 +32,7 @@
 - rabbitmq3.7队列服务 ------ [查看效果](https://github.com/wallace5303/dapps-addons/blob/master/addons/rabbitmq37/README.md)
 - 2048游戏 ------ [查看效果](https://github.com/wallace5303/dapps-addons/blob/master/addons/game-2048/README.md)
 - cxk打篮球：一款休闲游戏 ------ [查看效果](https://github.com/wallace5303/dapps-addons/tree/master/addons/cxk-ball)
+- Ubuntu：Ubuntu server 16.04和18.04 ------ [查看效果](https://github.com/wallace5303/dapps-addons/tree/master/addons/ubuntu-18-04)
 - 等......
 
 ## 交流
