@@ -417,11 +417,6 @@ class StoreService extends BaseService {
 
     const isRunning = await this.service.docker.appIsRunning(appid);
     if (isRunning) {
-      // const killRes = await this.service.docker.killApp(appid);
-      // if (!killRes) {
-      //   res.msg = appid + '停止容器失败';
-      //   return res;
-      // }
       const stopRes = await this.stopApp(appid);
       if (stopRes.code !== CODE.SUCCESS) {
         return stopRes;
@@ -432,15 +427,6 @@ class StoreService extends BaseService {
     if (rmRes.code !== CODE.SUCCESS) {
       return rmRes;
     }
-
-    // const containerIsExist = await this.service.docker.appContainerExist(appid);
-    // if (containerIsExist) {
-    //   const delRes = await this.service.docker.delApp(appid);
-    //   if (!delRes) {
-    //     res.msg = appid + '删除容器失败';
-    //     return res;
-    //   }
-    // }
 
     const removeRes = await this.service.lowdb.removeMyapp(appid);
     if (removeRes.length == 0) {
@@ -558,24 +544,6 @@ class StoreService extends BaseService {
     const dirpath = this.app.baseDir + '/docker/addons/' + appid;
     const startRes = await this.service.dockerCompose.start(dirpath);
     return startRes;
-    // const dirpath = this.app.baseDir + '/docker/addons/' + appid;
-    // shell.cd(dirpath);
-    // const startRes = shell.exec(
-    //   'docker-compose -f ' + DOCKER_COMPOE_FILE + ' up -d ' + appid,
-    //   {
-    //     silent: false,
-    //   }
-    // );
-    // this.app.logger.info('[StoreService] [startApp] start startRes:', startRes);
-
-    // if (startRes.code === 0) {
-    //   res.msg = '启动成功';
-    //   res.code = CODE.SUCCESS;
-    //   return res;
-    // }
-
-    // res.msg = startRes.stderr;
-    // return res;
   }
 
   /*
@@ -668,23 +636,6 @@ class StoreService extends BaseService {
     const dirpath = this.app.baseDir + '/docker/addons/' + appid;
     const stopRes = await this.service.dockerCompose.stop(dirpath);
     return stopRes;
-    // const dirpath = this.app.baseDir + '/docker/addons/' + appid;
-    // shell.cd(dirpath);
-    // const stopRes = shell.exec(
-    //   'docker-compose -f ' + DOCKER_COMPOE_FILE + ' stop ' + appid,
-    //   {
-    //     silent: false,
-    //   }
-    // );
-    // this.app.logger.info('[StoreService] [stopApp] stop stopRes:', stopRes);
-
-    // if (stopRes.code === 0) {
-    //   res.msg = appid + '停止成功';
-    //   res.code = CODE.SUCCESS;
-    //   return res;
-    // }
-    // res.msg = stopRes.stderr;
-    // return res;
   }
 
   /*

@@ -212,23 +212,6 @@ class DevService extends BaseService {
     const dirpath = this.app.baseDir + '/docker/dev/' + appid;
     const startRes = await this.service.dockerCompose.start(dirpath);
     return startRes;
-    // shell.cd(dirpath);
-    // const startRes = shell.exec(
-    //   'docker-compose -f ' + DOCKER_COMPOE_FILE + ' up -d ',
-    //   {
-    //     silent: false,
-    //   }
-    // );
-    // this.app.logger.info('[DevService] [startApp] start startRes:', startRes);
-
-    // if (startRes.code === 0) {
-    //   res.msg = '启动成功';
-    //   res.code = CODE.SUCCESS;
-    //   return res;
-    // }
-
-    // res.msg = startRes.stderr;
-    // return res;
   }
 
   /*
@@ -255,22 +238,6 @@ class DevService extends BaseService {
     const dirpath = this.app.baseDir + '/docker/dev/' + appid;
     const stopRes = await this.service.dockerCompose.stop(dirpath);
     return stopRes;
-    // shell.cd(dirpath);
-    // const stopRes = shell.exec(
-    //   'docker-compose -f ' + DOCKER_COMPOE_FILE + ' stop ' + appid,
-    //   {
-    //     silent: false,
-    //   }
-    // );
-    // this.app.logger.info('[DevService] [stopApp] stop stopRes:', stopRes);
-
-    // if (stopRes.code === 0) {
-    //   res.msg = '停止成功';
-    //   res.code = CODE.SUCCESS;
-    //   return res;
-    // }
-    // res.msg = stopRes.stderr;
-    // return res;
   }
 
   /*
@@ -284,11 +251,6 @@ class DevService extends BaseService {
 
     const isRunning = await this.service.docker.appIsRunning(appid);
     if (isRunning) {
-      // const killRes = await this.service.docker.killApp(appid);
-      // if (!killRes) {
-      //   res.msg = '停止容器失败';
-      //   return res;
-      // }
       const stopRes = await this.stopApp(appid);
       if (stopRes.code !== CODE.SUCCESS) {
         return stopRes;
@@ -300,15 +262,6 @@ class DevService extends BaseService {
     if (rmRes.code !== CODE.SUCCESS) {
       return rmRes;
     }
-
-    // const containerIsExist = await this.service.docker.appContainerExist(appid);
-    // if (containerIsExist) {
-    //   const delRes = await this.service.docker.delApp(appid);
-    //   if (!delRes) {
-    //     res.msg = '删除容器失败';
-    //     return res;
-    //   }
-    // }
 
     // 检查网络是否存在
     const networkIsExist = await this.service.docker.appNetworkExist(appid);
