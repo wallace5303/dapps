@@ -377,6 +377,35 @@ class StoreService extends BaseService {
     return true;
   }
 
+  // /*
+  //  * 卸载应用(包括依赖的应用)
+  //  */
+  // async uninstallApps(appid) {
+  //   const res = {
+  //     code: CODE.SUCCESS,
+  //     msg: '卸载成功',
+  //   };
+  //   const appids = await this.service.docker.ps(appid, false);
+  //   if (!appids || _.isEmpty(appids)) {
+  //     res.msg = '应用不存在-apps';
+  //     res.code = 1000;
+  //     return res;
+  //   }
+  //   // 因为有依赖，翻转数组
+  //   appids.reverse();
+  //   console.log(appids);
+  //   for (let i = 0; i < appids.length; i++) {
+  //     const one = appids[i];
+  //     const delRes = await this.uninstallApp(one);
+  //     // console.log('one:%j stopRes:%j', one, stopRes);
+  //     if (delRes.code !== CODE.SUCCESS) {
+  //       res.msg = delRes.msg;
+  //       res.code = 1000;
+  //     }
+  //   }
+  //   return res;
+  // }
+
   /*
    * 卸载应用
    */
@@ -388,20 +417,35 @@ class StoreService extends BaseService {
 
     const isRunning = await this.service.docker.appIsRunning(appid);
     if (isRunning) {
-      const killRes = await this.service.docker.killApp(appid);
-      if (!killRes) {
-        res.msg = '停止容器失败';
-        return res;
+      // const killRes = await this.service.docker.killApp(appid);
+      // if (!killRes) {
+      //   res.msg = appid + '停止容器失败';
+      //   return res;
+      // }
+      const stopRes = await this.stopApp(appid);
+      if (stopRes.code !== CODE.SUCCESS) {
+        return stopRes;
       }
     }
+    const dirpath = this.app.baseDir + '/docker/addons/' + appid;
+    const rmRes = await this.service.dockerCompose.rm(dirpath);
+    if (rmRes.code !== CODE.SUCCESS) {
+      return rmRes;
+    }
 
-    const containerIsExist = await this.service.docker.appContainerExist(appid);
-    if (containerIsExist) {
-      const delRes = await this.service.docker.delApp(appid);
-      if (!delRes) {
-        res.msg = '删除容器失败';
-        return res;
-      }
+    // const containerIsExist = await this.service.docker.appContainerExist(appid);
+    // if (containerIsExist) {
+    //   const delRes = await this.service.docker.delApp(appid);
+    //   if (!delRes) {
+    //     res.msg = appid + '删除容器失败';
+    //     return res;
+    //   }
+    // }
+
+    const removeRes = await this.service.lowdb.removeMyapp(appid);
+    if (removeRes.length == 0) {
+      res.msg = appid + '删除失败(文件)';
+      return res;
     }
 
     // 检查网络是否存在
@@ -409,19 +453,13 @@ class StoreService extends BaseService {
     if (networkIsExist) {
       const delNetworkRes = await this.service.docker.delAppNetwork(appid);
       if (!delNetworkRes) {
-        res.msg = '删除容器网络失败';
+        res.msg = appid + '删除容器网络失败';
         return res;
       }
     }
 
-    const removeRes = await this.service.lowdb.removeMyapp(appid);
-    if (removeRes.length == 0) {
-      res.msg = '删除失败';
-      return res;
-    }
-
     res.code = CODE.SUCCESS;
-    res.msg = '删除成功';
+    res.msg = appid + '删除成功';
     return res;
   }
 
@@ -517,25 +555,27 @@ class StoreService extends BaseService {
       res.msg = '端口' + checkPort.port + '已被占用，请关闭占用端口的服务';
       return res;
     }
-
     const dirpath = this.app.baseDir + '/docker/addons/' + appid;
-    shell.cd(dirpath);
-    const startRes = shell.exec(
-      'docker-compose -f ' + DOCKER_COMPOE_FILE + ' up -d ' + appid,
-      {
-        silent: false,
-      }
-    );
-    this.app.logger.info('[StoreService] [startApp] start startRes:', startRes);
+    const startRes = await this.service.dockerCompose.start(dirpath);
+    return startRes;
+    // const dirpath = this.app.baseDir + '/docker/addons/' + appid;
+    // shell.cd(dirpath);
+    // const startRes = shell.exec(
+    //   'docker-compose -f ' + DOCKER_COMPOE_FILE + ' up -d ' + appid,
+    //   {
+    //     silent: false,
+    //   }
+    // );
+    // this.app.logger.info('[StoreService] [startApp] start startRes:', startRes);
 
-    if (startRes.code === 0) {
-      res.msg = '启动成功';
-      res.code = CODE.SUCCESS;
-      return res;
-    }
+    // if (startRes.code === 0) {
+    //   res.msg = '启动成功';
+    //   res.code = CODE.SUCCESS;
+    //   return res;
+    // }
 
-    res.msg = startRes.stderr;
-    return res;
+    // res.msg = startRes.stderr;
+    // return res;
   }
 
   /*
@@ -576,6 +616,36 @@ class StoreService extends BaseService {
   }
 
   /*
+   * stop应用(包括依赖的应用)
+   */
+  // async stopApps(appid) {
+  //   const res = {
+  //     code: CODE.SUCCESS,
+  //     msg: '停止成功',
+  //   };
+  //   const appids = await this.service.docker.ps(appid, false);
+  //   // console.log(appids);
+  //   if (!appids || _.isEmpty(appids)) {
+  //     res.msg = '应用不存在-apps';
+  //     res.code = 1000;
+  //     return res;
+  //   }
+  //   // 因为有依赖，翻转数组
+  //   appids.reverse();
+  //   console.log(appids);
+  //   for (let i = 0; i < appids.length; i++) {
+  //     const one = appids[i];
+  //     const stopRes = await this.stopApp(one);
+  //     // console.log('one:%j stopRes:%j', one, stopRes);
+  //     if (stopRes.code !== CODE.SUCCESS) {
+  //       res.msg = stopRes.msg;
+  //       res.code = 1000;
+  //     }
+  //   }
+  //   return res;
+  // }
+
+  /*
    * stop应用
    */
   async stopApp(appid) {
@@ -586,33 +656,35 @@ class StoreService extends BaseService {
 
     const appIsExist = await this.service.store.appIsInstall(appid);
     if (!appIsExist) {
-      res.msg = '应用不存在';
+      res.msg = appid + '应用不存在';
       return res;
     }
 
     const isRunning = await this.service.docker.appIsRunning(appid);
     if (!isRunning) {
-      res.msg = '应用没有在运行';
+      res.msg = appid + '应用没有在运行';
       return res;
     }
-
     const dirpath = this.app.baseDir + '/docker/addons/' + appid;
-    shell.cd(dirpath);
-    const stopRes = shell.exec(
-      'docker-compose -f ' + DOCKER_COMPOE_FILE + ' stop ' + appid,
-      {
-        silent: false,
-      }
-    );
-    this.app.logger.info('[StoreService] [stopApp] stop stopRes:', stopRes);
+    const stopRes = await this.service.dockerCompose.stop(dirpath);
+    return stopRes;
+    // const dirpath = this.app.baseDir + '/docker/addons/' + appid;
+    // shell.cd(dirpath);
+    // const stopRes = shell.exec(
+    //   'docker-compose -f ' + DOCKER_COMPOE_FILE + ' stop ' + appid,
+    //   {
+    //     silent: false,
+    //   }
+    // );
+    // this.app.logger.info('[StoreService] [stopApp] stop stopRes:', stopRes);
 
-    if (stopRes.code === 0) {
-      res.msg = '停止成功';
-      res.code = CODE.SUCCESS;
-      return res;
-    }
-    res.msg = stopRes.stderr;
-    return res;
+    // if (stopRes.code === 0) {
+    //   res.msg = appid + '停止成功';
+    //   res.code = CODE.SUCCESS;
+    //   return res;
+    // }
+    // res.msg = stopRes.stderr;
+    // return res;
   }
 
   /*

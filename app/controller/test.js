@@ -22,7 +22,28 @@ class TestController extends BaseController {
     const data = {
       env: app.config.env,
     };
+    const arr = ['a', 'b', 'c'];
+    arr.reverse();
+    console.log(arr);
 
+    // const str = '1';
+    // if (!str) {
+    //   console.log('a');
+    // }
+
+    // const psRes = await this.service.docker.ps('mysql56', false);
+    // console.log(psRes);
+
+    // const str = null;
+    // console.log(str.length);
+    // const arr = ['dapps-a', ''];
+    // const newArr = arr.map(function(item) {
+    //   return item.substring(6);
+    // });
+    // console.log(newArr);
+
+    // const psRes = await this.service.store.stopApps('yapi');
+    // console.log(psRes);
     // await app.runSchedule('app_update');
 
     // const port = await utils.portIsOccupied(3306);

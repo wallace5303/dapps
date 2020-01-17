@@ -148,6 +148,35 @@ class DockerService extends BaseService {
     }
     return false;
   }
+
+  /*
+   * ps
+   */
+  async ps(appid, prefix = true) {
+    const psRes = shell.exec(
+      'docker ps -a --format "{{.Names}}" --filter name=dapps-' + appid,
+      {
+        silent: true,
+      }
+    );
+    // console.log(psRes);
+    if (psRes.code === 0) {
+      if (psRes.stdout) {
+        let appids = psRes.stdout.split('\n');
+        // console.log(appids);
+        appids.pop();
+
+        // 不加前缀 dapps-
+        if (!prefix) {
+          appids = appids.map(function(item) {
+            return item.substring(6);
+          });
+        }
+        return appids;
+      }
+    }
+    return false;
+  }
 }
 
 module.exports = DockerService;
