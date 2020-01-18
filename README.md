@@ -14,12 +14,11 @@
 - AriaNg高速下载器：2倍迅雷速度，迅雷无法下载的资源，也能下载 ------ [查看效果](https://github.com/wallace5303/dapps-addons/blob/master/addons/ariang/README.md) 
 - 人人影视：美剧爱好者的第一选择 ------ [查看效果](https://github.com/wallace5303/dapps-addons/tree/master/addons/rrshare)
 - kodexplorer可道云：像Windows操作一样的企业网盘 ------ [查看效果](https://github.com/wallace5303/dapps-addons/tree/master/addons/kodexplorer)
+- 禅道：国产的开源项目管理软件 ------ [查看效果](https://github.com/wallace5303/dapps-addons/tree/master/addons/zentao)
 - auxpi免费图床：集合多家 API 的新一代图床 ------ [查看效果](https://github.com/wallace5303/dapps-addons/tree/master/addons/auxpi)
-- 百度网盘下载器(命令行) ------ [查看效果](https://github.com/wallace5303/dapps-addons/blob/master/addons/baidupcs-go/README.md)
 - wordpress ------ [查看效果](https://github.com/wallace5303/dapps-addons/blob/master/addons/wordpress/README.md)
 - zblog个人博客：小巧而强大的PHP博客程序与建站系统 ------ [查看效果](https://github.com/wallace5303/dapps-addons/tree/master/addons/zblog)
 - opensns：快速搭建类似于微博一样的社交网站 ------ [查看效果](https://github.com/wallace5303/dapps-addons/tree/master/addons/opensns)
-- py12306抢票 ------ [查看效果](https://github.com/wallace5303/dapps-addons/blob/master/addons/py12306/README.md)
 - magnetw： 种子搜索神器 ------ [查看效果](https://github.com/wallace5303/dapps-addons/blob/master/addons/magnetw21/README.md)
 - PhpMyAdmin：mysql管理工具 ------ [查看效果](https://github.com/wallace5303/dapps-addons/blob/master/addons/phpmyadmin/README.md)
 - adminmongo: mongo管理工具 ------ [查看效果](https://github.com/wallace5303/dapps-addons/blob/master/addons/adminmongo/README.md)
@@ -87,7 +86,7 @@ npm run start
 
 ## 软件升级（推荐时不时，升级一下^_^）
 
-### git方式（推荐）
+### git方式
 
     ```
         # 拉取新代码
