@@ -5,19 +5,19 @@
  * 远程调用
  */
 exports.outApi = {
-  dappsInfo: 'http://test-www.kaka996.com/api/dapps/info',
-  appInfo: 'http://test-www.kaka996.com/api/dapps/store/app_info',
-  appList: 'http://test-www.kaka996.com/api/dapps/store/app_list',
-  allAppList: 'http://test-www.kaka996.com/api/dapps/store/all_app_list',
-  login: 'http://test-www.kaka996.com/api/dapps/login',
-  register: 'http://test-www.kaka996.com/api/dapps/register',
+  dappsInfo: 'http://kaka996-php.local.com/api/dapps/info',
+  appInfo: 'http://kaka996-php.local.com/api/dapps/store/app_info',
+  appList: 'http://kaka996-php.local.com/api/dapps/store/app_list',
+  allAppList: 'http://kaka996-php.local.com/api/dapps/store/all_app_list',
+  login: 'http://kaka996-php.local.com/api/dapps/login',
+  register: 'http://kaka996-php.local.com/api/dapps/register',
   developerAppUpdate:
-    'http://test-www.kaka996.com/api/dapps/store/developer_app_update',
+    'http://kaka996-php.local.com/api/dapps/store/developer_app_update',
   developerAppList:
-    'http://test-www.kaka996.com/api/dapps/store/developer_app_list',
-  userinfo: 'http://test-www.kaka996.com/api/dapps/user/info',
-  incrDownload: 'http://test-www.kaka996.com/api/dapps/store/incr_download',
-  webSites: 'http://test-www.kaka996.com/api/dapps/web/sites',
+    'http://kaka996-php.local.com/api/dapps/store/developer_app_list',
+  userinfo: 'http://kaka996-php.local.com/api/dapps/user/info',
+  incrDownload: 'http://kaka996-php.local.com/api/dapps/store/incr_download',
+  webSites: 'http://kaka996-php.local.com/api/dapps/web/sites',
 };
 
 exports.logger = {
