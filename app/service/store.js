@@ -655,7 +655,12 @@ class StoreService extends BaseService {
     };
 
     const dappsInfoRes = await this.service.outapi.api(params);
-    info = dappsInfoRes.data;
+    if (dappsInfoRes.code !== CODE.SUCCESS) {
+      info = await this.service.lowdb.getDapps();
+    } else {
+      info = dappsInfoRes.data;
+    }
+    
     // this.app.logger.info('info2:', info);
     await this.service.keyv.setOnlineDappsinfo(info);
 

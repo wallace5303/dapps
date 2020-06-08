@@ -15,6 +15,7 @@ class OutapiService extends BaseService {
     };
 
     try {
+      //throw new Error('Sync Error');
       const url = this.app.config.outApi[body.out_url];
       const response = await this.app.curl(url, {
         method: body.method,
