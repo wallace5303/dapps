@@ -7,6 +7,21 @@ const utilsIndex = require('../utils/index');
 const moment = require('moment');
 const _ = require('lodash');
 
-class UserService extends BaseService {}
+class UserService extends BaseService {
+
+  /*
+  * 生成access_token
+  * @params: string uid
+  * @return: string
+  */
+  createAccessToken(uid) {
+    var secretKey = commonConfig.secretKey;
+    var access_token = crypto.createHash('md5').update(uid)
+      .update(secretKey).update(Date.now().toString()).digest('hex');
+
+    return access_token;
+  }
+
+}
 
 module.exports = UserService;

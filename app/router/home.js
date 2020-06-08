@@ -9,7 +9,7 @@ module.exports = app => {
 
   // html
   // 注册&&登录
-  router.get('/html/v1/register', controller.v1.entry.registerHtml);
+  //router.get('/html/v1/register', controller.v1.entry.registerHtml);
   router.get('/html/v1/login', controller.v1.entry.loginHtml);
 
   // api

@@ -16,4 +16,5 @@ module.exports = app => {
   require('./store')(app);
   require('./home')(app);
   require('./dev')(app);
+  require('./adminUser')(app);
 };

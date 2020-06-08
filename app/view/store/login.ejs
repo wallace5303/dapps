@@ -34,9 +34,9 @@
                     
                 </div>
               </form>
-              <div class="social-auth-links text-center">
+              <!-- <div class="social-auth-links text-center">
                 <a href="/html/v1/register" class="text-center">我没有有账号，去注册</a>
-              </div>
+              </div> -->
 
             </div>
             <!-- /.login-card-body -->
@@ -48,17 +48,22 @@
         $('#login').click(function() {
             var email = $('#email').val();
             var pwd = $('#pwd').val();
+            // var params = {
+            //     out_url: "login",
+            //     method: 'POST',
+            //     data: {
+            //       email: email,
+            //       pwd: pwd
+            //     }
+            // };
             var params = {
-                out_url: "login",
-                method: 'POST',
-                data: {
-                  email: email,
-                  pwd: pwd
-                }
+              email: email,
+              pwd: pwd
             };
-            $.post('/api/v1/home/outapi',params,function(result){         
+            $.post('/api/v1/admin/login',params,function(result){      
+              console.log('result:', result);
                 if (result.code !== 0) {
-                    alert(result.message);
+                    alert(result.msg);
                 } else {
                     localStorage.setItem('token', result.data.token);   
                     localStorage.setItem('uid', result.data.user_info.uid);

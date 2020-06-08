@@ -58,6 +58,19 @@ class AppBootHook {
     if (!db.has('app_update').value()) {
       db.set('app_update', []).write();
     }
+
+    // admin
+    const adminFile = this.app.baseDir + '/storage/admin.json';
+    // utils.chmodPath(file);
+    const adminAdapter = new FileSync(adminFile);
+    const admindb = low(adminAdapter);
+    if (!admindb.has('user').value()) {
+      admindb.set('user', [{
+        "email": "admin@dapps.com",
+        "pwd": "123456"
+      }]).write();
+    }
+
   }
 
   async serverDidReady() {

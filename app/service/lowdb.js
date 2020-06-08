@@ -312,6 +312,36 @@ class LowdbService extends BaseService {
 
     return num;
   }
+
+  /*
+   * admin user
+   */
+  async getAdminUser(email, pwd) {
+    const file = this.app.baseDir + '/storage/admin.json';
+    const info = this.fileSyncInstance(file)
+      .get('user')
+      .find({ email: email, pwd: pwd })
+      .value();
+
+    return info;
+  }
+
+  /*
+   * 添加admin user
+   */
+  async addAdminUser(email, pwd) {
+    const file = this.app.baseDir + '/storage/admin.json';
+    const userInfo = {
+      email,
+      pwd,
+    };
+    const res = this.fileSyncInstance(file)
+      .get('user')
+      .push(userInfo)
+      .write();
+
+    return res;
+  }
 }
 
 module.exports = LowdbService;
