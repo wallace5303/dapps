@@ -6,6 +6,7 @@ const utils = require('../../utils/utils');
 const commonConfig = require('../../config/commonConfig');
 const MarkdownIt = require('markdown-it');
 const fs = require('fs');
+const webSitesData = require('../../common/websites.json');
 
 class StoreController extends BaseController {
   /*
@@ -22,6 +23,7 @@ class StoreController extends BaseController {
       },
       web_sites: null,
     };
+    let webs = null;
 
     const appList = await service.store.myWebAppList();
     // console.log(appList);
@@ -55,7 +57,11 @@ class StoreController extends BaseController {
       },
     };
     const web_sites_data = await service.outapi.api(params);
-    const webs = web_sites_data.data.list;
+    if (web_sites_data.code === CODE.SUCCESS) {
+      webs = web_sites_data.data.list;
+    } else {
+      webs = webSitesData.list;
+    }
     // url按每8个切割
     for (const webType1Index in webs) {
       const webType2Obj = webs[webType1Index].children;

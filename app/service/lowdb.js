@@ -226,7 +226,7 @@ class LowdbService extends BaseService {
    * 更新 dapps
    */
   async updateDapps(version = '') {
-    const file = this.app.baseDir + '/storage/dapps.json';
+    const file = this.app.baseDir + '/app/common/dapps.json';
     let key = '';
     let value = '';
     if (version) {
@@ -244,7 +244,7 @@ class LowdbService extends BaseService {
    * 获取dapps
    */
   async getDapps() {
-    const file = this.app.baseDir + '/storage/dapps.json';
+    const file = this.app.baseDir + '/app/common/dapps.json';
     const info = this.fileSyncInstance(file)
       .get('dapps')
       .value();
