@@ -333,7 +333,6 @@ class StoreController extends BaseController {
 
     // 本地版本
     const localDappsInfo = await service.lowdb.getDapps();
-    console.log(localDappsInfo);
     const localVersion = localDappsInfo.version;
 
     // 线上版本
@@ -346,13 +345,7 @@ class StoreController extends BaseController {
     const dappsInfoRes = await service.outapi.api(params);
     if (dappsInfoRes.code === CODE.SUCCESS) {
       const onlineVersion = dappsInfoRes.data.version;
-      console.log(
-        'localVersion:%j, onlineVersion:%j',
-        localVersion,
-        onlineVersion
-      );
       const compareRes = utils.compareVersion(localVersion, onlineVersion);
-      console.log('compareRes:%j', compareRes);
       if (compareRes) {
         has_new_version = true;
       }
