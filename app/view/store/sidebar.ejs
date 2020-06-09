@@ -145,6 +145,19 @@
     <!-- /.sidebar -->
   </aside>
 
+  <!-- <div id="login_alert">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <p>请登录</p>
+        </div>
+        <div class="modal-footer justify-content-between">
+          <button type="button" class="btn btn-default">确定</button>
+        </div>
+      </div>
+    </div>
+  </div> -->
+
   <script>
     $(document).ready(function(){
 
@@ -157,6 +170,12 @@
         $("#user_info").html(user_info_content);
         var bar_logout = '<li class="nav-item"><a id="logout" href="#">退出</a></li>';
         $("#nav_bar_list").append(bar_logout);
+      } else {
+        //$("#login_alert").show();
+        alert("请登录");
+        var url = "/html/v1/login";
+        window.location.href= url; 
+        return;
       }
 
       // 检查是否有新的版本
@@ -175,7 +194,7 @@
         localStorage.removeItem('token');   
         localStorage.removeItem('uid');
         localStorage.removeItem('user_info');
-        var url = "/html/v1/store/quick";
+        var url = "/html/v1/login";
         window.location.href= url; 
       });
     });
