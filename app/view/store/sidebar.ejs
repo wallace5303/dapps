@@ -29,11 +29,12 @@
     </form> -->
 
     <!-- Right navbar links -->
-    <ul class="navbar-nav ml-auto">
+    <ul class="navbar-nav ml-auto" id="nav_bar_list">
       <!-- <li class="nav-item">
-        <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#">
-          <i class="fas fa-th-large"></i>
-        </a>
+        <a id="logout" href="#">退出</a>
+      </li>
+      <li class="nav-item">
+        <a id="logou2t" href="#">退出2</a>
       </li> -->
     </ul>
   </nav>
@@ -56,7 +57,7 @@
             <img id="user_avatar" src="/public/dist/img/avatar-default.jpg" class="img-circle elevation-2" alt="User Image">
           </div>
           <div id="user_info" class="info">
-            <a href="/html/v1/login">登录</a> <a href="#">
+            <a href="/html/v1/login">登录</a>
           </div>
       </div>
 
@@ -154,6 +155,8 @@
         $("#user_avatar").attr("src","/public/dist/img/user2-160x160.jpg");
         var user_info_content = '<a href="#" class="d-block">' + userInfo.username + '</a>';
         $("#user_info").html(user_info_content);
+        var bar_logout = '<li class="nav-item"><a id="logout" href="#">退出</a></li>';
+        $("#nav_bar_list").append(bar_logout);
       }
 
       // 检查是否有新的版本
@@ -166,4 +169,15 @@
       });
 
     });
+
+    $(function(){
+      $('#logout').click(function() {
+        localStorage.removeItem('token');   
+        localStorage.removeItem('uid');
+        localStorage.removeItem('user_info');
+        var url = "/html/v1/store/quick";
+        window.location.href= url; 
+      });
+    });
+
   </script>
