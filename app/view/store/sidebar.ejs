@@ -35,7 +35,7 @@
           设置
         </a>
         <div id="menu_right" class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-          <span class="dropdown-item dropdown-header">修改密码</span>
+          <span class="dropdown-item dropdown-header" data-toggle="modal" data-target="#modal-lg">修改密码</span>
           <div class="dropdown-divider"></div>
         </div>
       </li>
@@ -148,18 +148,50 @@
     <!-- /.sidebar -->
   </aside>
 
-  <!-- <div id="login_alert">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <p>请登录</p>
+  <div class="modal fade" id="modal-lg">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">修改密码</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal">
+                    <div class="card-body">
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">原密码</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="before_pwd" placeholder="" value="">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">新密码</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="after_pwd" placeholder="" value="">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">确认密码</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="confirm_pwd" placeholder="" value="">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.card-body -->
+                    <div class="card-body">
+                        <button type="button" class="btn btn-info" id="modify_pwd">修改</button>
+                        <button type="button" class="btn btn-default float-right" data-dismiss="modal">取消</button>
+                    </div>
+                    <!-- /.card-footer -->
+                </form>
+            </div>
         </div>
-        <div class="modal-footer justify-content-between">
-          <button type="button" class="btn btn-default">确定</button>
-        </div>
-      </div>
+        <!-- /.modal-content -->
     </div>
-  </div> -->
+    <!-- /.modal-dialog -->
+  </div>
 
   <script>
     $(document).ready(function(){
@@ -198,6 +230,24 @@
         localStorage.removeItem('user_info');
         var url = "/html/v1/login";
         window.location.href= url; 
+      });
+      $('#modify_pwd').click(function() {
+        var beforePwd = $('#before_pwd').val();
+        var afterPwd = $('#after_pwd').val();
+        var confirmPwd = $('#confirm_pwd').val();
+        var params = {
+          before_pwd: beforePwd,
+          after_pwd: afterPwd,
+          confirm_pwd: confirmPwd
+        };
+        $.post('/api/v1/admin/modify_pwd',params,function(result){      
+          console.log('result:', result);
+            if (result.code !== 0) {
+                alert(result.msg);
+            }
+            var url = "/html/v1/store/quick";
+            window.location.href= url;
+        });
       });
     });
 
