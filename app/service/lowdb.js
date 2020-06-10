@@ -342,6 +342,24 @@ class LowdbService extends BaseService {
 
     return res;
   }
+
+  /*
+   * 修改密码
+   */
+  async modifyPwd(uid, newPwd) {
+    const file = this.app.baseDir + '/storage/admin.json';
+    let key = '';
+    let value = '';
+    if (version) {
+      key = 'dapps.version';
+      value = version;
+    }
+    const res = this.fileSyncInstance(file)
+      .set(key, value)
+      .write();
+
+    return res;
+  }
 }
 
 module.exports = LowdbService;

@@ -57,6 +57,35 @@ class AdminUserController extends BaseController {
 
     this.sendSuccess([], 'ok');
   }
+
+  /*
+   * 修改密码
+   */
+  async modifyPwd() {
+    const self = this;
+    const { app, ctx, service } = this;
+    const body = ctx.request.body;
+    const uid = body.uid;
+    const beforePwd = body.before_pwd;
+    const newPwd = body.new_pwd;
+    const confirmPwd = bogy.confirm_pwd;
+
+    if (!uid || !beforePwd || !newPwd || !confirmPwd) {
+      self.sendFail({}, '参数错误', CODE.SYS_PARAMS_ERROR);
+      return;
+    }
+
+    const res = await service.lowdb.getAdminUser(uid, beforePwd);
+    if (!res) {
+      self.sendFail({}, '账号或密码错误', CODE.SYS_PARAMS_ERROR);
+      return;
+    }
+
+    let res = await service.lowdb.modifyPwd(beforePwd, newPwd, confirmPwd);
+    console.log('res', res);
+
+    this.sendSuccess([], 'ok');
+  }
 }
 
 module.exports = AdminUserController;
