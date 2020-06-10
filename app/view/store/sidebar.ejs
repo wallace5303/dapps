@@ -30,12 +30,15 @@
 
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto" id="nav_bar_list">
-      <!-- <li class="nav-item">
-        <a id="logout" href="#">退出</a>
+      <li class="nav-item dropdown">
+        <a class="nav-link" data-toggle="dropdown" href="#">
+          设置
+        </a>
+        <div id="menu_right" class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+          <span class="dropdown-item dropdown-header">修改密码</span>
+          <div class="dropdown-divider"></div>
+        </div>
       </li>
-      <li class="nav-item">
-        <a id="logou2t" href="#">退出2</a>
-      </li> -->
     </ul>
   </nav>
   <!-- /.navbar -->
@@ -168,10 +171,9 @@
         $("#user_avatar").attr("src","/public/dist/img/user2-160x160.jpg");
         var user_info_content = '<a href="#" class="d-block">' + userInfo.username + '</a>';
         $("#user_info").html(user_info_content);
-        var bar_logout = '<li class="nav-item"><a id="logout" href="#">退出</a></li>';
-        $("#nav_bar_list").append(bar_logout);
+        var bar_logout_html = '<span id="logout" class="dropdown-item dropdown-header">退出</span><div class="dropdown-divider"></div>';
+        $("#menu_right").append(bar_logout_html);
       } else {
-        //$("#login_alert").show();
         alert("请登录");
         var url = "/html/v1/login";
         window.location.href= url; 
