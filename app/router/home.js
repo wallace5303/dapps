@@ -14,6 +14,6 @@ module.exports = app => {
 
   // api
   router.get('/api/v1/sys_info', controller.v1.home.sysInfo);
-  router.post('/api/v1/home/outapi', controller.v1.home.outApi);
+  router.post('/api/v1/home/outapi', auth, controller.v1.home.outApi);
   router.get('/api/v1/home/sys_update', controller.v1.home.sysUpdate);
 };

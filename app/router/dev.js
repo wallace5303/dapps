@@ -5,6 +5,7 @@
  */
 module.exports = app => {
   const { router, controller } = app;
+  const auth = app.middleware.auth();
 
   // html
   // 开发者模式
@@ -12,11 +13,11 @@ module.exports = app => {
 
   // api
   // 应用卸载
-  router.get('/api/v1/dev/app_uninstall', controller.v1.dev.appUninstall);
+  router.get('/api/v1/dev/app_uninstall', auth, controller.v1.dev.appUninstall);
   // 应用启动
-  router.get('/api/v1/dev/app_start', controller.v1.dev.appStart);
+  router.get('/api/v1/dev/app_start', auth, controller.v1.dev.appStart);
   // 应用停止
-  router.get('/api/v1/dev/app_stop', controller.v1.dev.appStop);
+  router.get('/api/v1/dev/app_stop', auth, controller.v1.dev.appStop);
   // 应用创建
-  router.get('/api/v1/dev/app_create', controller.v1.dev.appCreate);
+  router.get('/api/v1/dev/app_create', auth, controller.v1.dev.appCreate);
 };

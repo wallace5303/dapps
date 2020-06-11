@@ -35,7 +35,7 @@
           设置
         </a>
         <div id="menu_right" class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-          <span class="dropdown-item dropdown-header" data-toggle="modal" data-target="#modal-lg">修改密码</span>
+          <span class="dropdown-item dropdown-header" data-toggle="modal" data-target="#modal-lg-modify-pwd">修改密码</span>
           <div class="dropdown-divider"></div>
         </div>
       </li>
@@ -148,7 +148,7 @@
     <!-- /.sidebar -->
   </aside>
 
-  <div class="modal fade" id="modal-lg">
+  <div class="modal fade" id="modal-lg-modify-pwd">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -163,19 +163,19 @@
                         <div class="form-group row">
                             <label class="col-sm-2 col-form-label">原密码</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="before_pwd" placeholder="" value="">
+                                <input type="password" class="form-control" id="before_pwd" placeholder="" value="">
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-sm-2 col-form-label">新密码</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="new_pwd" placeholder="" value="">
+                                <input type="password" class="form-control" id="new_pwd" placeholder="" value="">
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-sm-2 col-form-label">确认密码</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="confirm_pwd" placeholder="" value="">
+                                <input type="password" class="form-control" id="confirm_pwd" placeholder="" value="">
                             </div>
                         </div>
                     </div>
@@ -198,14 +198,14 @@
 
       // 用户信息
       var username=localStorage.getItem("username");
-      if (username) {
+      var token=localStorage.getItem("token");
+      if (token && username) {
         $("#user_avatar").attr("src","/public/dist/img/user2-160x160.jpg");
         var user_info_content = '<a href="#" class="d-block">' + username + '</a>';
         $("#user_info").html(user_info_content);
         var bar_logout_html = '<span id="logout" class="dropdown-item dropdown-header">退出</span><div class="dropdown-divider"></div>';
         $("#menu_right").append(bar_logout_html);
       } else {
-        alert("请登录");
         var url = "/html/v1/login";
         window.location.href= url; 
         return;
@@ -237,6 +237,7 @@
           var newPwd = $('#new_pwd').val();
           var confirmPwd = $('#confirm_pwd').val();
           var params = {
+            token: localStorage.getItem("token"),
             username: username,
             before_pwd: beforePwd,
             new_pwd: newPwd,
@@ -248,9 +249,9 @@
                   alert(result.msg);
                   return;
               } else {
-                var url = "/html/v1/store/quick";
-                window.location.href= url;
+                alert("修改成功");
               }
+              location.reload();
           });
         }
       });

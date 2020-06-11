@@ -26,10 +26,11 @@ class AdminUserController extends BaseController {
       return;
     }
 
-    var accessToken = service.user.createAccessToken(username);
+    var token = service.user.createAccessToken(username);
+    await service.lowdb.setToken(username, token);
 
     const data = {
-      "token": accessToken,
+      "token": token,
       "user_info" : {
           "username" : username,
       }
@@ -90,7 +91,10 @@ class AdminUserController extends BaseController {
     }
 
     let upRes = await service.lowdb.modifyPwd(username, newPwd);
-    console.log('upRes', upRes);
+    if (_.isEmpty(upRes)) {
+      self.sendFail({}, '修改失败', CODE.SYS_PARAMS_ERROR);
+      return;
+    }
 
     this.sendSuccess([], 'ok');
   }

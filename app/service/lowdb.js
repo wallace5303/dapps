@@ -356,6 +356,33 @@ class LowdbService extends BaseService {
 
     return res;
   }
+
+  /*
+   * set token
+   */
+  async setToken(username, token) {
+    const file = this.app.baseDir + '/storage/admin.json';
+    const res = this.fileSyncInstance(file)
+      .get('user')
+      .find({ username: username })
+      .assign({ token: token})
+      .write();
+
+    return res;
+  }
+
+  /*
+   * get token
+   */
+  async getToken(username) {
+    const file = this.app.baseDir + '/storage/admin.json';
+    const res = this.fileSyncInstance(file)
+      .get('user')
+      .find({ username: username })
+      .value();
+
+    return res;
+  }
 }
 
 module.exports = LowdbService;
