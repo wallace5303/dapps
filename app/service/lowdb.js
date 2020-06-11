@@ -314,13 +314,13 @@ class LowdbService extends BaseService {
   }
 
   /*
-   * admin user
+   * get user
    */
-  async getAdminUser(email, pwd) {
+  async getAdminUser(username, pwd) {
     const file = this.app.baseDir + '/storage/admin.json';
     const info = this.fileSyncInstance(file)
       .get('user')
-      .find({ email: email, pwd: pwd })
+      .find({ username: username, pwd: pwd })
       .value();
 
     return info;
@@ -329,10 +329,10 @@ class LowdbService extends BaseService {
   /*
    * 添加admin user
    */
-  async addAdminUser(email, pwd) {
+  async addAdminUser(username, pwd) {
     const file = this.app.baseDir + '/storage/admin.json';
     const userInfo = {
-      email,
+      username,
       pwd,
     };
     const res = this.fileSyncInstance(file)
@@ -346,16 +346,12 @@ class LowdbService extends BaseService {
   /*
    * 修改密码
    */
-  async modifyPwd(uid, newPwd) {
+  async modifyPwd(username, newPwd) {
     const file = this.app.baseDir + '/storage/admin.json';
-    let key = '';
-    let value = '';
-    if (version) {
-      key = 'dapps.version';
-      value = version;
-    }
     const res = this.fileSyncInstance(file)
-      .set(key, value)
+      .get('user')
+      .find({ username: username })
+      .assign({ pwd: newPwd})
       .write();
 
     return res;

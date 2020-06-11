@@ -66,7 +66,7 @@ class AppBootHook {
     const admindb = low(adminAdapter);
     if (!admindb.has('user').value()) {
       admindb.set('user', [{
-        "email": "admin@dapps.com",
+        "username": "admin",
         "pwd": "123456"
       }]).write();
     }

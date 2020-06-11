@@ -12,7 +12,7 @@
         
               <form>
                 <div class="input-group mb-3">
-                  <input type="email" id="email" class="form-control" placeholder="邮箱" value="">
+                  <input type="text" id="username" class="form-control" placeholder="用户名" value="">
                   <div class="input-group-append">
                     <div class="input-group-text">
                       <span class="fas fa-envelope"></span>
@@ -45,33 +45,25 @@
   
 <script>
     $(function(){
-        $('#login').click(function() {
-            var email = $('#email').val();
-            var pwd = $('#pwd').val();
-            // var params = {
-            //     out_url: "login",
-            //     method: 'POST',
-            //     data: {
-            //       email: email,
-            //       pwd: pwd
-            //     }
-            // };
-            var params = {
-              email: email,
-              pwd: pwd
-            };
-            $.post('/api/v1/admin/login',params,function(result){      
-              console.log('result:', result);
-                if (result.code !== 0) {
-                    alert(result.msg);
-                } else {
-                    localStorage.setItem('token', result.data.token);   
-                    localStorage.setItem('uid', result.data.user_info.uid);
-                    localStorage.setItem('user_info', JSON.stringify(result.data.user_info));
-                    var url = "/html/v1/store/quick";
-                    window.location.href= url;
-                }
-            });    
+      $('#login').click(function() {
+        var username = $('#username').val();
+        var pwd = $('#pwd').val();
+        var params = {
+          username: username,
+          pwd: pwd
+        };
+        $.post('/api/v1/admin/login',params,function(result){      
+          console.log('result:', result);
+            if (result.code !== 0) {
+                alert(result.msg);
+            } else {
+                localStorage.setItem('token', result.data.token);   
+                localStorage.setItem('username', result.data.user_info.username);
+                localStorage.setItem('user_info', JSON.stringify(result.data.user_info));
+                var url = "/html/v1/store/quick";
+                window.location.href= url;
+            }
+        });    
       });
     })
 </script>
