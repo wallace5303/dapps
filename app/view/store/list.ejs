@@ -200,8 +200,12 @@
 
       var install_status__app_content = '正在安装...';
       $("#install_status_" + appid).html(install_status__app_content);
-      var url = "/api/v1/store/app_install?appid=" + appid;
-      $.get(url,function(result){
+      var params = {
+        token: localStorage.getItem("token"),
+        username: localStorage.getItem("username"),
+        appid: appid
+      };
+      $.post('/api/v1/store/app_install', params, function(result){
         if (result.code == 70002) {
             alert(result.msg + '(' + result.code + ')');
             window.location.reload();

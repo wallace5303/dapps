@@ -314,20 +314,24 @@
 
     function uninstall(appid)
     {
-        if (!confirm("你确定清除吗？")) {
-                return;
+      if (!confirm("你确定清除吗？")) {
+              return;
+      }
+
+      var uninstalling_app_content = '正在清除...';
+      $("#delete_" + appid).html(uninstalling_app_content);
+
+      var params = {
+        token: localStorage.getItem("token"),
+        username: localStorage.getItem("username"),
+        appid: appid
+      };
+      $.post("/api/v1/dev/app_uninstall", params, function(result){
+        if (result.code !== 0) {
+            alert(result.msg);
         }
-
-        var uninstalling_app_content = '正在清除...';
-        $("#delete_" + appid).html(uninstalling_app_content);
-
-        var url = "/api/v1/dev/app_uninstall?appid=" + appid;
-        $.get(url,function(result){
-            if (result.code !== 0) {
-                alert(result.msg);
-            }
-            window.location.reload();
-        });
+        window.location.reload();
+      });
     }
 
 </script>

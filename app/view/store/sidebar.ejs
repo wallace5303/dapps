@@ -231,29 +231,26 @@
         window.location.href= url; 
       });
       $('#modify_pwd').click(function() {
-        var username=localStorage.getItem("username");
-        if (username) {
-          var beforePwd = $('#before_pwd').val();
-          var newPwd = $('#new_pwd').val();
-          var confirmPwd = $('#confirm_pwd').val();
-          var params = {
-            token: localStorage.getItem("token"),
-            username: username,
-            before_pwd: beforePwd,
-            new_pwd: newPwd,
-            confirm_pwd: confirmPwd
-          };
-          $.post('/api/v1/admin/modify_pwd',params,function(result){      
-            console.log('result:', result);
-              if (result.code !== 0) {
-                  alert(result.msg);
-                  return;
-              } else {
-                alert("修改成功");
-              }
-              location.reload();
-          });
-        }
+        var beforePwd = $('#before_pwd').val();
+        var newPwd = $('#new_pwd').val();
+        var confirmPwd = $('#confirm_pwd').val();
+        var params = {
+          token: localStorage.getItem("token"),
+          username: localStorage.getItem("username"),
+          before_pwd: beforePwd,
+          new_pwd: newPwd,
+          confirm_pwd: confirmPwd
+        };
+        $.post('/api/v1/admin/modify_pwd',params,function(result){      
+          console.log('result:', result);
+            if (result.code !== 0) {
+                alert(result.msg);
+                return;
+            } else {
+              alert("修改成功");
+            }
+            location.reload();
+        });
       });
     });
 

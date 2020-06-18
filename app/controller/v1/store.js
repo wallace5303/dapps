@@ -365,8 +365,8 @@ class StoreController extends BaseController {
   async appInstall() {
     const self = this;
     const { app, ctx, service } = this;
-    const query = ctx.query;
-    const appid = query.appid;
+    const body = ctx.request.body;
+    const appid = body.appid;
 
     if (!appid) {
       self.sendFail({}, '参数错误', CODE.SYS_PARAMS_ERROR);
@@ -430,8 +430,8 @@ class StoreController extends BaseController {
   async appUninstall() {
     const self = this;
     const { app, ctx, service } = this;
-    const query = ctx.query;
-    const appid = query.appid;
+    const body = ctx.request.body;
+    const appid = body.appid;
 
     const delRes = await service.store.uninstallApp(appid);
     if (delRes.code !== CODE.SUCCESS) {
@@ -449,8 +449,8 @@ class StoreController extends BaseController {
   async appUpdate() {
     const self = this;
     const { app, ctx, service } = this;
-    const query = ctx.query;
-    const appid = query.appid;
+    const body = ctx.request.body;
+    const appid = body.appid;
 
     if (!appid) {
       self.sendFail({}, '参数错误', CODE.SYS_PARAMS_ERROR);
@@ -480,8 +480,8 @@ class StoreController extends BaseController {
   async appStart() {
     const self = this;
     const { app, ctx, service } = this;
-    const query = ctx.query;
-    const appid = query.appid;
+    const body = ctx.request.body;
+    const appid = body.appid;
     if (!appid) {
       self.sendFail({}, '参数错误', CODE.SYS_PARAMS_ERROR);
       return;
@@ -503,8 +503,8 @@ class StoreController extends BaseController {
   async appStop() {
     const self = this;
     const { app, ctx, service } = this;
-    const query = ctx.query;
-    const appid = query.appid;
+    const body = ctx.request.body;
+    const appid = body.appid;
     if (!appid) {
       self.sendFail({}, '参数错误', CODE.SYS_PARAMS_ERROR);
       return;

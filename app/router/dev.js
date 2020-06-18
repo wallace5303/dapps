@@ -13,11 +13,11 @@ module.exports = app => {
 
   // api
   // 应用卸载
-  router.get('/api/v1/dev/app_uninstall', auth, controller.v1.dev.appUninstall);
+  router.post('/api/v1/dev/app_uninstall', auth, controller.v1.dev.appUninstall);
   // 应用启动
-  router.get('/api/v1/dev/app_start', auth, controller.v1.dev.appStart);
+  router.post('/api/v1/dev/app_start', auth, controller.v1.dev.appStart);
   // 应用停止
-  router.get('/api/v1/dev/app_stop', auth, controller.v1.dev.appStop);
+  router.post('/api/v1/dev/app_stop', auth, controller.v1.dev.appStop);
   // 应用创建
-  router.get('/api/v1/dev/app_create', auth, controller.v1.dev.appCreate);
+  router.post('/api/v1/dev/app_create', auth, controller.v1.dev.appCreate);
 };

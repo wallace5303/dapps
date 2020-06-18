@@ -157,12 +157,12 @@
   <script>
       function change_page(page)
       {
-          var url = "/html/v1/store/myapp?page=";
-          if (Number(page) < 1) {
-            page = 1;
-          }
-          url += page;
-          window.location.href = url;
+        var url = "/html/v1/store/myapp?page=";
+        if (Number(page) < 1) {
+          page = 1;
+        }
+        url += page;
+        window.location.href = url;
       }
       
       function start(appid)
@@ -170,20 +170,24 @@
         var starting_app_content = '正在启动...';
         $("#operation_" + appid).html(starting_app_content);
         $("#operation_" + appid).attr("onclick", "");
-        var url = "/api/v1/store/app_start?appid=" + appid;
-        $.get(url,function(result){
-            if (result.code !== 0) {
-                alert(result.msg);
-                window.location.reload();
-            } else {
-              $("#operation_" + appid).attr("class", "btn btn-danger btn-sm");
-              $("#operation_" + appid).attr("onclick", "stop( '" + appid + "' )");
-              $("#operation_" + appid).text("停止");
+        var params = {
+          token: localStorage.getItem("token"),
+          username: localStorage.getItem("username"),
+          appid: appid
+        };
+        $.post("/api/v1/store/app_start", params, function(result){
+          if (result.code !== 0) {
+              alert(result.msg);
+              window.location.reload();
+          } else {
+            $("#operation_" + appid).attr("class", "btn btn-danger btn-sm");
+            $("#operation_" + appid).attr("onclick", "stop( '" + appid + "' )");
+            $("#operation_" + appid).text("停止");
 
-              var is_running__app_content = '正在运行';
-              $("#is_running_" + appid).html(is_running__app_content);
-              //window.location.reload();
-            }
+            var is_running__app_content = '正在运行';
+            $("#is_running_" + appid).html(is_running__app_content);
+            //window.location.reload();
+          }
         });
       }
   
@@ -192,20 +196,24 @@
         var stoping_app_content = '正在停止...';
         $("#operation_" + appid).html(stoping_app_content);
         $("#operation_" + appid).attr("onclick", "");
-        var url = "/api/v1/store/app_stop?appid=" + appid;
-        $.get(url,function(result){
-            if (result.code !== 0) {
-                alert(result.msg);
-                window.location.reload();
-            } else {
-              $("#operation_" + appid).attr("class", "btn btn-info btn-sm");
-              $("#operation_" + appid).attr("onclick", "start('" + appid + "')");
-              $("#operation_" + appid).text("启动");
+        var params = {
+          token: localStorage.getItem("token"),
+          username: localStorage.getItem("username"),
+          appid: appid
+        };
+        $.post("/api/v1/store/app_stop", params, function(result){
+          if (result.code !== 0) {
+              alert(result.msg);
+              window.location.reload();
+          } else {
+            $("#operation_" + appid).attr("class", "btn btn-info btn-sm");
+            $("#operation_" + appid).attr("onclick", "start('" + appid + "')");
+            $("#operation_" + appid).text("启动");
 
-              var is_running__app_content = '已停止';
-              $("#is_running_" + appid).html(is_running__app_content);
-              //window.location.reload();
-            }
+            var is_running__app_content = '已停止';
+            $("#is_running_" + appid).html(is_running__app_content);
+            //window.location.reload();
+          }
         });
       }
 
@@ -218,8 +226,12 @@
         var uninstalling_app_content = '正在卸载...';
         $("#delete_" + appid).html(uninstalling_app_content);
 
-        var url = "/api/v1/store/app_uninstall?appid=" + appid;
-        $.get(url,function(result){
+        var params = {
+          token: localStorage.getItem("token"),
+          username: localStorage.getItem("username"),
+          appid: appid
+        };
+        $.post("/api/v1/store/app_uninstall", params, function(result){
             if (result.code !== 0) {
                 alert(result.msg);
             } else {

@@ -19,15 +19,15 @@ module.exports = app => {
 
   // api
   // 应用安装
-  router.get('/api/v1/store/app_install', auth, controller.v1.store.appInstall);
+  router.post('/api/v1/store/app_install', auth, controller.v1.store.appInstall);
   // 应用卸载
-  router.get('/api/v1/store/app_uninstall', auth, controller.v1.store.appUninstall);
+  router.post('/api/v1/store/app_uninstall', auth, controller.v1.store.appUninstall);
   // 应用启动
-  router.get('/api/v1/store/app_start', auth, controller.v1.store.appStart);
+  router.post('/api/v1/store/app_start', auth, controller.v1.store.appStart);
   // 应用停止
-  router.get('/api/v1/store/app_stop', auth, controller.v1.store.appStop);
+  router.post('/api/v1/store/app_stop', auth, controller.v1.store.appStop);
   // 应用更新
-  router.get('/api/v1/store/app_update', auth, controller.v1.store.appUpdate);
+  router.post('/api/v1/store/app_update', auth, controller.v1.store.appUpdate);
   // dapps是否有新的版本
   router.get(
     '/api/v1/store/check_sys_version',
