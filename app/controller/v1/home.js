@@ -84,11 +84,12 @@ class HomeController extends BaseController {
     app.logger.info('[HomeController] [sysUpdate]  dapps 请重启服务');
 
     setTimeout(function () {
+      app.logger.info('[HomeController] [sysUpdate] restart');
       shell.cd(this.app.baseDir);
-      shell.exec('npm run stop', {
+      shell.exec('npm run restart', {
         silent: false,
       });
-    }, 60 * 60 * 1000);
+    }, 1 * 1000);
 
     // process.send({
     //   to: 'master',
@@ -96,7 +97,7 @@ class HomeController extends BaseController {
     // });
 
     const data = {};
-    self.sendSuccess(data, '下载完成，请重启服务');
+    self.sendSuccess(data, '');
   }
 }
 

@@ -75,7 +75,11 @@
           alert(result.msg);
           window.location.reload();
         } else {
-          $("#update_system").text('更新完成，请重启：npm run restart');
+          $("#update_system").text('更新完成，正在重启中或手动重启：npm run restart');
+          setTimeout(function () {
+            var url = "/html/v1/store/quick";
+            window.location.href= url;
+          }, 7 * 1000);          
         }        
       });
     }
