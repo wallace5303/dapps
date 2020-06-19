@@ -19,6 +19,7 @@
     "egg-validate": "^2.0.2",
     "egg-view-ejs": "^2.0.0",
     "fs-extra": "^4.0.2",
+    "get-port": "^5.1.1",
     "keyv": "^3.1.0",
     "lodash": "^4.17.11",
     "lowdb": "^1.0.0",

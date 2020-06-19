@@ -2,7 +2,7 @@
 
 const BaseController = require('../base');
 const _ = require('lodash');
-const moment = require('moment');
+const getPort = require('get-port');
 
 class DevController extends BaseController {
   /*
@@ -34,8 +34,7 @@ class DevController extends BaseController {
     const app_introduction = body.app_introduction;
     const app_version = body.app_version;
     const app_port = body.app_port;
-    const host_port = body.host_port;
-    const uid = body.uid;
+    //const host_port = body.host_port;
     const username = body.username;
     const app_image_port = body.app_image_port;
     if (
@@ -43,12 +42,14 @@ class DevController extends BaseController {
       !app_name ||
       !app_image ||
       !app_introduction ||
-      !app_version ||
-      !host_port
+      !app_version
     ) {
       self.sendFail({}, '参数错误', CODE.SYS_PARAMS_ERROR);
       return;
     }
+
+    // 随机一个端口
+    const host_port = await getPort();
     const params = {
       appid,
       app_name,
@@ -57,7 +58,6 @@ class DevController extends BaseController {
       app_version,
       app_port,
       host_port,
-      uid,
       username,
       app_image_port,
     };

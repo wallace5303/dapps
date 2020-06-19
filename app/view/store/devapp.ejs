@@ -179,12 +179,12 @@
                                         <input type="text" class="form-control" id="app_port" placeholder="选填，web（UI）应用必填" value="">
                                     </div>
                                 </div>
-                                <div class="form-group row">
+                                <!-- <div class="form-group row">
                                     <label class="col-sm-2 col-form-label">App服务端口</label>
                                     <div class="col-sm-10">
                                         <input type="text" class="form-control" id="host_port" placeholder="必填，如：6381" value="">
                                     </div>
-                                </div>
+                                </div> -->
                             </div>
                             <!-- /.card-body -->
                             <div class="card-body">
@@ -219,18 +219,6 @@
 
     function create_app()
     {
-      // 用户信息
-      let uid = 0;
-      let username = '';
-      var userInfo=localStorage.getItem("user_info");
-      if (!userInfo) {
-          alert('请登录');
-          return;
-      }
-      var userInfo = JSON.parse(userInfo);
-      uid = userInfo.uid;
-      username = userInfo.username;
-
       let appid = $("#appid").val();
       let app_name = $("#app_name").val();
       let app_image = $("#app_image").val();
@@ -247,7 +235,7 @@
       // app_port = '';
       // host_port = '6381';
       // app_image_port = 6379
-      if (!appid || !app_name || !app_image || !app_introduction || !app_version || !host_port || !app_image_port) {
+      if (!appid || !app_name || !app_image || !app_introduction || !app_version || !app_image_port) {
           alert('参数错误');
           return;
       }
@@ -265,9 +253,8 @@
         app_introduction: app_introduction,
         app_version: app_version,
         app_port: app_port,
-        host_port: host_port,
+        //host_port: host_port,
         app_image: app_image,
-        uid: uid,
         app_image_port: app_image_port
       };
       // var url = "/api/v1/dev/app_create?appid=" + appid + "&app_name=" + app_name + "&app_introduction=" + app_introduction +

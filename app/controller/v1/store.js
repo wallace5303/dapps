@@ -408,7 +408,7 @@ class StoreController extends BaseController {
 
     // github和gitee仓库中是否有zip文件
 
-    service.store.installApp(query);
+    service.store.installApp(body);
 
     // 增加下载次数
     const dparams = {

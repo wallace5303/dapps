@@ -30,6 +30,8 @@ module.exports = () => {
     if (_.get(userInfo, 'token') !== token) {
       return ctx.body;
     }
+    ctx.body.success = CODE.SUCCESS;
+    ctx.body.msg = 'ok';
 
     ctx.userInfo = userInfo;
     await next();

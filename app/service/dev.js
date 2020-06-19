@@ -333,7 +333,7 @@ class DevService extends BaseService {
     const fileDir = addonsDir + '/' + params.appid;
 
     // .env
-    shell.sed('-i', '{authoruid}', params.uid, fileDir + '/.env');
+    shell.sed('-i', '{authoruid}', 0, fileDir + '/.env');
     shell.sed('-i', '{author_name}', params.username, fileDir + '/.env');
     shell.sed('-i', '{app_id}', params.appid, fileDir + '/.env');
     shell.sed('-i', '{app_name}', params.app_name, fileDir + '/.env');
