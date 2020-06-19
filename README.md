@@ -40,12 +40,7 @@
 
 ## 开始使用
 
-1. 普通下载：[下载地址](https://gitee.com/wallace5303/dapps/releases)
-
-   git下载
-    ```
-    git clone https://gitee.com/wallace5303/dapps.git
-    ```
+1. 下载：[下载地址](https://gitee.com/wallace5303/dapps/releases)
 
 3. 启动
     ```
