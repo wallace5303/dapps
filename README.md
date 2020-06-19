@@ -3,9 +3,9 @@
 一键安装程序；多版本共存，完善的使用说明，且不影响本机环境。
 前端、服务端、运维、站长可以直接使用，效率提高非常多。普通用户亦可使用其中部分软件。
 
-#注：每周会上架1~2款新应用，持续更新
+#注：每周会上架1款新应用，持续更新
 
-#### 本次更新：Ubuntu：Ubuntu server 16.04和18.04 ------ [查看效果](https://github.com/wallace5303/dapps-addons/tree/master/addons/ubuntu-18-04)
+#### 本次更新：安全验证、优化开发者模式、数据缓存、页面显示等
 
 ## 目前包含的软件
 
@@ -40,21 +40,22 @@
 
 ## 开始使用
 
-```
-# 下载
-git clone https://gitee.com/wallace5303/dapps.git
+1. 普通下载：[下载地址](https://gitee.com/wallace5303/dapps/releases)
 
-# 安装
-cd dapps
-npm install --registry=https://registry.npm.taobao.org
+   git下载
+    ```
+    git clone https://gitee.com/wallace5303/dapps.git
+    ```
 
-# 启动
-npm run start
-```
+3. 启动
+    ```
+    npm run start
+    ```
 
 注：# 请确保已经安装了nodejs，下载地址：http://nodejs.cn/download/
 
 ## 效果图
+0. 默认账号：admin 密码:123456
 1. 访问： http://localhost:8000/ 或者 http://本机ip:8000
 
     ![](https://i.loli.net/2019/10/26/fLmqtePbAHFnksl.png)
