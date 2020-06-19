@@ -42,8 +42,9 @@
                   <thead> 
                     <tr>
                         <th width="20%" >应用名称</th>
-                        <th width="30%" >开始使用</th>
+                        <th width="20%" >开始使用</th>
                         <th width="15%" >状态</th>
+                        <th width="10%" >端口</th>
                         <th width="20%" >操作</th>
                         <th width="15%" >清理</th>
                     </tr> 
@@ -72,6 +73,9 @@
                             <% } else { %>
                               已停止
                             <% } %>
+                          </td>
+                          <td>
+                            <%= one.host_port %>
                           </td>
                           <td>
                               <% if (one.is_running) {%>

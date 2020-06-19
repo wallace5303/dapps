@@ -101,6 +101,7 @@ class DevService extends BaseService {
         introduction: '',
         version: '',
         open_url: '',
+        host_port: '',
       };
       const envFile = addonsDir + '/' + tmpAppid + '/.env';
       if (fs.existsSync(envFile)) {
@@ -128,6 +129,9 @@ class DevService extends BaseService {
               tmpAppObj.open_url =
                 'http://' + utils.getIPAddress() + ':' + appPort;
             }
+          }
+          if (tmpEle.indexOf('HOST_PORT') !== -1) {
+            tmpAppObj.host_port = tmpEle.substr(10);
           }
         }
       }
