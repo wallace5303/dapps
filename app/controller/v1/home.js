@@ -47,32 +47,24 @@ class HomeController extends BaseController {
     const self = this;
     const { app, ctx, service } = this;
 
-    // dapps info
-    const params = {
-      out_url: 'dappsInfo',
-      method: 'GET',
-      data: {},
-    };
-
-    const dappsInfoRes = await service.outapi.api(params);
-    // console.log(dappsInfoRes);
-    if (dappsInfoRes.code !== CODE.SUCCESS) {
-      self.sendFail({}, '数据错误', dappsInfoRes.code);
-      return;
-    }
-
-    // 本地与线上版本
-    const onlineVersion = dappsInfoRes.data.version;
+    // 本地版本
     const localDappsInfo = await service.lowdb.getDapps();
-    console.log(localDappsInfo);
     const localVersion = localDappsInfo.version;
-    app.logger.info(
-      'localVersion:%j, onlineVersion:%j',
-      localVersion,
-      onlineVersion
-    );
+
+    // 获取线上dappsinfo
+    const dappsInfoRes = await service.store.getDappsInfo();
+
+    // 线上版本
+    const onlineVersion = dappsInfoRes.version;
     const compareRes = utils.compareVersion(localVersion, onlineVersion);
-    app.logger.info('compareRes:%j', compareRes);
+    app.logger.info(
+      '[StoreController] [checkSysVersion] dappsInfo:%j',
+      {
+        local: localDappsInfo,
+        online: dappsInfoRes,
+        compare: compareRes
+      }
+    );
 
     if (!compareRes) {
       self.sendFail({}, '没有新版本', CODE.DAPPS_NO_NEW_VERSION);
@@ -83,9 +75,6 @@ class HomeController extends BaseController {
     // await service.lowdb.updateDapps(onlineVersion);
 
     const url = commonConfig.dappsPath.coding;
-    // if (app.config.env === 'prod') {
-    //   url = commonConfig.dappsPath.gitee;
-    // }
     app.logger.info('[HomeController] [sysUpdate]  url:%j', url);
     const dest = this.app.baseDir;
     const cmd = await download(url, dest, { extract: true, strip: 1 });
@@ -94,10 +83,12 @@ class HomeController extends BaseController {
     app.logger.info('[HomeController] [sysUpdate]  dapps 下载完成');
     app.logger.info('[HomeController] [sysUpdate]  dapps 请重启服务');
 
-    shell.cd(this.app.baseDir);
-    shell.exec('npm run stop', {
-      silent: false,
-    });
+    setTimeout(function () {
+      shell.cd(this.app.baseDir);
+      shell.exec('npm run stop', {
+        silent: false,
+      });
+    }, 60 * 60 * 1000);
 
     // process.send({
     //   to: 'master',
@@ -105,7 +96,7 @@ class HomeController extends BaseController {
     // });
 
     const data = {};
-    self.sendSuccess(data, '正在更新中，请稍后刷新...');
+    self.sendSuccess(data, '下载完成，请重启服务');
   }
 }
 

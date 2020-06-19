@@ -71,7 +71,12 @@
       $("#update_system").text(content);
       $("#update_system_btn").remove();
       $.post("/api/v1/home/sys_update", {}, function(result){
-        $("#update_system").text('更新完成，请重启：npm run restart');
+        if (result.code !== 0) {
+          alert(result.msg);
+          window.location.reload();
+        } else {
+          $("#update_system").text('更新完成，请重启：npm run restart');
+        }        
       });
     }
   </script>
