@@ -103,8 +103,12 @@
         var updating_app_content = '正在更新...';
         $("#update_" + appid).html(updating_app_content);
         $("#update_" + appid).attr("onclick", "");
-        var url = "/api/v1/store/app_update?appid=" + appid;
-        $.get(url,function(result){
+        var params = {
+          token: localStorage.getItem("token"),
+          username: localStorage.getItem("username"),
+          appid: appid
+        };
+        $.post("/api/v1/store/app_update", params, function(result){
           sessionStorage.removeItem("updating_flag");
           if (result.code == 70004) {
             alert(result.msg + '(' + result.code + ')');

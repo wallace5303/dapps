@@ -209,64 +209,76 @@
 <script>
     function change_page(page)
     {
-        var url = "/html/v1/dev/index?page=";
-        if (Number(page) < 1) {
-          page = 1;
-        }
-        url += page;
-        window.location.href = url;
+      var url = "/html/v1/dev/index?page=";
+      if (Number(page) < 1) {
+        page = 1;
+      }
+      url += page;
+      window.location.href = url;
     }
 
     function create_app()
     {
-        // 用户信息
-        let uid = 0;
-        let username = '';
-        var userInfo=localStorage.getItem("user_info");
-        if (!userInfo) {
-            alert('请登录');
-            return;
-        }
-        var userInfo = JSON.parse(userInfo);
-        uid = userInfo.uid;
-        username = userInfo.username;
+      // 用户信息
+      let uid = 0;
+      let username = '';
+      var userInfo=localStorage.getItem("user_info");
+      if (!userInfo) {
+          alert('请登录');
+          return;
+      }
+      var userInfo = JSON.parse(userInfo);
+      uid = userInfo.uid;
+      username = userInfo.username;
 
-        let appid = $("#appid").val();
-        let app_name = $("#app_name").val();
-        let app_image = $("#app_image").val();
-        let app_introduction = $("#app_introduction").val();
-        let app_version = $("#app_version").val();
-        let app_port = $("#app_port").val();
-        let host_port = $("#host_port").val();
-        let app_image_port = $("#app_image_port").val();
-        // appid = 'redis-5-0-7';
-        // app_name = 'redis 5.0.7';
-        // app_image = 'redis:5.0.7';
-        // app_introduction = 'redis数据库';
-        // app_version = '5.0.7';
-        // app_port = '';
-        // host_port = '6381';
-        // app_image_port = 6379
-        if (!appid || !app_name || !app_image || !app_introduction || !app_version || !host_port || !app_image_port) {
-            alert('参数错误');
-            return;
-        }
+      let appid = $("#appid").val();
+      let app_name = $("#app_name").val();
+      let app_image = $("#app_image").val();
+      let app_introduction = $("#app_introduction").val();
+      let app_version = $("#app_version").val();
+      let app_port = $("#app_port").val();
+      let host_port = $("#host_port").val();
+      let app_image_port = $("#app_image_port").val();
+      // appid = 'redis-5-0-7';
+      // app_name = 'redis 5.0.7';
+      // app_image = 'redis:5.0.7';
+      // app_introduction = 'redis数据库';
+      // app_version = '5.0.7';
+      // app_port = '';
+      // host_port = '6381';
+      // app_image_port = 6379
+      if (!appid || !app_name || !app_image || !app_introduction || !app_version || !host_port || !app_image_port) {
+          alert('参数错误');
+          return;
+      }
 
-        var reg = /^[A-Za-z0-9\-]*$/g;
-        if (!reg.test(appid)) {
-            alert('appid只允许：数字，字母，中划线-');
-            return;
+      var reg = /^[A-Za-z0-9\-]*$/g;
+      if (!reg.test(appid)) {
+          alert('appid只允许：数字，字母，中划线-');
+          return;
+      }
+      var params = {
+        token: localStorage.getItem("token"),
+        username: localStorage.getItem("username"),
+        appid: appid,
+        app_name: app_name,
+        app_introduction: app_introduction,
+        app_version: app_version,
+        app_port: app_port,
+        host_port: host_port,
+        app_image: app_image,
+        uid: uid,
+        app_image_port: app_image_port
+      };
+      // var url = "/api/v1/dev/app_create?appid=" + appid + "&app_name=" + app_name + "&app_introduction=" + app_introduction +
+      //     "&app_version=" + app_version + "&app_port=" + app_port + "&host_port=" + host_port + "&app_image=" + app_image +
+      //     "&uid=" + uid + "&username=" + username + "&app_image_port=" + app_image_port;
+      $.post("/api/v1/dev/app_create", params, function(result){
+        if (result.code !== 0) {
+            alert(result.msg);
         }
-
-        var url = "/api/v1/dev/app_create?appid=" + appid + "&app_name=" + app_name + "&app_introduction=" + app_introduction +
-            "&app_version=" + app_version + "&app_port=" + app_port + "&host_port=" + host_port + "&app_image=" + app_image +
-            "&uid=" + uid + "&username=" + username + "&app_image_port=" + app_image_port;
-        $.get(url,function(result){
-            if (result.code !== 0) {
-                alert(result.msg);
-            }
-            window.location.reload();
-        });
+        window.location.reload();
+      });
     }
 
     function start(appid)
@@ -274,19 +286,23 @@
       var starting_app_content = '正在启动...';
       $("#operation_" + appid).html(starting_app_content);
       $("#operation_" + appid).attr("onclick", "");
-      var url = "/api/v1/dev/app_start?appid=" + appid;
-      $.get(url,function(result){
-          if (result.code !== 0) {
-              alert(result.msg);
-          } else {
-            $("#operation_" + appid).attr("class", "btn btn-danger btn-sm");
-            $("#operation_" + appid).attr("onclick", "stop( '" + appid + "' )");
-            $("#operation_" + appid).text("停止");
+      var params = {
+        token: localStorage.getItem("token"),
+        username: localStorage.getItem("username"),
+        appid: appid
+      };
+      $.post("/api/v1/dev/app_start", params, function(result){
+        if (result.code !== 0) {
+            alert(result.msg);
+        } else {
+          $("#operation_" + appid).attr("class", "btn btn-danger btn-sm");
+          $("#operation_" + appid).attr("onclick", "stop( '" + appid + "' )");
+          $("#operation_" + appid).text("停止");
 
-            var is_running__app_content = '正在运行';
-            $("#is_running_" + appid).html(is_running__app_content);
-          }
-          window.location.reload();
+          var is_running__app_content = '正在运行';
+          $("#is_running_" + appid).html(is_running__app_content);
+        }
+        window.location.reload();
       });
     }
 
@@ -295,8 +311,12 @@
       var stoping_app_content = '正在停止...';
       $("#operation_" + appid).html(stoping_app_content);
       $("#operation_" + appid).attr("onclick", "");
-      var url = "/api/v1/dev/app_stop?appid=" + appid;
-      $.get(url,function(result){
+      var params = {
+        token: localStorage.getItem("token"),
+        username: localStorage.getItem("username"),
+        appid: appid
+      };
+      $.post("/api/v1/dev/app_stop", params, function(result){
           if (result.code !== 0) {
               alert(result.msg);
               window.location.reload();

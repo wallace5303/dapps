@@ -46,7 +46,6 @@ class HomeController extends BaseController {
   async sysUpdate() {
     const self = this;
     const { app, ctx, service } = this;
-    const query = ctx.query;
 
     // dapps info
     const params = {

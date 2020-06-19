@@ -232,11 +232,11 @@
           appid: appid
         };
         $.post("/api/v1/store/app_uninstall", params, function(result){
-            if (result.code !== 0) {
-                alert(result.msg);
-            } else {
-              window.location.reload();
-            }
+          if (result.code !== 0) {
+              alert(result.msg);
+          } else {
+            window.location.reload();
+          }
         });
       }
 

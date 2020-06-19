@@ -243,13 +243,13 @@
         };
         $.post('/api/v1/admin/modify_pwd',params,function(result){      
           console.log('result:', result);
-            if (result.code !== 0) {
-                alert(result.msg);
-                return;
-            } else {
-              alert("修改成功");
-            }
-            location.reload();
+          if (result.code !== 0) {
+              alert(result.msg);
+              return;
+          } else {
+            alert("修改成功");
+          }
+          location.reload();
         });
       });
     });

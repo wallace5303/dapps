@@ -70,8 +70,7 @@
       var content = '正在更新...';
       $("#update_system").text(content);
       $("#update_system_btn").remove();
-      var url = "/api/v1/home/sys_update";
-      $.get(url,function(result){
+      $.post("/api/v1/home/sys_update", {}, function(result){
         $("#update_system").text('更新完成，请重启：npm run restart');
       });
     }

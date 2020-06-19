@@ -27,17 +27,17 @@ class DevController extends BaseController {
   async appCreate() {
     const self = this;
     const { app, ctx, service } = this;
-    const query = ctx.query;
-    const appid = query.appid;
-    const app_name = query.app_name;
-    const app_image = query.app_image;
-    const app_introduction = query.app_introduction;
-    const app_version = query.app_version;
-    const app_port = query.app_port;
-    const host_port = query.host_port;
-    const uid = query.uid;
-    const username = query.username;
-    const app_image_port = query.app_image_port;
+    const body = ctx.request.body;
+    const appid = body.appid;
+    const app_name = body.app_name;
+    const app_image = body.app_image;
+    const app_introduction = body.app_introduction;
+    const app_version = body.app_version;
+    const app_port = body.app_port;
+    const host_port = body.host_port;
+    const uid = body.uid;
+    const username = body.username;
+    const app_image_port = body.app_image_port;
     if (
       !appid ||
       !app_name ||
@@ -79,8 +79,8 @@ class DevController extends BaseController {
   async appStart() {
     const self = this;
     const { app, ctx, service } = this;
-    const query = ctx.query;
-    const appid = query.appid;
+    const body = ctx.request.body;
+    const appid = body.appid;
     if (!appid) {
       self.sendFail({}, '参数错误', CODE.SYS_PARAMS_ERROR);
       return;
@@ -102,8 +102,8 @@ class DevController extends BaseController {
   async appStop() {
     const self = this;
     const { app, ctx, service } = this;
-    const query = ctx.query;
-    const appid = query.appid;
+    const body = ctx.request.body;
+    const appid = body.appid;
     if (!appid) {
       self.sendFail({}, '参数错误', CODE.SYS_PARAMS_ERROR);
       return;
@@ -125,8 +125,8 @@ class DevController extends BaseController {
   async appUninstall() {
     const self = this;
     const { app, ctx, service } = this;
-    const query = ctx.query;
-    const appid = query.appid;
+    const body = ctx.request.body;
+    const appid = body.appid;
 
     const delRes = await service.dev.uninstallApp(appid);
     if (delRes.code !== CODE.SUCCESS) {
