@@ -1,0 +1,40 @@
+environment:
+  matrix:
+  {%- for version in versions %}
+    - nodejs_version: '{{version}}'
+  {%- else %}
+    - nodejs_version: '6'
+    - nodejs_version: '8'
+  {%- endfor %}
+
+install:
+  {%- if services %}
+    {%- for service in services %}
+      {%- if service == 'redis-server' %}
+  - nuget install redis-64 -excludeversion
+  - redis-64\tools\redis-server.exe --service-install
+  - redis-64\tools\redis-server.exe --service-start
+  - '@ECHO Redis Started'
+      {%- endif %}
+    {%- endfor %}
+  {%- endif %}
+  - ps: Install-Product node $env:nodejs_version
+  {%- if npminstall %}
+  - npm i npminstall && node_modules\.bin\npminstall
+  {%- else %}
+  - npm i
+  {%- endif %}
+
+test_script:
+  - node --version
+  - npm --version
+  - npm run {{command.appveyor}}
+
+build: off
+
+{%- if services %}
+services:
+  {%- for service in services %}
+  - {{service}}
+  {%- endfor %}
+{%- endif %}

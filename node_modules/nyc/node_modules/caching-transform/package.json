@@ -1,0 +1,81 @@
+{
+  "_args": [
+    [
+      "caching-transform@3.0.1",
+      "/usr/src/npm/nyc"
+    ]
+  ],
+  "_from": "caching-transform@3.0.1",
+  "_id": "caching-transform@3.0.1",
+  "_inBundle": true,
+  "_integrity": "sha512-Y1KTLNwSPd4ljsDrFOtyXVmm7Gnk42yQitNq43AhE+cwUR/e4T+rmOHs1IPtzBg8066GBJfTOj1rQYFSWSsH2g==",
+  "_location": "/nyc/caching-transform",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "version",
+    "registry": true,
+    "raw": "caching-transform@3.0.1",
+    "name": "caching-transform",
+    "escapedName": "caching-transform",
+    "rawSpec": "3.0.1",
+    "saveSpec": null,
+    "fetchSpec": "3.0.1"
+  },
+  "_requiredBy": [
+    "/nyc"
+  ],
+  "_resolved": "https://registry.npmjs.org/caching-transform/-/caching-transform-3.0.1.tgz",
+  "_spec": "3.0.1",
+  "_where": "/usr/src/npm/nyc",
+  "bugs": {
+    "url": "https://github.com/istanbuljs/caching-transform/issues"
+  },
+  "dependencies": {
+    "hasha": "^3.0.0",
+    "make-dir": "^1.3.0",
+    "package-hash": "^3.0.0",
+    "write-file-atomic": "^2.3.0"
+  },
+  "description": "Wraps a transform and provides caching",
+  "devDependencies": {
+    "ava": "^1.1.0",
+    "coveralls": "^3.0.2",
+    "nyc": "^13.1.0",
+    "proxyquire": "^2.1.0",
+    "rimraf": "^2.6.3",
+    "sinon": "^7.2.2",
+    "xo": "^0.24.0"
+  },
+  "engines": {
+    "node": ">=6"
+  },
+  "files": [
+    "index.js"
+  ],
+  "homepage": "https://github.com/istanbuljs/caching-transform#readme",
+  "keywords": [
+    "transform",
+    "cache",
+    "require",
+    "transpile",
+    "fast",
+    "speed",
+    "hash"
+  ],
+  "license": "MIT",
+  "name": "caching-transform",
+  "nyc": {
+    "reporter": [
+      "lcov",
+      "text"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/istanbuljs/caching-transform.git"
+  },
+  "scripts": {
+    "test": "xo && nyc ava"
+  },
+  "version": "3.0.1"
+}

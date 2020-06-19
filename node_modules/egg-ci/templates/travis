@@ -1,0 +1,31 @@
+{%- if os.travis -%}
+os:
+  {%- for name in os.travis %}
+  - {{name}}
+  {%- endfor %}
+{%- endif %}
+language: node_js
+node_js:
+{%- for version in versions %}
+  - '{{version}}'
+{%- else %}
+  - '6'
+  - '8'
+{%- endfor %}
+{%- if npminstall %}
+before_install:
+  - npm i npminstall -g
+install:
+  - npminstall
+{%- endif %}
+script:
+  - npm run {{command.travis}}
+{%- if afterScript %}
+{{afterScript}}
+{%- endif %}
+{%- if services %}
+services:
+  {%- for service in services %}
+  - {{service}}
+  {%- endfor %}
+{%- endif %}

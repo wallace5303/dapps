@@ -1,0 +1,23 @@
+{
+    "authors": "vvakame <https://github.com/vvakame>",
+    "definitionFilename": "index.d.ts",
+    "libraryDependencies": [],
+    "moduleDependencies": [],
+    "libraryMajorVersion": "1",
+    "libraryMinorVersion": "2",
+    "libraryName": "empower 1.2.1",
+    "typingsPackageName": "empower",
+    "projectName": "https://github.com/twada/empower",
+    "sourceRepoURL": "https://www.github.com/DefinitelyTyped/DefinitelyTyped",
+    "sourceBranch": "types-2.0",
+    "kind": "UMD",
+    "globals": [
+        "empower"
+    ],
+    "declaredModules": [],
+    "files": [
+        "index.d.ts"
+    ],
+    "hasPackageJson": false,
+    "contentHash": "fa8580ccfbf6217f11a66f2171e6450e1781067de52dfeb8b80072ad8c3f3545"
+}

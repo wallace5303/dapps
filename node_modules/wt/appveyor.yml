@@ -1,0 +1,29 @@
+environment:
+  global:
+    npm_registry: https://registry.npmjs.com
+
+  matrix:
+    - nodejs_version: "9"
+    - nodejs_version: "8"
+    - nodejs_version: "6"
+    - nodejs_version: "4"
+    - nodejs_version: "0.12"
+
+# Install scripts. (runs after repo cloning)
+install:
+  # Get the latest stable version of Node.js or io.js
+  - ps: Install-Product node $env:nodejs_version
+  # install modules
+  - npm i
+
+# Post-install test scripts.
+test_script:
+  # Output useful info for debugging.
+  - node --version
+  - npm --version
+  # run tests
+  - set DEBUG=wt
+  - npm run ci
+
+# Don't actually build.
+build: off

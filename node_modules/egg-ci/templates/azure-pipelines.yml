@@ -1,0 +1,13 @@
+jobs:
+{%- for name in os['azure-pipelines'] %}
+- template: azure-pipelines.template.yml
+  parameters:
+    name: {{name}}
+    {%- if name === 'linux' %}
+    vmImage: 'ubuntu-16.04'
+    {%- elif name === 'macos' %}
+    vmImage: 'xcode9-macos10.13'
+    {%- else %}
+    vmImage: 'vs2017-win2016'
+    {%- endif %}
+{% endfor %}

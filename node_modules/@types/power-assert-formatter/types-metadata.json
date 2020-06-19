@@ -1,0 +1,23 @@
+{
+    "authors": "vvakame <https://github.com/vvakame>",
+    "definitionFilename": "index.d.ts",
+    "libraryDependencies": [],
+    "moduleDependencies": [],
+    "libraryMajorVersion": "1",
+    "libraryMinorVersion": "4",
+    "libraryName": "power-assert-formatter 1.4.1",
+    "typingsPackageName": "power-assert-formatter",
+    "projectName": "https://github.com/twada/power-assert-formatter",
+    "sourceRepoURL": "https://www.github.com/DefinitelyTyped/DefinitelyTyped",
+    "sourceBranch": "types-2.0",
+    "kind": "Global",
+    "globals": [
+        "powerAssertFormatter"
+    ],
+    "declaredModules": [],
+    "files": [
+        "index.d.ts"
+    ],
+    "hasPackageJson": false,
+    "contentHash": "bca71017993d8e1ac3a2bac9db3ce32f0f68f73299681c27b4406d7daa3939a2"
+}

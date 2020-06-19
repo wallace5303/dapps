@@ -1,0 +1,8 @@
+#!/usr/bin/env node
+
+'use strict';
+
+if (process.env.EGG_BIN_PREREQUIRE) require('./prerequire');
+
+const options = JSON.parse(process.argv.slice(2));
+require(options.framework).startCluster(options);
