@@ -47,6 +47,7 @@
 2. 启动
     ```
     # 进入目录 ./dapps/
+    # linux环境先给予权限 chmod -R 777 storage node_modules
     npm run start
     ```
 3. 常用命令
