@@ -42,9 +42,19 @@
 
 1. 下载：[下载地址](https://gitee.com/wallace5303/dapps/releases)
 
-3. 启动
+2. 启动
     ```
+    # 进入目录 ./dapps/
     npm run start
+    ```
+3. 常用命令
+    ```
+    # 启动
+    npm run start
+    # 停止
+    npm run stop
+    # 重启
+    npm run restart
     ```
 
 注：# 请确保已经安装了nodejs，下载地址：http://nodejs.cn/download/
