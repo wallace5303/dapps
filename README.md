@@ -40,7 +40,9 @@
 
 ## 开始使用
 
-1. 下载：[下载地址](https://gitee.com/wallace5303/dapps/releases)
+1. 下载：
+    - [gitee](https://gitee.com/wallace5303/dapps/releases)
+    - [github](https://github.com/wallace5303/dapps/releases)
 
 2. 启动
     ```
