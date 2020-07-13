@@ -58,6 +58,8 @@ class StoreService extends BaseService {
     const addonsDir = this.app.baseDir + '/docker/addons';
     // const lsDir = utils.getDirs(addonsDir);
 
+    const ipAddress = await this.smartIp();
+
     // 获取我的APP列表
     const lsDir = await this.service.lowdb.getMyappList(page);
 
@@ -102,7 +104,7 @@ class StoreService extends BaseService {
             const appPort = tmpEle.substr(9);
             if (appPort) {
               tmpAppObj.open_url =
-                'http://' + utils.getIPAddress() + ':' + appPort;
+                'http://' + ipAddress + ':' + appPort;
             }
           }
           if (tmpEle.indexOf('HOST_PORT') !== -1) {
@@ -192,6 +194,9 @@ class StoreService extends BaseService {
     const webAppList = [];
     const addonsDir = this.app.baseDir + '/docker/addons';
 
+    // ip 地址
+    const ipAddress = await this.smartIp();
+
     // 获取我的APP列表
     const lsDir = await this.service.lowdb.getMyapp();
     // console.log(lsDir);
@@ -222,7 +227,7 @@ class StoreService extends BaseService {
             const appPort = tmpEle.substr(9);
             if (appPort) {
               tmpAppObj.open_url =
-                'http://' + utils.getIPAddress() + ':' + appPort;
+                'http://' + ipAddress + ':' + appPort;
               webAppList.push(tmpAppObj);
             }
           }

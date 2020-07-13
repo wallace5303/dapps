@@ -453,6 +453,31 @@ exports.getIPAddress = function() {
 };
 
 /*
+ * 判断IP是否在同一网段
+ */
+exports.isEqualIPAddress = function (addr1, addr2, mask = '255.255.255.0'){
+  if(!addr1 || !addr2 || !mask){
+    console.log("各参数不能为空");
+    return false;
+  }
+  var 
+  res1 = [],
+  res2 = [];
+  addr1 = addr1.split(".");
+  addr2 = addr2.split(".");
+  mask  = mask.split(".");
+  for(var i = 0,ilen = addr1.length; i < ilen ; i += 1){
+    res1.push(parseInt(addr1[i]) & parseInt(mask[i]));
+    res2.push(parseInt(addr2[i]) & parseInt(mask[i]));
+  }
+  if(res1.join(".") == res2.join(".")){
+    return true;
+  }else{
+    return false;
+  }
+}
+
+/*
  * 端口是否被占用
  */
 exports.portIsOccupied = function portIsOccupied(port) {

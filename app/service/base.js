@@ -3,6 +3,7 @@
 const Service = require('egg').Service;
 const _ = require('lodash');
 const moment = require('moment');
+const utils = require('../utils/utils');
 
 class BaseService extends Service {
   /*
@@ -50,6 +51,50 @@ class BaseService extends Service {
 
     return list;
   }
+
+  /*
+  * public ip
+  */
+  async getPublicIp() {
+
+    try {
+      const urlArr = [
+        //'http://ipinfo.io/json',
+        'http://icanhazip.com/'
+      ];
+      let index = 0;
+      const url = urlArr[index];
+      const response = await this.app.curl(url, {
+        method: 'GET',
+        contentType: 'text/plain',
+        data: {},
+        dataType: 'text',
+        timeout: 5000,
+      });
+
+      const ip = _.get(response, ['data'], null).replace(/[\r\n]/g,"");
+
+      return ip;
+    } catch (e) {
+      console.log('[BaseService] [publicIp]: error ', e);
+    }
+
+    return null;
+  };
+
+  async smartIp () {
+    let ip = '';
+    let remoteIp = this.ctx.request.ip;
+    let localIp = utils.getIPAddress();
+    let publicIp = await this.getPublicIp();
+
+    let isLNA = utils.isEqualIPAddress(remoteIp, localIp);
+    ip = isLNA ? localIp : publicIp;
+    return ip;
+  }
+
+
+
 }
 
 module.exports = BaseService;
