@@ -55,7 +55,12 @@ class BaseService extends Service {
   /*
   * public ip
   */
-  async getPublicIp() {
+  async getPublicIp(times = 1) {
+    let ip = null;
+    ip = await this.service.keyv.getPublicIp();
+    if (!_.isEmpty(ip)) {
+      return ip;
+    }
 
     try {
       const urlArr = [
@@ -69,14 +74,23 @@ class BaseService extends Service {
         contentType: 'text/plain',
         data: {},
         dataType: 'text',
-        timeout: 5000,
+        timeout: 8000,
       });
 
-      const ip = _.get(response, ['data'], null).replace(/[\r\n]/g,"");
+      ip = _.get(response, ['data'], null).replace(/[\r\n]/g,"");
+      if (!_.isEmpty(ip)) {
+        await this.service.keyv.setPublicIp(ip);
+        return ip;
+      }
 
-      return ip;
     } catch (e) {
       console.log('[BaseService] [publicIp]: error ', e);
+    }
+
+    if (times < 3) {
+      times++;
+      ip = await this.getPublicIp(times);
+      return ip;
     }
 
     return null;
@@ -92,8 +106,6 @@ class BaseService extends Service {
     ip = isLNA ? localIp : publicIp;
     return ip;
   }
-
-
 
 }
 

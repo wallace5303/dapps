@@ -39,6 +39,29 @@ class KeyvService extends BaseService {
     }
     return info;
   }
+
+  /*
+   * 保存外网IP
+   */
+  async setPublicIp(data) {
+    const key = keyvKey.KEYV_IP_PUBLIC;
+    const res = await this.instance().set(
+      key,
+      data,
+      keyvKey.EXPIRES_TIME_86400000
+    );
+    return res;
+  }
+
+  /*
+   * 获取外网IP
+   */
+  async getPublicIp() {
+    const key = keyvKey.KEYV_IP_PUBLIC;
+    let info = await this.instance().get(key);
+
+    return info;
+  }
 }
 
 module.exports = KeyvService;

@@ -21,4 +21,7 @@ module.exports = {
   ACCESS_TOKEN: 'access_token:', // {uid}
 
   KEYV_ONLINE_DAPPS_INFO: 'online:dapps_info',
+
+  KEYV_IP_PUBLIC: 'ip:public',
+
 };
