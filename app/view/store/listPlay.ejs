@@ -1,0 +1,233 @@
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <!-- <div class="col-sm-6">
+            <h1>全部应用</h1>
+          </div> -->
+        </div>
+      </div>
+    </section>
+    
+  <!-- Main content -->
+  <section class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-12 col-sm-6 col-md-3">
+          <div class="info-box">
+            <span class="info-box-icon bg-success elevation-1"><i class="fas fa-cubes"></i></span>
+            <div class="info-box-content">
+              <span class="info-box-text">软件总数</span>
+              <span class="info-box-number">
+                <%= all_data.total %>
+              </span>
+            </div>
+            <!-- /.info-box-content -->
+          </div>
+          <!-- /.info-box -->
+        </div>
+      </div>  
+      <div class="row">
+        <div class="col-12">
+
+          <!-- <div class="callout callout-info">
+              注：部分软件安装时间较长，请耐心等待
+          </div> -->
+
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">全部</h3>
+              <div class="card-tools">
+                <div class="input-group input-group-sm" style="width: 150px;">
+                  <input id="search_app_name" type="text" name="table_search" class="form-control float-right" placeholder="应用名称" value="<%= search_param.app_name %>">
+
+                  <div class="input-group-append">
+                    <button onclick="search_app()" type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <% if (app_list.length == 0) {%>
+              <!-- <span style="margin: auto">没有数据了！</span> -->
+              <div class="card-header">
+                <h3 class="card-title">没有数据了！</h3>
+              </div>
+            <% } else { %>
+            <!-- /.card-header -->
+            <div class="card-body table-responsive p-0">           
+                <table class="table table-hover"> 
+                  <thead> 
+                  <tr>
+                      <th width="15%">应用名称</th>
+                      <th width="40%">介绍</th>
+                      <th width="10%">作者</th>
+                      <th width="5%">下载</th>
+                      <th width="5%">版本</th>
+                      <th width="10%">是否安装</th>
+                      <th width="15%">操作</th>
+                  </tr> 
+                  </thead> 
+                  <tbody> 
+
+                    <% for (let i = 0; i < app_list.length; i++) {
+                      let one = app_list[i];
+                    %>
+                      <tr>
+                          <td><%= one.app_name %></td>
+                          <td><%= one.introduction %></td>
+                          <td><%= one.author %></td>
+                          <td><%= one.download %></td>
+                          <td><%= one.version %></td>
+                          <td id="install_status_<%= one.appid %>" >
+                            <% if (one.is_installing) { %>
+                              正在安装...
+                            <% } else if (one.is_install) { %>
+                              已安装
+                            <% } else { %>
+                              未安装
+                            <% } %>
+                          </td>
+                          <td>
+                              <% if (one.show) { %>
+                                <a class="btn btn-primary btn-sm" href="<%= one.show %>" target="_blank">
+                                  使用说明
+                                </a>
+                              <% } %>
+                              <% if (!one.is_install) {%>
+                                <a id="install_<%= one.appid %>" class="btn btn-info btn-sm" href="#" onclick="installApp('<%= one.appid %>')">
+                                  安装
+                                </a>
+                              <% } %>
+                          </td>
+                        </tr>
+                    <% } %>
+
+                  </tbody>
+                </table>
+            </div>
+            <% } %>
+            <!-- /.card-body -->
+          </div>
+          <!-- /.card -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+      <div class="row">
+        <div class="col-sm-12 col-md-4">
+          <div class="dataTables_info" id="example2_info" role="status" aria-live="polite">
+            共 <%= all_data.total %> 款软件
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-7">
+          <div class="dataTables_paginate paging_simple_numbers" id="example2_paginate">
+            <ul class="pagination">
+            <li class="paginate_button page-item previous" id="example2_previous"><a href="#" onclick="change_page(1)" aria-controls="example2" data-dt-idx="0" tabindex="0" class="page-link">首页</a></li>
+            <li class="paginate_button page-item previous" id="example2_previous"><a href="#" onclick="change_page('<%= (all_data.current_page - 1) %>')" aria-controls="example2" data-dt-idx="0" tabindex="0" class="page-link">上一页</a></li>
+            <li class="paginate_button page-item active"><a href="#" aria-controls="example2" data-dt-idx="1" tabindex="0" class="page-link"><%= all_data.current_page %></a></li>
+            <li class="paginate_button page-item next" id="example2_next"><a href="#" onclick="change_page('<%= (all_data.current_page + 1) %>')" aria-controls="example2" data-dt-idx="7" tabindex="0" class="page-link">下一页</a></li>
+            <li class="paginate_button page-item previous" id="example2_previous"><a href="#" onclick="change_page('<%= all_data.last_page %>')" aria-controls="example2" data-dt-idx="0" tabindex="0" class="page-link">尾页</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+  <!-- /.content -->
+</div>
+
+<!-- 是否有正在安装的APP -->
+<p id='is_installing_app' data='<%= now_installing %>'></p>
+<p id='search_param_str' data='<%= search_param_str %>'></p>
+
+<script>
+    $(document).ready(function(){
+      // 清除异常的flag
+      setTimeout(function(){
+        sessionStorage.removeItem("install_flag");
+      }, 9000);
+
+      // 如果有正在安装的APP，则定时刷新
+      var inData = $("#is_installing_app").attr('data');
+      if (inData === 'yes') {
+        setInterval(function(){
+          window.location.reload();
+        }, 10000);
+      }
+
+    })
+
+    function change_page(page)
+    {
+      var search_param_str = $("#search_param_str").attr('data');
+      search_param_obj = JSON.parse(search_param_str);
+      delete search_param_obj.page;
+      var new_search_param_str = $.param(search_param_obj);
+
+      var url = "/html/v1/store/list?page=";
+      if (Number(page) < 1) {
+        page = 1;
+      }
+      url += page;
+      url += '&' + new_search_param_str;
+
+      window.location.href = url;
+    }
+
+    function search_app()
+    {
+      var app_name = $("#search_app_name").val();
+      console.log('length', app_name.length);
+      if (app_name.length > 0) {
+        var url = "/html/v1/store/list?page=1&app_name=" + app_name;
+        window.location.href = url;
+      }
+    }
+
+    function installApp(appid)
+    {
+      // 临时的安装标识
+      var installFlag = sessionStorage.getItem("install_flag");
+      if (installFlag == "yes") {
+        alert('另外一个程序正在安装，请稍后再试');
+        return;
+      } else {
+        sessionStorage.setItem("install_flag", "yes");
+      }
+
+      var install_status__app_content = '正在安装...';
+      $("#install_status_" + appid).html(install_status__app_content);
+      var params = {
+        token: localStorage.getItem("token"),
+        username: localStorage.getItem("username"),
+        appid: appid
+      };
+      $.post('/api/v1/store/app_install', params, function(result){
+        if (result.code == 70002) {
+            alert(result.msg + '(' + result.code + ')');
+            window.location.reload();
+            return;
+        } else if (result.code == 70003) {
+          sessionStorage.removeItem("install_flag");
+          alert(result.msg + '(' + result.code + ')');
+          var url = "/html/v1/store/help";
+          window.location.href = url;
+          return;
+        } else if (result.code !== 0) {  
+          sessionStorage.removeItem("install_flag");  
+          alert(result.msg + '(' + result.code + ')');
+          return;
+        } else {
+          $("#install_" + appid).remove();
+          setTimeout(function(){
+            sessionStorage.removeItem("install_flag");
+            window.location.reload();
+          }, 10000);
+        }
+      });
+    }
+
+</script>
