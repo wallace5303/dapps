@@ -246,7 +246,12 @@
         appid: appid
       };
       $.post('/api/v1/store/app_install', params, function(result){
-        if (result.code == 70002) {
+        if (result.code == 10003) {
+            alert(result.msg + '(' + result.code + ')');
+            var url = "/html/v1/login";
+            window.location.href= url; 
+            return;
+        } else if (result.code == 70002) {
             alert(result.msg + '(' + result.code + ')');
             window.location.reload();
             return;

@@ -8,7 +8,7 @@ module.exports = () => {
     const body = ctx.request.body;
     ctx.body = {
       success: false,
-      code: CODE.SYS_PARAMS_ERROR,
+      code: CODE.SYS_NOT_LOGING,
       msg: '请重新登录',
     };
     if (!body.token || !body.username) {
