@@ -38,7 +38,7 @@
           <% if (app_types.length == 0) {%>
             <!-- <h5 class="mb-2">没有数据，<a href="/html/v1/store/list">浏览应用商店</a></h5> -->
           <% } else { %>
-            <div class="card-body pad table-responsive" style="padding:1rem">
+            <div class="card-body pad table-responsive" style="padding:0rem">
               <table class="table text-center">
                 <% for (let i = 0; i < app_types.length; i++) {
                   let oneLevel = app_types[i];
@@ -47,13 +47,13 @@
                       <% for (let j = 0; j < oneLevel.length; j++) {
                         let one = oneLevel[j];
                       %>
-                        <td style="border-top: 1px;" width="12.5%" >
+                        <td style="border-top: 0px;" width="12.5%" >
                           <% if (one.name) {%>
                             <button type="button" 
                               <% if (current_type == one.id) { %> 
-                                class="btn btn-block btn-info" 
+                                class="btn btn-block btn-primary" 
                               <% } else { %> 
-                                class="btn btn-block btn-outline-info" 
+                                class="btn btn-block btn-outline-primary" 
                               <% } %>                             
                               onclick="app_type('<%= one.id %>')" ><%= one.name %>
                             </button>

@@ -102,7 +102,7 @@ class StoreController extends BaseController {
     const self = this;
     const { app, ctx, service } = this;
     const query = ctx.query;
-    console.log('query', query);
+
     const data = {
       navigation: 'store',
       app_list: [],
