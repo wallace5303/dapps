@@ -18,6 +18,7 @@ exports.outApi = {
   userinfo: 'http://kaka996-php.local.com/api/dapps/user/info',
   incrDownload: 'http://kaka996-php.local.com/api/dapps/store/incr_download',
   webSites: 'http://kaka996-php.local.com/api/dapps/web/sites',
+  appTypes: 'http://kaka996-php.local.com/api/dapps/store/app_types',
 };
 
 exports.logger = {

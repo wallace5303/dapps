@@ -102,7 +102,7 @@ class StoreController extends BaseController {
     const self = this;
     const { app, ctx, service } = this;
     const query = ctx.query;
-
+    console.log('query', query);
     const data = {
       navigation: 'store',
       app_list: [],
@@ -110,7 +110,47 @@ class StoreController extends BaseController {
       now_installing: 'no',
       search_param_str: JSON.stringify(query),
       search_param: query,
+      app_types: [],
+      current_type: _.get(query, ['type'], 0)
     };
+
+    // 类型
+    const typeParams = {
+      out_url: 'appTypes',
+      method: 'GET',
+      data: {},
+    };
+    const appTypesRes = await service.outapi.api(typeParams);
+    if (appTypesRes.code === CODE.SUCCESS) {
+      
+      // 改为二维数组
+      const typeList = _.chunk(appTypesRes.data, 8);
+      //console.log(typeList);
+
+      // 补充满，每组6个
+      for (let i = 0; i < typeList.length; i++) {
+        const tmpOneLevel = typeList[i];
+        if (_.isArray(tmpOneLevel)) {
+          while (tmpOneLevel.length < 8) {
+            const tmpApp = {
+              'id': null,
+              'name': null
+            };
+            typeList[i].push(tmpApp);
+          }
+
+          // button
+          // for (let m = 0; m < typeList[i].length; m++) {
+          //   let tmpTypeInfo = typeList[i][m];
+          //   tmpTypeInfo['selected'] = false; 
+          //   if (tmpTypeInfo['id'] == query.type) {
+          //     tmpTypeInfo['selected'] = true; 
+          //   }
+          // }
+        }
+      }
+      data.app_types = typeList;
+    }
 
     query.debug = 0;
     if (app.config.env === 'local') {

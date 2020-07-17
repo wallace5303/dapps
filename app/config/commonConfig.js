@@ -28,4 +28,5 @@ module.exports = {
       'https://raw.githubusercontent.com/wallace5303/dapps-addons/master/zip/',
     coding: 'https://kaka996.coding.net/p/zip/git/raw/master/',
   },
+
 };
