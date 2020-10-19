@@ -89,13 +89,6 @@
 
 >6.支持系统版本：Linux、MacOs、Windows
 
-## 软件升级（推荐时不时，升级一下^_^）
-
-### 软件中升级
-
-- 点击更新
-![](https://i.loli.net/2019/10/24/b6O8aG2ZmLodFxN.png)
-
 ### 日志
 - dapps/logs/prod/dapps-web.log
 
