@@ -34,10 +34,6 @@
 - Ubuntu：Ubuntu server 16.04和18.04 ------ [查看效果](https://github.com/wallace5303/dapps-addons/tree/master/addons/ubuntu-18-04)
 - 等......
 
-## 交流
-
-如果你有什么软件需求，请加下面群或者留言，我们可以开发并发布到应用商店中
-
 ## 开始使用
 
 1. 下载：
@@ -103,12 +99,6 @@
 ### 日志
 - dapps/logs/prod/dapps-web.log
 
-## 交流群
-
-* 微信讨论群（请备注：dapps）
-
-    ![](https://i.loli.net/2019/08/22/5BHxFJhYpzoAVT1.png)
-
 ## 项目地址（dapps）
 
 - [github](https://github.com/wallace5303/dapps)
@@ -124,6 +114,3 @@
 - docker
 - docker-compose
 - shell
-
-
-#### 帮忙加个星吧!
